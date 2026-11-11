@@ -1,4 +1,4 @@
-import { SITE } from '../config/site';
+import { WHATSAPP_NUMBER } from '../config/whatsapp';
 
 export const DEFAULT_WHATSAPP_TEXT = 'Hola Raúl, te escribo desde tu web.';
 
@@ -19,7 +19,7 @@ const MAX_NAME_LENGTH = 80;
 const clean = (value: string) => value.replace(/\s+/g, ' ').trim();
 
 export function buildWhatsAppUrl(text: string): string {
-  return `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(text)}`;
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
 }
 
 export function buildContactMessage(input: { nombre: string; asunto: string; urgencia: string }): string {

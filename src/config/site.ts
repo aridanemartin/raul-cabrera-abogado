@@ -1,6 +1,8 @@
 // Única fuente de verdad de la identidad del despacho. Cualquier dato de Raúl
 // (nombre, colegiación, dirección, teléfono) se lee de aquí, nunca se reescribe.
 
+import { WHATSAPP_NUMBER } from './whatsapp';
+
 export interface NavItem {
   label: string;
   href: string;
@@ -31,7 +33,7 @@ export const SITE = {
     display: '676 88 22 21',
     e164: '+34676882221',
   },
-  whatsapp: '34676882221',
+  whatsapp: WHATSAPP_NUMBER,
   email: 'info@raulcabreraabogado.com',
   google: {
     rating: '5,0',

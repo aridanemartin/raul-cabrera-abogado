@@ -22,10 +22,10 @@ const links = {
 >
   <h2>Quién trata tus datos</h2>
   <ul>
-    <li><strong>Responsable:</strong> {SITE.lawyer.fullName}, abogado. NIF {SITE.lawyer.nif}.</li>
+    <li><strong>Responsable:</strong> {SITE.lawyer.fullName}, abogado. El resto de sus datos están en el <a href="/aviso-legal/">aviso legal</a>.</li>
     <li><strong>Domicilio profesional:</strong> {FULL_ADDRESS}</li>
     <li><strong>Correo electrónico:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
-    <li><strong>Teléfono:</strong> <a href={`tel:${SITE.phone.e164}`}>{SITE.phone.display}</a></li>
+    <li><strong>Teléfono:</strong> <a href={`tel:${SITE.phone.e164}`} data-lead="telefono" data-lead-location="privacidad">{SITE.phone.display}</a></li>
   </ul>
 
   <h2>El formulario de esta web no guarda nada</h2>

@@ -1,5 +1,6 @@
 ---
-import { ASUNTOS, URGENCIAS } from '../lib/whatsapp';
+import { SITE } from '../config/site';
+import { ASUNTOS, DEFAULT_WHATSAPP_TEXT, URGENCIAS, buildWhatsAppUrl } from '../lib/whatsapp';
 
 interface Props {
   location: 'contacto' | 'portada';
@@ -9,7 +10,7 @@ const { location } = Astro.props;
 const id = (name: string) => `${location}-${name}`;
 ---
 
-<form class="contact-form" data-contact-form data-lead-location={location} novalidate>
+<form class="contact-form" data-contact-form data-requires-js data-lead-location={location} novalidate>
   <div class="field">
     <label for={id('nombre')}>Tu nombre</label>
     <input id={id('nombre')} name="nombre" type="text" autocomplete="name" maxlength="80" required />
@@ -36,6 +37,14 @@ const id = (name: string) => `${location}-${name}`;
     Se abrirá WhatsApp con tu mensaje. La web no guarda tus datos. No incluyas detalles de tu caso: los vemos en privado.
   </p>
 </form>
+<noscript>
+  <p class="note">
+    El formulario necesita JavaScript. Escríbeme por
+    <a href={buildWhatsAppUrl(DEFAULT_WHATSAPP_TEXT)} data-lead="whatsapp" data-lead-location={location}>WhatsApp</a>
+    o llámame al
+    <a href={`tel:${SITE.phone.e164}`} data-lead="telefono" data-lead-location={location}>{SITE.phone.display}</a>.
+  </p>
+</noscript>
 
 <script>
   import { bindContactForm } from '../scripts/contact-form';

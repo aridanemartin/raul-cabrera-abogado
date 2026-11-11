@@ -29,7 +29,7 @@ const links = {
     <li><strong>NIF:</strong> {SITE.lawyer.nif}</li>
     <li><strong>Domicilio profesional:</strong> {FULL_ADDRESS}</li>
     <li><strong>Correo electrónico:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
-    <li><strong>Teléfono y WhatsApp:</strong> <a href={`tel:${SITE.phone.e164}`}>{SITE.phone.display}</a></li>
+    <li><strong>Teléfono y WhatsApp:</strong> <a href={`tel:${SITE.phone.e164}`} data-lead="telefono" data-lead-location="aviso-legal">{SITE.phone.display}</a></li>
   </ul>
 
   <h2>Datos profesionales</h2>

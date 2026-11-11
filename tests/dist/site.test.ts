@@ -1,7 +1,7 @@
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { DIST, loadPages, type Page } from './load';
+import { DIST, loadPages, walk, type Page } from './load';
 
 const ORIGIN = 'https://raulcabreraabogado.com/';
 const GOOGLE =
@@ -21,6 +21,30 @@ function visibleText(page: Page): string {
   const body = page.root.querySelector('body')!.clone() as typeof page.root;
   body.querySelectorAll('script, style').forEach((el) => el.remove());
   return body.textContent.replace(/\s+/g, ' ');
+}
+
+function builtCss(): string {
+  return readdirSync(join(DIST, '_astro'))
+    .filter((f) => f.endsWith('.css'))
+    .map((f) => readFileSync(join(DIST, '_astro', f), 'utf8'))
+    .join('\n');
+}
+
+/** Anchos mínimos (px) de las media queries cuyo bloque contiene `selector`. */
+function minWidthsFor(css: string, selector: string): number[] {
+  const widths = new Set<number>();
+  for (const match of css.matchAll(/@media\s*\((?:min-width:\s*|width\s*>=\s*)(\d+)px\)\s*\{/g)) {
+    const start = match.index + match[0].length;
+    let depth = 1;
+    let end = start;
+    while (depth > 0 && end < css.length) {
+      if (css[end] === '{') depth++;
+      else if (css[end] === '}') depth--;
+      end++;
+    }
+    if (css.slice(start, end).includes(selector)) widths.add(Number(match[1]));
+  }
+  return [...widths];
 }
 
 describe('todas las páginas', () => {
@@ -115,10 +139,7 @@ describe('todas las páginas', () => {
   });
 
   it('precarga la fuente y declara un respaldo ajustado para que el cambio de fuente no mueva el texto', () => {
-    const css = readdirSync(join(DIST, '_astro'))
-      .filter((f) => f.endsWith('.css'))
-      .map((f) => readFileSync(join(DIST, '_astro', f), 'utf8'))
-      .join('\n');
+    const css = builtCss();
     for (const page of pages) {
       const preload = page.root.querySelector('head link[rel="preload"][as="font"][type="font/woff2"]');
       expect(preload, page.path).not.toBeNull();
@@ -135,6 +156,55 @@ describe('todas las páginas', () => {
         expect(text, `${page.path} → ${a.getAttribute('href')}`).not.toMatch(generic);
       }
     }
+  });
+
+  it('en ningún ancho de pantalla falta un botón de contacto a la vista', () => {
+    const inline = pages.flatMap((p) => p.root.querySelectorAll('style').map((el) => el.textContent)).join('\n');
+    const css = builtCss() + inline;
+    const headerCta = minWidthsFor(css, '.header-cta');
+    expect(headerCta).toHaveLength(1);
+    // La barra se oculta justo cuando aparece el botón de la cabecera, y el aviso
+    // de cookies deja de apoyarse encima de la barra en ese mismo ancho.
+    expect(minWidthsFor(css, '.contact-bar')).toEqual(headerCta);
+    expect(minWidthsFor(css, '.consent')).toEqual(headerCta);
+  });
+
+  it('cada enlace de WhatsApp o de teléfono cuenta como contacto', () => {
+    const untracked: string[] = [];
+    for (const page of pages) {
+      for (const a of page.root.querySelectorAll('a[href^="tel:"], a[href^="https://wa.me/"]')) {
+        const href = a.getAttribute('href') ?? '';
+        const method = href.startsWith('tel:') ? 'telefono' : 'whatsapp';
+        if (a.getAttribute('data-lead') !== method || !a.getAttribute('data-lead-location')) {
+          untracked.push(`${page.path} → ${href.slice(0, 30)}`);
+        }
+      }
+    }
+    expect(untracked).toEqual([]);
+  });
+
+  it('sin JavaScript el formulario se oculta y se ofrecen WhatsApp y el teléfono', () => {
+    expect(builtCss()).toMatch(/html:not\(\.js\)\s*\[data-requires-js\]\s*\{display:none\s*!important\}/);
+    const withForm = pages.filter((p) => p.root.querySelector('form[data-contact-form]'));
+    expect(withForm.length).toBeGreaterThan(0);
+    for (const page of withForm) {
+      for (const form of page.root.querySelectorAll('form[data-contact-form]')) {
+        expect(form.hasAttribute('data-requires-js'), page.path).toBe(true);
+      }
+      const fallback = page.root.querySelectorAll('noscript').map((el) => el.innerHTML).join('\n');
+      expect(fallback, page.path).toContain('href="https://wa.me/34676882221');
+      expect(fallback, page.path).toContain('href="tel:+34676882221"');
+    }
+  });
+
+  it('el NIF solo aparece en el aviso legal', async () => {
+    const leaks: string[] = [];
+    for (const file of await walk(DIST)) {
+      if (!/\.(html|js|css|txt|xml|json)$/.test(file)) continue;
+      if (file === join(DIST, 'aviso-legal', 'index.html')) continue;
+      if (readFileSync(file, 'utf8').includes('54092607B')) leaks.push(file.slice(DIST.length));
+    }
+    expect(leaks).toEqual([]);
   });
 
   it('no usa copy prohibido', () => {
@@ -301,6 +371,29 @@ describe('páginas legales', () => {
     const buttons = page!.root.querySelectorAll('main [data-cookie-settings] button').map((b) => b.textContent.trim());
     expect(buttons).toContain('Aceptar');
     expect(buttons).toContain('Rechazar');
+  });
+});
+
+describe('textos legales revisados', () => {
+  it('juicio rápido: nombra el robo de uso de vehículos y condiciona la suspensión de la pena', () => {
+    const text = visibleText(byPath('/juicio-rapido/')!);
+    expect(text).toContain('hurto y robo de uso de vehículos');
+    expect(text).not.toContain('hurto o robo de vehículos');
+    expect(text).not.toContain('puede suspenderla en el mismo acto, y basta');
+    expect(text).toContain('si se cumplen los requisitos del Código Penal');
+    expect(text).toContain('que sea la primera vez que delinques y que la condena no pase de dos años');
+  });
+
+  it('violencia de género: separa la Sección de Violencia sobre la Mujer de la violencia doméstica', () => {
+    const text = visibleText(byPath('/servicios/violencia-genero-domestica/')!);
+    expect(text).not.toContain('estos asuntos los lleva la Sección de Violencia sobre la Mujer');
+    expect(text).toMatch(/violencia doméstica[^.]*Sección de Instrucción/);
+  });
+
+  it('delitos leves: la multirreincidencia exige tres condenas previas, una de ellas leve', () => {
+    const page = byPath('/servicios/lesiones-amenazas-delitos-leves/')!;
+    expect(page.html).not.toContain('varios delitos leves de hurto');
+    expect(visibleText(page)).toContain('si ya tienes tres condenas por delitos de la misma naturaleza, al menos una de ellas leve');
   });
 });
 

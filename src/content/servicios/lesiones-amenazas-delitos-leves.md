@@ -24,7 +24,7 @@ faqs:
   - q: '¿Necesito abogado para un juicio por delito leve?'
     a: 'No es obligatorio, pero tienes derecho a ir con abogado y la policía tiene que informarte de ello por escrito. Aunque la pena sea una multa, la condena deja antecedentes y puede contar en el futuro.'
   - q: '¿Un delito leve deja antecedentes penales?'
-    a: 'Sí. Los antecedentes por penas leves se pueden cancelar cuando pasan seis meses sin volver a delinquir desde que se cumple la pena. Desde abril de 2026, además, varios delitos leves de hurto pueden convertir el siguiente en un delito castigado con prisión.'
+    a: 'Sí. Los antecedentes por penas leves se pueden cancelar cuando pasan seis meses sin volver a delinquir desde que se cumple la pena. Desde abril de 2026, además, si ya tienes tres condenas por delitos de la misma naturaleza, al menos una de ellas leve, un nuevo hurto de poco valor se castiga con prisión. No cuentan los antecedentes cancelados o que deberían estarlo.'
   - q: '¿Qué es la multirreincidencia?'
     a: 'Es el nombre de la reforma de abril de 2026 que endurece el castigo a quien acumula condenas por hurto. Por ejemplo, un hurto de poco valor, que normalmente se castiga con multa, pasa a castigarse con prisión de seis a dieciocho meses si ya hay tres condenas previas por delitos de la misma naturaleza y al menos una era leve.'
   - q: 'Me han denunciado por una pelea en la que también me pegaron, ¿qué hago?'

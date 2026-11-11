@@ -11,7 +11,7 @@ export interface Page {
   root: HTMLElement;
 }
 
-async function walk(dir: string): Promise<string[]> {
+export async function walk(dir: string): Promise<string[]> {
   const entries = await readdir(dir, { withFileTypes: true });
   const files = await Promise.all(
     entries.map((entry) => {

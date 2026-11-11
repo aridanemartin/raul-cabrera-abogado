@@ -25,12 +25,13 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 - **Textos legales nuevos** → Aviso legal, privacidad y cookies correctos, con tu nombre y colegiación, y fáciles de leer. Explican que el formulario no guarda datos, que lo que te escriben por WhatsApp está protegido por el secreto profesional, y dejan a cada visitante cambiar su elección de cookies cuando quiera.
 - **Sobre ti, cómo trabajas y preguntas frecuentes** → Generan confianza antes del primer mensaje y responden las dudas que más te hacen. «Cómo trabajo» explica el presupuesto previo por escrito en la hoja de encargo y la justicia gratuita, sin cifras. La página de contacto tiene el formulario, tu teléfono, tu correo y un enlace a Google Maps que no carga nada de Google hasta que alguien lo pulsa. Si alguien llega a una dirección que no existe, la página de error le lleva a la guía de urgencia y al contacto.
 - **Velocidad y accesibilidad comprobadas** → La web carga en menos de 2,5 segundos en el móvil y se puede usar con el teclado o con lector de pantalla. En la prueba de Google (Lighthouse) saca la nota máxima en accesibilidad, buenas prácticas y posicionamiento, el texto no salta mientras carga la página y en el móvil el aviso de cookies nunca tapa los botones de WhatsApp y Llamar.
+- **Revisión final antes de publicar** → Una segunda revisión de toda la web corrigió cuatro textos legales (juicio rápido, violencia de género y multirreincidencia) para que digan exactamente lo que dice la ley. Además, ahora la barra de WhatsApp también se ve en la tableta, cada llamada desde cualquier página cuenta en tu informe y, si alguien navega sin JavaScript, en lugar del formulario ve tu WhatsApp y tu teléfono. Tu NIF solo aparece en el aviso legal.
 
 ## Cómo te llegan los clientes
 
 Todo llega a tu WhatsApp o a tu teléfono (676 88 22 21). La web no guarda ni reenvía datos de nadie.
 
-1. **Botón de WhatsApp.** En el móvil hay una barra fija abajo con «WhatsApp» y «Llamar» en todas las páginas. En el ordenador, el botón de WhatsApp está arriba a la derecha. Te llega un mensaje que empieza por «Hola Raúl, te escribo desde tu web.»
+1. **Botón de WhatsApp.** En el móvil y en la tableta hay una barra fija abajo con «WhatsApp» y «Llamar» en todas las páginas. En el ordenador, el botón de WhatsApp está arriba a la derecha. Te llega un mensaje que empieza por «Hola Raúl, te escribo desde tu web.»
 2. **Botón de llamar.** Te llaman directamente al móvil.
 3. **Formulario.** La persona escribe su nombre, elige el tipo de asunto y cómo de urgente es. Al pulsar «Enviar por WhatsApp» se abre su WhatsApp con un mensaje ya escrito, por ejemplo: «Hola Raúl, soy Ana López. Te escribo desde tu web por un asunto de: Juicio rápido, alcoholemia o tráfico. Urgencia: Es urgente (hoy o mañana).» Solo tiene que darle a enviar.
 

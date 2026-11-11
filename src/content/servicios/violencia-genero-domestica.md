@@ -65,7 +65,7 @@ Si hay condena por estos delitos, la **prohibición de acercarse a la víctima**
 
 ## En Las Palmas
 
-En Las Palmas de Gran Canaria estos asuntos los lleva la **Sección de Violencia sobre la Mujer del Tribunal de Instancia**, que cuenta con varias plazas de magistrado ([Real Decreto 13/2026][rd13-2026]). Llevo estos procedimientos en Gran Canaria y en las demás islas.
+En Las Palmas de Gran Canaria, la violencia de género la lleva la **Sección de Violencia sobre la Mujer del Tribunal de Instancia**, que cuenta con varias plazas de magistrado ([Real Decreto 13/2026][rd13-2026]). Son los casos de un hombre contra la mujer que es o ha sido su pareja y, a veces, los que afectan a la vez a los hijos o menores que viven con ella. Si la denuncia es por violencia doméstica contra otro familiar, como un padre, un hijo o un hermano, la lleva la Sección de Instrucción, igual que cualquier otro delito. Llevo estos procedimientos en Gran Canaria y en las demás islas.
 
 **Si eres víctima** y quieres participar en el proceso con tu propio abogado, lee la página de [acusación particular](/servicios/acusacion-particular/). Las víctimas de violencia de género tienen derecho a asistencia jurídica gratuita inmediata, con independencia de sus ingresos ([art. 2 de la Ley 1/1996][ljg2]).
 
