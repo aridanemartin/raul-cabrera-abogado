@@ -22,6 +22,7 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 - **Seis páginas, una por tipo de caso** → Quien busca, por ejemplo, «abogado alcoholemia Las Palmas» encuentra una página que habla exactamente de eso. Cada norma que se cita enlaza al BOE, y las penas y los plazos están comprobados con el texto vigente, incluida la reforma de multirreincidencia de abril de 2026.
 - **Portada y guías de urgencia** → Quien acaba de vivir una detención o tiene un juicio rápido sabe qué hacer y cómo contactarte en segundos. Las guías «¿Te han detenido?» y «¿Tienes un juicio rápido?» responden primero a lo urgente y tienen el botón de WhatsApp arriba del todo.
 - **Blog preparado** → Listo para publicar artículos que tú revisas y firmas (siguiente fase del proyecto). Cada artículo mostrará tu nombre, la fecha de publicación y la de la última revisión. Mientras no haya artículos, el blog lleva a las guías de urgencia.
+- **Textos legales nuevos** → Aviso legal, privacidad y cookies correctos, con tu nombre y colegiación, y fáciles de leer. Explican que el formulario no guarda datos, que lo que te escriben por WhatsApp está protegido por el secreto profesional, y dejan a cada visitante cambiar su elección de cookies cuando quiera.
 
 ## Cómo te llegan los clientes
 
@@ -59,6 +60,8 @@ El formulario pide a la persona que no cuente detalles de su caso por escrito: e
   - [ ] Portada (sobre todo «Por qué conmigo»: confirma que llevas asuntos en todas las islas)
   - [ ] Guía «¿Te han detenido?»
   - [ ] Guía «¿Tienes un juicio rápido?»
+  - [ ] Aviso legal, privacidad y cookies
+- [ ] **Tu título exacto.** El aviso legal pone «Graduado en Derecho» por España. Dinos si eres Licenciado o Graduado, por qué universidad y si tienes el título profesional de abogado (el máster de acceso), para que conste bien.
 - [ ] **Violencia de género:** ¿defiendes a quien está denunciado, a víctimas o a ambos? De momento la página está escrita para quien está denunciado, y las víctimas se derivan a «Acusación particular».
 - [ ] **¿Atiendes en inglés?** Si es así, podemos preparar unas páginas en inglés.
 - [ ] **¿Atiendes urgencias fuera de horario?** Hasta que lo confirmes, la web no lo anuncia.

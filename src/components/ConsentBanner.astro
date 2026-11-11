@@ -14,12 +14,17 @@
   import { initAnalytics } from '../lib/analytics';
   import { bindLeadTracking } from '../scripts/lead-tracking';
   import { bindConsentBanner } from '../scripts/consent-banner';
+  import { bindCookieSettings } from '../scripts/cookie-settings';
 
+  // Todo lo que toca Analytics va en este único script para que la página
+  // comparta una sola copia de su estado (la página de cookies incluida).
   const gaId = import.meta.env.PUBLIC_GA_ID || undefined;
   initAnalytics(gaId);
   bindLeadTracking(document);
   const banner = document.querySelector<HTMLElement>('[data-consent-banner]');
   if (banner) bindConsentBanner(banner, gaId);
+  const settings = document.querySelector<HTMLElement>('[data-cookie-settings]');
+  if (settings) bindCookieSettings(settings, gaId);
 </script>
 
 <style>

@@ -1,0 +1,85 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { FULL_ADDRESS, SITE } from '../config/site';
+
+const links = {
+  lssi: 'https://www.boe.es/buscar/act.php?id=BOE-A-2002-13758#a10',
+  defensa: 'https://www.boe.es/buscar/act.php?id=BOE-A-2024-23630',
+  egae: 'https://www.boe.es/buscar/act.php?id=BOE-A-2021-4568',
+  codigo: 'https://www.abogacia.es/wp-content/uploads/2020/10/C%C3%93DIGO-DEONTOL%C3%93GICO-2019-definitivo-OK-2.pdf',
+  icalpa: 'https://www.icalpa.es/',
+};
+---
+
+<PageLayout
+  title="Aviso legal | Raúl Cabrera Abogado"
+  description="Datos del titular de esta web: Raúl Cabrera Santana, abogado colegiado nº 6555 del Ilustre Colegio de la Abogacía de Las Palmas."
+  h1="Aviso legal"
+  lead="Quién está detrás de esta web y qué normas sigo como abogado."
+  crumb="Aviso legal"
+>
+  <p>
+    Estos son los datos que pide el <a href={links.lssi}>artículo 10 de la Ley 34/2002, de servicios de la sociedad de la
+    información</a>.
+  </p>
+
+  <h2>Titular de la web</h2>
+  <ul>
+    <li><strong>Nombre:</strong> {SITE.lawyer.fullName}</li>
+    <li><strong>NIF:</strong> {SITE.lawyer.nif}</li>
+    <li><strong>Domicilio profesional:</strong> {FULL_ADDRESS}</li>
+    <li><strong>Correo electrónico:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+    <li><strong>Teléfono y WhatsApp:</strong> <a href={`tel:${SITE.phone.e164}`}>{SITE.phone.display}</a></li>
+  </ul>
+
+  <h2>Datos profesionales</h2>
+  <ul>
+    <li><strong>Profesión:</strong> abogado, una profesión regulada.</li>
+    <li>
+      <strong>Colegio profesional:</strong>
+      <a href={links.icalpa}>{SITE.lawyer.colegio}</a>, colegiado nº {SITE.lawyer.colegiado}.
+    </li>
+    <li><strong>Título:</strong> {SITE.lawyer.degree}, expedido en España.</li>
+  </ul>
+
+  <h2>Normas profesionales que sigo</h2>
+  <p>Como abogado estoy obligado a cumplir estas normas. Puedes leerlas en sus versiones oficiales:</p>
+  <ul>
+    <li><a href={links.defensa}>Ley Orgánica 5/2024, de 11 de noviembre, del Derecho de Defensa</a>.</li>
+    <li>
+      <a href={links.egae}>Estatuto General de la Abogacía Española</a>, aprobado por el Real Decreto 135/2021, de 2 de
+      marzo.
+    </li>
+    <li>
+      <a href={links.codigo}>Código Deontológico de la Abogacía Española</a>, que es también el código de conducta al que
+      estoy sujeto.
+    </li>
+    <li>Las normas del <a href={links.icalpa}>{SITE.lawyer.colegio}</a>, publicadas en su web.</li>
+  </ul>
+
+  <h2>Uso de la información de esta web</h2>
+  <p>
+    Los textos de esta web explican la ley de forma general y enlazan a la norma oficial para que puedas comprobarlo. No
+    sustituyen a una consulta sobre tu caso concreto. Escribirme o llamarme no supone por sí solo un encargo profesional:
+    el encargo empieza cuando lo acordamos.
+  </p>
+
+  <h2>Propiedad intelectual</h2>
+  <p>
+    Los textos de esta web son de {SITE.lawyer.fullName}. Puedes citarlos si enlazas a la página de la que los tomas. Las
+    leyes citadas son de libre uso y enlazan a su versión oficial en el Boletín Oficial del Estado.
+  </p>
+
+  <h2>Enlaces a otras webs</h2>
+  <p>
+    Enlazo al Boletín Oficial del Estado y a otras webs oficiales para que puedas comprobar lo que explico. No respondo del
+    contenido de webs ajenas.
+  </p>
+
+  <h2>Privacidad y cookies</h2>
+  <p>
+    Cómo trato tus datos lo explico en la <a href="/privacidad/">política de privacidad</a>, y qué cookies uso, en la <a
+      href="/cookies/">política de cookies</a
+    >. Este aviso legal se rige por la ley española.
+  </p>
+</PageLayout>

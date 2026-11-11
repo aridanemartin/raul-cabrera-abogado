@@ -11,6 +11,9 @@ export const SITE = {
   name: 'Raúl Cabrera Abogado',
   lawyer: {
     fullName: 'Raúl Cabrera Santana',
+    nif: '54092607B',
+    // Pendiente de que Raúl confirme si es Licenciado o Graduado y la universidad.
+    degree: 'Graduado en Derecho',
     colegiado: '6555',
     colegio: 'Ilustre Colegio de la Abogacía de Las Palmas',
     colegioShort: 'ICALPA',

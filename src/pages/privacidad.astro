@@ -1,0 +1,117 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import { FULL_ADDRESS, SITE } from '../config/site';
+
+const links = {
+  rgpd: 'https://eur-lex.europa.eu/eli/reg/2016/679/oj',
+  lopdgdd: 'https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673',
+  lopdgdd10: 'https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673#a1-2',
+  defensa15: 'https://www.boe.es/buscar/act.php?id=BOE-A-2024-23630#a1-7',
+  defensa16: 'https://www.boe.es/buscar/act.php?id=BOE-A-2024-23630#a1-8',
+  lssi22: 'https://www.boe.es/buscar/act.php?id=BOE-A-2002-13758#a22',
+  aepd: 'https://www.aepd.es/',
+};
+---
+
+<PageLayout
+  title="Política de privacidad | Raúl Cabrera Abogado"
+  description="Qué datos trato cuando me escribes, para qué, con qué base legal, cuánto tiempo los guardo y cómo ejercer tus derechos ante mí o ante la AEPD."
+  h1="Política de privacidad"
+  lead="Qué datos tuyos trato, para qué y qué derechos tienes, explicado sin letra pequeña."
+  crumb="Privacidad"
+>
+  <h2>Quién trata tus datos</h2>
+  <ul>
+    <li><strong>Responsable:</strong> {SITE.lawyer.fullName}, abogado. NIF {SITE.lawyer.nif}.</li>
+    <li><strong>Domicilio profesional:</strong> {FULL_ADDRESS}</li>
+    <li><strong>Correo electrónico:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+    <li><strong>Teléfono:</strong> <a href={`tel:${SITE.phone.e164}`}>{SITE.phone.display}</a></li>
+  </ul>
+
+  <h2>El formulario de esta web no guarda nada</h2>
+  <p>
+    El formulario de contacto no guarda tus datos ni los envía a ningún servidor. Solo prepara un mensaje con lo que
+    escribes y lo abre en tu WhatsApp. Eres tú quien decide si lo envía.
+  </p>
+
+  <h2>Qué datos trato y para qué</h2>
+
+  <h3>Cuando me escribes o me llamas</h3>
+  <p>
+    Trato los datos que tú me das, como tu nombre, tu teléfono y lo que me cuentes de tu caso, para responder a tu consulta
+    y, si me encargas el asunto, para llevar tu defensa. La ley solo me permite usarlos para eso (<a href={links.defensa15}
+      >artículo 15 de la Ley Orgánica 5/2024, del Derecho de Defensa</a
+    >).
+  </p>
+  <p>
+    La base legal es atender tu petición y, en su caso, el encargo que acordemos (artículo 6.1.b del RGPD), además de
+    cumplir las obligaciones legales que tengo como abogado (artículo 6.1.c). Si me cuentas datos sobre un delito o un
+    procedimiento penal, la ley permite expresamente que los abogados los tratemos para defender a nuestros clientes (<a
+      href={links.lopdgdd10}>artículo 10 de la Ley Orgánica 3/2018</a
+    >).
+  </p>
+
+  <h3>Si me escribes por WhatsApp</h3>
+  <p>
+    El mensaje pasa por WhatsApp, un servicio de Meta, que lo trata según su propia política de privacidad. Lo que me
+    cuentes lo trato con la confidencialidad y el secreto profesional que la ley exige a los abogados (<a
+      href={links.defensa16}>artículo 16 de la Ley Orgánica 5/2024</a
+    >).
+  </p>
+
+  <h3>Estadísticas de visitas, solo si aceptas</h3>
+  <p>
+    Si aceptas las cookies de análisis, uso Google Analytics para saber cuánta gente visita la web, qué páginas lee y cuántas
+    personas me contactan desde ella. La base legal es tu consentimiento (artículo 6.1.a del RGPD y <a href={links.lssi22}
+      >artículo 22 de la Ley 34/2002</a
+    >). Si no aceptas, Google Analytics no se carga. Puedes cambiar tu elección cuando quieras en la <a href="/cookies/"
+      >página de cookies</a
+    >.
+  </p>
+
+  <h3>Datos técnicos de cada visita</h3>
+  <p>
+    Como en cualquier web, el servidor registra datos técnicos de cada visita, como la dirección IP, para servir las páginas
+    y protegerlas de ataques. La base legal es mi interés legítimo en que la web funcione y sea segura (artículo 6.1.f del
+    RGPD).
+  </p>
+
+  <h2>Quién más puede ver tus datos</h2>
+  <ul>
+    <li><strong>Vercel</strong>, la empresa que aloja esta web.</li>
+    <li><strong>Google</strong>, a través de Google Analytics, solo si aceptas las cookies de análisis.</li>
+    <li><strong>WhatsApp</strong>, si me escribes por ahí.</li>
+  </ul>
+  <p>
+    Vercel y Google son empresas de Estados Unidos y pueden tratar datos fuera de la Unión Europea, con las garantías que
+    exige el RGPD para esas transferencias. Fuera de estos casos, solo comunico tus datos cuando tu defensa lo necesita, por
+    ejemplo a un juzgado, o cuando la ley me obliga.
+  </p>
+
+  <h2>Cuánto tiempo los guardo</h2>
+  <p>
+    Si solo me haces una consulta, el tiempo necesario para atenderla. Si llevo tu caso, mientras dure y, después, durante
+    los plazos en que la ley me obliga a conservarlos o en que se me podrían pedir responsabilidades.
+  </p>
+
+  <h2>Tus derechos</h2>
+  <p>
+    Puedes pedirme en cualquier momento ver tus datos, corregirlos, borrarlos, limitar su uso, oponerte a que los use o
+    llevártelos a otro sitio. Escríbeme a <a href={`mailto:${SITE.email}`}>{SITE.email}</a> y te responderé en el plazo de
+    un mes. Solo podré negarme a borrar algo si la ley me obliga a conservarlo.
+  </p>
+  <p>
+    Si crees que no he atendido bien tu petición, puedes reclamar ante la <a href={links.aepd}
+      >Agencia Española de Protección de Datos</a
+    >.
+  </p>
+
+  <h2>Normas aplicables</h2>
+  <ul>
+    <li><a href={links.rgpd}>Reglamento General de Protección de Datos (Reglamento UE 2016/679)</a>.</li>
+    <li>
+      <a href={links.lopdgdd}>Ley Orgánica 3/2018, de Protección de Datos Personales y garantía de los derechos digitales</a
+      >.
+    </li>
+  </ul>
+</PageLayout>

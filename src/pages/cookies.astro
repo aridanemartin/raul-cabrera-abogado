@@ -1,0 +1,128 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+
+const googleCookies = 'https://support.google.com/analytics/answer/11397207?hl=es';
+---
+
+<PageLayout
+  title="Política de cookies | Raúl Cabrera Abogado"
+  description="Qué cookies usa esta web (solo las de Google Analytics, y solo si aceptas), para qué sirven, cuánto duran y cómo cambiar tu elección."
+  h1="Política de cookies"
+  lead="Esta web solo usa cookies de análisis, y solo si las aceptas. Aquí puedes ver cuáles son y cambiar tu elección."
+  crumb="Cookies"
+>
+  <section class="settings" data-cookie-settings aria-labelledby="tu-eleccion">
+    <h2 id="tu-eleccion">Tu elección</h2>
+    <p data-cookie-status role="status">Sin JavaScript activado, Google Analytics no se carga.</p>
+    <div class="controls" data-cookie-controls hidden>
+      <button type="button" class="btn btn--dark" data-cookie-choice="accept">Aceptar</button>
+      <button type="button" class="btn btn--dark" data-cookie-choice="reject">Rechazar</button>
+    </div>
+  </section>
+
+  <h2>Qué son las cookies</h2>
+  <p>
+    Son pequeños archivos que una web guarda en tu navegador para recordar información de una visita a otra. Algunas son
+    necesarias para que la web funcione. Otras sirven para medir las visitas, y esas solo se pueden usar si las aceptas.
+  </p>
+
+  <h2>Qué cookies usa esta web</h2>
+  <div class="table-wrap" role="region" aria-labelledby="tabla-cookies" tabindex="0">
+    <table>
+      <caption id="tabla-cookies">Cookies y datos que esta web guarda en tu navegador</caption>
+      <thead>
+        <tr>
+          <th scope="col">Nombre</th>
+          <th scope="col">Para qué sirve</th>
+          <th scope="col">Duración</th>
+          <th scope="col">De quién es</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>_ga</code></td>
+          <td>Distingue a unos visitantes de otros para contar cuántas personas visitan la web.</td>
+          <td>2 años</td>
+          <td>Google Analytics. Solo si aceptas.</td>
+        </tr>
+        <tr>
+          <td><code>{'_ga_<ID>'}</code></td>
+          <td>Mantiene los datos de la visita en curso, lo que Google llama la sesión.</td>
+          <td>2 años</td>
+          <td>Google Analytics. Solo si aceptas.</td>
+        </tr>
+        <tr>
+          <td><code>rc-consent</code></td>
+          <td>
+            Recuerda si aceptaste o rechazaste las cookies de análisis, para no volver a preguntarte. No es una cookie sino
+            un dato guardado en tu navegador, y no se envía a nadie.
+          </td>
+          <td>1 año</td>
+          <td>Esta web. Es necesario, así que no pide permiso.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p>
+    {'<ID>'} es el código de esta web en Google Analytics. Las duraciones son las que fija Google por defecto y se cuentan
+    desde tu última visita. Google lo explica en su página sobre el <a href={googleCookies}
+      >uso de cookies de Google Analytics</a
+    >.
+  </p>
+
+  <h2>Cómo borrar las cookies</h2>
+  <p>
+    Si pulsas «Rechazar», la web borra las cookies de Google Analytics que ya estuvieran guardadas. También puedes borrar
+    todas las cookies desde la configuración de tu navegador, normalmente en el apartado de privacidad o de historial.
+  </p>
+  <p>Cómo trato tus datos lo explico en la <a href="/privacidad/">política de privacidad</a>.</p>
+</PageLayout>
+
+<style>
+  .settings {
+    display: grid;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .settings h2 {
+    margin: 0;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .controls[hidden] {
+    display: none;
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    min-width: 36rem;
+    border-collapse: collapse;
+    font-size: var(--step--1);
+  }
+
+  caption {
+    text-align: left;
+    font-weight: 700;
+    padding-bottom: var(--space-2);
+  }
+
+  th,
+  td {
+    padding: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+    vertical-align: top;
+  }
+</style>

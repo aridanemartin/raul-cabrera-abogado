@@ -217,3 +217,54 @@ describe('blog', () => {
     expect(hrefs).toContain('/juicio-rapido/');
   });
 });
+
+describe('páginas legales', () => {
+  const mainLinks = (page: Page) =>
+    page.root.querySelectorAll('main a').map((a) => ({ href: a.getAttribute('href') ?? '', text: a.textContent }));
+
+  it('el aviso legal da los datos de la LSSI con la colegiación y las normas profesionales', () => {
+    const page = byPath('/aviso-legal/');
+    expect(page).toBeDefined();
+    const text = visibleText(page!);
+    expect(text).toContain('Raúl Cabrera Santana');
+    expect(text).toContain('54092607B');
+    expect(text).toContain('6555');
+    expect(text).toContain('Ilustre Colegio de la Abogacía de Las Palmas');
+    expect(text).toMatch(/(Licenciado|Graduado) en Derecho/);
+    const links = mainLinks(page!);
+    expect(links.some((a) => a.href.includes('BOE-A-2021-4568'))).toBe(true);
+    expect(links.some((a) => a.href.startsWith('https://www.abogacia.es/') && /Código Deontológico/.test(a.text))).toBe(
+      true,
+    );
+  });
+
+  it('la privacidad explica el formulario, WhatsApp, los proveedores y la AEPD', () => {
+    const page = byPath('/privacidad/');
+    expect(page).toBeDefined();
+    const text = visibleText(page!);
+    expect(text).toContain('no guarda');
+    expect(text).toContain('WhatsApp');
+    expect(text).toContain('secreto profesional');
+    expect(text).toContain('Vercel');
+    expect(text).toContain('Google Analytics');
+    expect(mainLinks(page!).some((a) => a.href.startsWith('https://www.aepd.es/'))).toBe(true);
+  });
+
+  it('cookies lista _ga y _ga_<ID> con finalidad y duración, y tiene los controles', () => {
+    const page = byPath('/cookies/');
+    expect(page).toBeDefined();
+    const rows = page!.root
+      .querySelectorAll('main table tbody tr')
+      .map((tr) => tr.querySelectorAll('td').map((td) => td.textContent.trim()));
+    const ga = rows.find((cells) => cells[0] === '_ga');
+    const gaId = rows.find((cells) => cells[0] === '_ga_<ID>');
+    for (const row of [ga, gaId]) {
+      expect(row, 'fila de la cookie').toBeDefined();
+      expect(row![1].length, 'finalidad').toBeGreaterThan(10);
+      expect(row![2], 'duración').toMatch(/año|mes|día/);
+    }
+    const buttons = page!.root.querySelectorAll('main [data-cookie-settings] button').map((b) => b.textContent.trim());
+    expect(buttons).toContain('Aceptar');
+    expect(buttons).toContain('Rechazar');
+  });
+});
