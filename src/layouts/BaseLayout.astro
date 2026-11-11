@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { Font } from 'astro:assets';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ContactBar from '../components/ContactBar.astro';
@@ -41,6 +42,7 @@ const toJson = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
     {!notFound && <meta property="og:url" content={canonical} />}
     <meta name="theme-color" content="#0F7C8C" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <Font cssVariable="--font-manrope" preload />
     <script is:inline>document.documentElement.classList.add('js');</script>
     {structuredData.map((data) => <script type="application/ld+json" set:html={toJson(data)} />)}
   </head>

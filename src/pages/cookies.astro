@@ -2,6 +2,29 @@
 import PageLayout from '../layouts/PageLayout.astro';
 
 const googleCookies = 'https://support.google.com/analytics/answer/11397207?hl=es';
+
+const columns = ['Nombre', 'Para qué sirve', 'Duración', 'De quién es'];
+const cookies = [
+  {
+    name: '_ga',
+    purpose: 'Distingue a unos visitantes de otros para contar cuántas personas visitan la web.',
+    duration: '2 años',
+    owner: 'Google Analytics. Solo si aceptas.',
+  },
+  {
+    name: '_ga_<ID>',
+    purpose: 'Mantiene los datos de la visita en curso, lo que Google llama la sesión.',
+    duration: '2 años',
+    owner: 'Google Analytics. Solo si aceptas.',
+  },
+  {
+    name: 'rc-consent',
+    purpose:
+      'Recuerda si aceptaste o rechazaste las cookies de análisis, para no volver a preguntarte. No es una cookie sino un dato guardado en tu navegador, y no se envía a nadie.',
+    duration: '1 año',
+    owner: 'Esta web. Es necesario, así que no pide permiso.',
+  },
+];
 ---
 
 <PageLayout
@@ -27,42 +50,26 @@ const googleCookies = 'https://support.google.com/analytics/answer/11397207?hl=e
   </p>
 
   <h2>Qué cookies usa esta web</h2>
-  <div class="table-wrap" role="region" aria-labelledby="tabla-cookies" tabindex="0">
-    <table>
-      <caption id="tabla-cookies">Cookies y datos que esta web guarda en tu navegador</caption>
-      <thead>
-        <tr>
-          <th scope="col">Nombre</th>
-          <th scope="col">Para qué sirve</th>
-          <th scope="col">Duración</th>
-          <th scope="col">De quién es</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><code>_ga</code></td>
-          <td>Distingue a unos visitantes de otros para contar cuántas personas visitan la web.</td>
-          <td>2 años</td>
-          <td>Google Analytics. Solo si aceptas.</td>
-        </tr>
-        <tr>
-          <td><code>{'_ga_<ID>'}</code></td>
-          <td>Mantiene los datos de la visita en curso, lo que Google llama la sesión.</td>
-          <td>2 años</td>
-          <td>Google Analytics. Solo si aceptas.</td>
-        </tr>
-        <tr>
-          <td><code>rc-consent</code></td>
-          <td>
-            Recuerda si aceptaste o rechazaste las cookies de análisis, para no volver a preguntarte. No es una cookie sino
-            un dato guardado en tu navegador, y no se envía a nadie.
-          </td>
-          <td>1 año</td>
-          <td>Esta web. Es necesario, así que no pide permiso.</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+  <table role="table">
+    <caption>Cookies y datos que esta web guarda en tu navegador</caption>
+    <thead role="rowgroup">
+      <tr role="row">{columns.map((column) => <th scope="col" role="columnheader">{column}</th>)}</tr>
+    </thead>
+    <tbody role="rowgroup">
+      {
+        cookies.map((cookie) => (
+          <tr role="row">
+            <td role="cell" data-label={columns[0]}>
+              <code>{cookie.name}</code>
+            </td>
+            <td role="cell" data-label={columns[1]}>{cookie.purpose}</td>
+            <td role="cell" data-label={columns[2]}>{cookie.duration}</td>
+            <td role="cell" data-label={columns[3]}>{cookie.owner}</td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
   <p>
     {'<ID>'} es el código de esta web en Google Analytics. Las duraciones son las que fija Google por defecto y se cuentan
     desde tu última visita. Google lo explica en su página sobre el <a href={googleCookies}
@@ -101,13 +108,8 @@ const googleCookies = 'https://support.google.com/analytics/answer/11397207?hl=e
     display: none;
   }
 
-  .table-wrap {
-    overflow-x: auto;
-  }
-
   table {
     width: 100%;
-    min-width: 36rem;
     border-collapse: collapse;
     font-size: var(--step--1);
   }
@@ -124,5 +126,36 @@ const googleCookies = 'https://support.google.com/analytics/answer/11397207?hl=e
     border-bottom: 1px solid var(--color-border);
     text-align: left;
     vertical-align: top;
+  }
+
+  /* En pantallas estrechas cada cookie es una ficha con sus etiquetas. */
+  @media (max-width: 40rem) {
+    thead {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    tr {
+      display: block;
+      padding-block: var(--space-3);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    td {
+      display: grid;
+      grid-template-columns: 7rem 1fr;
+      gap: var(--space-2);
+      padding: var(--space-1) 0;
+      border: 0;
+    }
+
+    td::before {
+      content: attr(data-label);
+      font-weight: 700;
+    }
   }
 </style>

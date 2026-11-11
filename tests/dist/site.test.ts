@@ -62,6 +62,13 @@ describe('todas las páginas', () => {
     }
   });
 
+  it('el pie muestra el código postal separado de la ciudad', () => {
+    for (const page of pages) {
+      const address = page.root.querySelector('footer address')?.textContent.replace(/\s+/g, ' ') ?? '';
+      expect(address, page.path).toContain('35003 Las Palmas de Gran Canaria');
+    }
+  });
+
   it('nunca invierte los apellidos', () => {
     for (const page of pages) {
       expect(page.html, page.path).not.toContain('Santana Cabrera');
@@ -103,6 +110,29 @@ describe('todas las páginas', () => {
       expect(blocks.length, page.path).toBeGreaterThan(0);
       for (const block of blocks) {
         expect(() => JSON.parse(block.textContent), page.path).not.toThrow();
+      }
+    }
+  });
+
+  it('precarga la fuente y declara un respaldo ajustado para que el cambio de fuente no mueva el texto', () => {
+    const css = readdirSync(join(DIST, '_astro'))
+      .filter((f) => f.endsWith('.css'))
+      .map((f) => readFileSync(join(DIST, '_astro', f), 'utf8'))
+      .join('\n');
+    for (const page of pages) {
+      const preload = page.root.querySelector('head link[rel="preload"][as="font"][type="font/woff2"]');
+      expect(preload, page.path).not.toBeNull();
+      const inline = page.root.querySelectorAll('style').map((el) => el.textContent).join('\n');
+      expect(inline + css, page.path).toMatch(/size-adjust/);
+    }
+  });
+
+  it('ningún enlace usa un texto genérico como «Más información»', () => {
+    const generic = /^(más información|leer más|saber más|más|aquí|pincha aquí|haz clic aquí|click aquí|ver más|enlace)$/i;
+    for (const page of pages) {
+      for (const a of page.root.querySelectorAll('a')) {
+        const text = a.textContent.replace(/\s+/g, ' ').trim();
+        expect(text, `${page.path} → ${a.getAttribute('href')}`).not.toMatch(generic);
       }
     }
   });
@@ -262,6 +292,11 @@ describe('páginas legales', () => {
       expect(row, 'fila de la cookie').toBeDefined();
       expect(row![1].length, 'finalidad').toBeGreaterThan(10);
       expect(row![2], 'duración').toMatch(/año|mes|día/);
+    }
+    const headers = page!.root.querySelectorAll('main table thead th').map((th) => th.textContent.trim());
+    for (const tr of page!.root.querySelectorAll('main table tbody tr')) {
+      // En móvil la tabla se apila y cada celda muestra su columna.
+      expect(tr.querySelectorAll('td').map((td) => td.getAttribute('data-label'))).toEqual(headers);
     }
     const buttons = page!.root.querySelectorAll('main [data-cookie-settings] button').map((b) => b.textContent.trim());
     expect(buttons).toContain('Aceptar');

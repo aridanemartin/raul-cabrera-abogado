@@ -9,7 +9,7 @@
   --color-border: #d5e4e7;
   --color-error: #b3261e;
 
-  --font-sans: 'Manrope Variable', 'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: var(--font-manrope);
 
   --step--1: 0.875rem;
   --step-0: 1.0625rem;
