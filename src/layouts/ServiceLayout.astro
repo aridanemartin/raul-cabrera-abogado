@@ -1,0 +1,151 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import Faq from '../components/Faq.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import UrgencyCard from '../components/UrgencyCard.astro';
+
+interface Props {
+  service: CollectionEntry<'servicios'>;
+  related: CollectionEntry<'servicios'>[];
+}
+
+const { service, related } = Astro.props;
+const { data } = service;
+const crumbs = [
+  { name: 'Inicio', path: '/' },
+  { name: 'Servicios', path: '/servicios/' },
+  { name: data.cardTitle, path: `/servicios/${service.id}/` },
+];
+---
+
+<BaseLayout title={data.title} description={data.description} breadcrumbs={crumbs}>
+  <div class="container service">
+    <header class="intro">
+      <Breadcrumbs items={crumbs} />
+      <h1>{data.h1}</h1>
+      <p class="summary">{data.summary}</p>
+    </header>
+
+    <aside class="side">
+      <UrgencyCard location="pagina" title="Cuéntame qué ha pasado" />
+    </aside>
+
+    <div class="body prose" data-service-body>
+      <slot />
+    </div>
+
+    <div class="extra">
+      <Faq items={data.faqs} />
+      <section class="refs" aria-labelledby="normas-citadas">
+        <h2 id="normas-citadas">Normas citadas</h2>
+        <ul>
+          {data.legalRefs.map((ref) => <li><a href={ref.url}>{ref.label}</a></li>)}
+        </ul>
+        <p class="note">
+          Esta página explica la ley de forma general y no sustituye a una consulta sobre tu caso concreto.
+        </p>
+      </section>
+    </div>
+  </div>
+
+  <section class="section section--surface related" aria-labelledby="otros-casos">
+    <div class="container">
+      <h2 id="otros-casos">Otros casos que llevo</h2>
+      <div class="grid">
+        {related.map((item) => <ServiceCard title={item.data.cardTitle} summary={item.data.summary} href={`/servicios/${item.id}/`} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .service {
+    display: grid;
+    gap: var(--space-6);
+    padding-block: var(--space-5) var(--space-7);
+    grid-template-areas:
+      'intro'
+      'side'
+      'body'
+      'extra';
+  }
+
+  .intro {
+    grid-area: intro;
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .summary {
+    max-width: var(--measure);
+    color: var(--color-muted);
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .side {
+    grid-area: side;
+  }
+
+  .body {
+    grid-area: body;
+  }
+
+  .extra {
+    grid-area: extra;
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .refs h2 {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-3);
+  }
+
+  .refs ul {
+    padding-left: var(--space-5);
+  }
+
+  .refs li + li {
+    margin-top: var(--space-2);
+  }
+
+  .note {
+    margin-top: var(--space-4);
+    color: var(--color-muted);
+    font-size: var(--step--1);
+  }
+
+  .related h2 {
+    margin-bottom: var(--space-5);
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .service {
+      grid-template-columns: minmax(0, 1fr) 20rem;
+      grid-template-areas:
+        'intro side'
+        'body side'
+        'extra side';
+      column-gap: var(--space-7);
+    }
+
+    .side > :global(*) {
+      position: sticky;
+      top: var(--space-5);
+    }
+  }
+</style>

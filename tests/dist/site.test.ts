@@ -138,3 +138,41 @@ describe('archivos para buscadores e IA', () => {
     expect(llms).not.toContain('Santana Cabrera');
   });
 });
+
+const SERVICES = [
+  '/servicios/asistencia-detenido-investigado/',
+  '/servicios/alcoholemia-delitos-trafico/',
+  '/servicios/violencia-genero-domestica/',
+  '/servicios/lesiones-amenazas-delitos-leves/',
+  '/servicios/acusacion-particular/',
+  '/servicios/recursos-antecedentes/',
+];
+
+const byPath = (path: string) => pages.find((p) => p.path === path);
+
+function jsonLdTypes(page: Page): string[] {
+  return page.root
+    .querySelectorAll('script[type="application/ld+json"]')
+    .map((el) => JSON.parse(el.textContent))
+    .flatMap((data) => (data['@graph'] ?? [data]).map((node: { '@type': string }) => node['@type']));
+}
+
+describe('páginas de servicio', () => {
+  it.each(SERVICES)('%s existe con migas, BOE, WhatsApp y texto suficiente', (path) => {
+    const page = byPath(path);
+    expect(page, path).toBeDefined();
+    expect(jsonLdTypes(page!)).toContain('BreadcrumbList');
+    expect(page!.root.querySelectorAll('a[href^="https://www.boe.es/"]').length).toBeGreaterThan(0);
+    expect(page!.root.querySelector('main a[href^="https://wa.me/34676882221"]')).not.toBeNull();
+    const body = page!.root.querySelector('[data-service-body]')?.textContent ?? '';
+    const words = body.split(/\s+/).filter(Boolean).length;
+    expect(words, `${path}: ${words} palabras`).toBeGreaterThanOrEqual(600);
+  });
+
+  it('el índice de servicios enlaza a las seis páginas', () => {
+    const index = byPath('/servicios/');
+    expect(index).toBeDefined();
+    const hrefs = index!.root.querySelectorAll('main a').map((a) => a.getAttribute('href'));
+    for (const path of SERVICES) expect(hrefs).toContain(path);
+  });
+});

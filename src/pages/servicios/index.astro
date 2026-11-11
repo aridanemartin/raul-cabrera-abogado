@@ -1,0 +1,73 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import UrgencyCard from '../../components/UrgencyCard.astro';
+
+const services = (await getCollection('servicios')).sort((a, b) => a.data.order - b.data.order);
+const crumbs = [
+  { name: 'Inicio', path: '/' },
+  { name: 'Servicios', path: '/servicios/' },
+];
+---
+
+<BaseLayout
+  title="Servicios de defensa penal en Las Palmas | Raúl Cabrera"
+  description="Detenciones, juicios rápidos, alcoholemia, violencia de género, lesiones, acusación particular y recursos. Abogado penalista en Las Palmas."
+  breadcrumbs={crumbs}
+>
+  <div class="container page">
+    <Breadcrumbs items={crumbs} />
+    <h1>Servicios de defensa penal</h1>
+    <p class="lead">
+      Llevo asuntos penales en Las Palmas de Gran Canaria y en el resto de las islas. Elige la situación que más se
+      parece a la tuya: en cada página te explico qué puede pasar y cómo lo trabajaríamos.
+    </p>
+    <div class="grid">
+      {
+        services.map((service) => (
+          <ServiceCard
+            title={service.data.cardTitle}
+            summary={service.data.summary}
+            href={`/servicios/${service.id}/`}
+            headingLevel="h2"
+          />
+        ))
+      }
+    </div>
+    <UrgencyCard location="pagina" />
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-5) var(--space-7);
+  }
+
+  .lead {
+    max-width: var(--measure);
+    color: var(--color-muted);
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

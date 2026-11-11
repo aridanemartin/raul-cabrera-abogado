@@ -1,0 +1,62 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  href: string;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { title, summary, href, headingLevel: Heading = 'h3' } = Astro.props;
+---
+
+<article class="card">
+  <Heading class="card-title"><a href={href}>{title}</a></Heading>
+  <p>{summary}</p>
+  <span class="more" aria-hidden="true">Leer más →</span>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    display: grid;
+    align-content: start;
+    gap: var(--space-2);
+    height: 100%;
+    padding: var(--space-5);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .card:hover,
+  .card:focus-within {
+    border-color: var(--color-accent);
+  }
+
+  .card-title {
+    font-size: var(--step-1);
+  }
+
+  .card-title a {
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  /* Toda la tarjeta es clicable sin anidar enlaces. */
+  .card-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius);
+  }
+
+  .card p {
+    color: var(--color-muted);
+  }
+
+  .more {
+    color: var(--color-accent-strong);
+    font-weight: 700;
+  }
+</style>

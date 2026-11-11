@@ -1,0 +1,72 @@
+---
+interface Props {
+  items: { q: string; a: string }[];
+  title?: string;
+}
+
+const { items, title = 'Preguntas frecuentes' } = Astro.props;
+---
+
+<section class="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title">{title}</h2>
+  {
+    items.map((item) => (
+      <details>
+        <summary>{item.q}</summary>
+        <p>{item.a}</p>
+      </details>
+    ))
+  }
+</section>
+
+<style>
+  .faq {
+    display: grid;
+    gap: var(--space-3);
+    max-width: var(--measure);
+  }
+
+  h2 {
+    font-size: var(--step-2);
+    margin-bottom: var(--space-2);
+  }
+
+  details {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-bg);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    min-height: var(--tap);
+    padding: var(--space-3) var(--space-4);
+    font-weight: 700;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary::after {
+    content: '+';
+    flex: none;
+    color: var(--color-accent-strong);
+    font-size: var(--step-2);
+    line-height: 1;
+  }
+
+  details[open] summary::after {
+    content: '−';
+  }
+
+  details p {
+    padding: 0 var(--space-4) var(--space-4);
+    color: var(--color-muted);
+  }
+</style>

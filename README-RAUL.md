@@ -19,6 +19,7 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 - **Google Analytics con aviso de cookies** → Sabrás cuánta gente te contacta y por dónde (WhatsApp, llamada o formulario), cumpliendo la normativa. Google Analytics solo se activa si el visitante pulsa «Aceptar», así que quien rechaza las cookies no aparece en las cifras: los números reales siempre serán algo mayores.
 - **Una ficha clara para Google y las IA** → Google, ChatGPT y otros asistentes entienden quién eres, dónde estás y qué casos llevas.
 - **Las direcciones antiguas llevan a las nuevas** → No se pierde lo que Google ya conocía de tu web. Las fichas de abogados de prueba que traía la plantilla desaparecen para siempre.
+- **Seis páginas, una por tipo de caso** → Quien busca, por ejemplo, «abogado alcoholemia Las Palmas» encuentra una página que habla exactamente de eso. Cada norma que se cita enlaza al BOE, y las penas y los plazos están comprobados con el texto vigente, incluida la reforma de multirreincidencia de abril de 2026.
 
 ## Cómo te llegan los clientes
 
@@ -47,6 +48,12 @@ El formulario pide a la persona que no cuente detalles de su caso por escrito: e
 
 - [ ] **Una foto profesional tuya.** Mientras tanto, la web muestra tus iniciales.
 - [ ] **Revisar y aprobar los textos antes de publicar.** Respondes de lo que dice la web, así que nada se publica en tu dominio sin tu visto bueno.
+  - [ ] Asistencia al detenido e investigado
+  - [ ] Alcoholemia y delitos de tráfico
+  - [ ] Violencia de género y doméstica (está escrita para defender a quien está denunciado; dinos si también llevas a víctimas)
+  - [ ] Lesiones, amenazas y delitos leves
+  - [ ] Acusación particular
+  - [ ] Recursos y antecedentes
 - [ ] **Violencia de género:** ¿defiendes a quien está denunciado, a víctimas o a ambos? De momento la página está escrita para quien está denunciado, y las víctimas se derivan a «Acusación particular».
 - [ ] **¿Atiendes en inglés?** Si es así, podemos preparar unas páginas en inglés.
 - [ ] **¿Atiendes urgencias fuera de horario?** Hasta que lo confirmes, la web no lo anuncia.
