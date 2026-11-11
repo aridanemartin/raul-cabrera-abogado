@@ -1,0 +1,71 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Faq from '../components/Faq.astro';
+import UrgencyCard from '../components/UrgencyCard.astro';
+
+// Respuestas generales que remiten a la página de cada caso. Pendientes de revisión por Raúl.
+const faqs = [
+  {
+    q: '¿Qué hago si me acaban de detener?',
+    a: 'Pide que avisen al abogado que elijas: si das mi nombre, la policía tiene que comunicarlo al Colegio de la Abogacía para que me localicen. No estás obligado a declarar, y antes de hacerlo tienes derecho a hablar a solas con tu abogado.',
+    link: { href: '/te-han-detenido/', text: '¿Te han detenido? Qué hacer ahora' },
+  },
+  {
+    q: '¿Cuánto tiempo pueden tenerme detenido?',
+    a: 'Solo el tiempo necesario para aclarar los hechos y, como máximo, 72 horas. Pasado ese plazo tienen que ponerte en libertad o a disposición del juez.',
+    link: { href: '/te-han-detenido/', text: 'Tus derechos si te detienen' },
+  },
+  {
+    q: 'Me han citado como investigado, ¿qué significa?',
+    a: 'Que el juzgado está investigando unos hechos en los que podrías haber participado. No significa que seas culpable ni que estés detenido, pero tienes los mismos derechos de defensa, y conviene preparar la declaración con tu abogado antes de ir.',
+    link: { href: '/servicios/asistencia-detenido-investigado/', text: 'Asistencia al detenido e investigado' },
+  },
+  {
+    q: '¿Qué es un juicio rápido?',
+    a: 'Un procedimiento para delitos sencillos de investigar en el que todo se decide en pocos días, a veces en el mismo juzgado de guardia. Allí puedes aceptar la acusación a cambio de que la pena se reduzca en un tercio, pero eso es una condena y deja antecedentes.',
+    link: { href: '/juicio-rapido/', text: 'Cómo preparar un juicio rápido' },
+  },
+  {
+    q: 'Si me condenan por alcoholemia, ¿me quitan el carnet?',
+    a: 'Sí: la condena por un delito de alcoholemia lleva siempre la privación del derecho a conducir, de más de uno y hasta cuatro años. Lo primero es revisar el atestado para ver si de verdad hay delito.',
+    link: { href: '/servicios/alcoholemia-delitos-trafico/', text: 'Alcoholemia y delitos de tráfico' },
+  },
+  {
+    q: 'Me han denunciado por violencia de género, ¿qué va a pasar?',
+    a: 'Lo habitual es que el asunto llegue al juzgado de guardia por la vía del juicio rápido. Allí declaras con tu abogado y el juez decide si adopta medidas cautelares, como una orden de alejamiento.',
+    link: { href: '/servicios/violencia-genero-domestica/', text: 'Violencia de género y doméstica' },
+  },
+  {
+    q: '¿Necesito abogado para un juicio por delito leve?',
+    a: 'No es obligatorio, pero tienes derecho a ir con abogado. Aunque la pena sea una multa, la condena deja antecedentes y puede contar en el futuro.',
+    link: { href: '/servicios/lesiones-amenazas-delitos-leves/', text: 'Lesiones, amenazas y delitos leves' },
+  },
+  {
+    q: 'He sido víctima de un delito, ¿puedo tener mi propio abogado en el juicio?',
+    a: 'Sí, personándote como acusación particular. Así eres parte del proceso: tu abogado puede proponer pruebas, interrogar, pedir medidas de protección y recurrir.',
+    link: { href: '/servicios/acusacion-particular/', text: 'Acusación particular' },
+  },
+  {
+    q: '¿Cuánto tiempo tengo para recurrir una sentencia?',
+    a: 'Diez días desde que te la notifican si es una sentencia de un juzgado de lo penal, y cinco días si es un juicio por delito leve. Son plazos cortos: escríbeme en cuanto la recibas.',
+    link: { href: '/servicios/recursos-antecedentes/', text: 'Recursos y antecedentes penales' },
+  },
+  {
+    q: '¿Cuánto cuesta un abogado penalista?',
+    a: 'Depende del tipo de procedimiento y de su complejidad. Antes de empezar te doy el presupuesto por escrito en la hoja de encargo. Si tus ingresos son bajos, puede corresponderte la justicia gratuita.',
+    link: { href: '/como-trabajo/', text: 'Cómo trabajo y cómo se fija el presupuesto' },
+  },
+];
+---
+
+<PageLayout
+  title="Preguntas frecuentes sobre derecho penal | Raúl Cabrera"
+  description="Respuestas claras a las dudas más habituales: detenciones, juicios rápidos, alcoholemia, violencia de género, delitos leves, recursos y honorarios."
+  h1="Preguntas frecuentes"
+  lead="Respuestas cortas a las dudas que más se repiten. Cada una te lleva a la página donde lo explico con más detalle."
+  crumb="Preguntas frecuentes"
+>
+  <Faq items={faqs} title="Las dudas más habituales" />
+  <p>Estas respuestas explican la ley de forma general y no sustituyen a una consulta sobre tu caso concreto.</p>
+  <UrgencyCard location="preguntas-frecuentes" title="¿No ves tu duda? Pregúntamela" />
+</PageLayout>

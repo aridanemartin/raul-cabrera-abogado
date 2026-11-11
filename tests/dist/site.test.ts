@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { DIST, loadPages, type Page } from './load';
@@ -266,5 +266,48 @@ describe('páginas legales', () => {
     const buttons = page!.root.querySelectorAll('main [data-cookie-settings] button').map((b) => b.textContent.trim());
     expect(buttons).toContain('Aceptar');
     expect(buttons).toContain('Rechazar');
+  });
+});
+
+describe('páginas de confianza, contacto y 404', () => {
+  it.each(['/sobre-raul/', '/como-trabajo/', '/preguntas-frecuentes/', '/contacto/', '/404/'])('%s existe', (path) => {
+    expect(byPath(path), path).toBeDefined();
+  });
+
+  it('contacto tiene el formulario, el teléfono y la dirección exacta, sin iframe', () => {
+    const page = byPath('/contacto/')!;
+    expect(page.root.querySelector('main form[data-contact-form][data-lead-location="contacto"]')).not.toBeNull();
+    expect(page.root.querySelector('main a[href="tel:+34676882221"]')).not.toBeNull();
+    expect(visibleText(page)).toContain('C/ Carmen Llopis 7, 4º, 35003 Las Palmas de Gran Canaria');
+    const map = page.root.querySelector('main a[href^="https://www.google.com/maps/search/?api=1&query="]');
+    expect(map?.textContent.trim()).toBe('Ver en Google Maps');
+    expect(page.root.querySelectorAll('iframe')).toHaveLength(0);
+  });
+
+  it('cómo trabajo explica la hoja de encargo y la justicia gratuita', () => {
+    const text = visibleText(byPath('/como-trabajo/')!);
+    expect(text).toContain('hoja de encargo');
+    expect(text).toContain('justicia gratuita');
+  });
+
+  it('la 404 lleva a la guía de urgencia y a contacto', () => {
+    const hrefs = byPath('/404/')!.root.querySelectorAll('main a').map((a) => a.getAttribute('href'));
+    expect(hrefs).toContain('/te-han-detenido/');
+    expect(hrefs).toContain('/contacto/');
+  });
+
+  it('todo enlace interno lleva a un archivo de dist/', () => {
+    const broken: string[] = [];
+    for (const page of pages) {
+      const hrefs = page.root.querySelectorAll('a[href], link[href]').map((el) => el.getAttribute('href') ?? '');
+      for (const href of hrefs) {
+        const local = href.startsWith(ORIGIN) ? href.slice(ORIGIN.length - 1) : href;
+        if (!local.startsWith('/') || local.startsWith('//')) continue;
+        const path = decodeURIComponent(local.split(/[?#]/)[0]);
+        const file = path.endsWith('/') ? join(DIST, path, 'index.html') : join(DIST, path);
+        if (!existsSync(file)) broken.push(`${page.path} → ${href}`);
+      }
+    }
+    expect(broken).toEqual([]);
   });
 });

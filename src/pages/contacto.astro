@@ -1,0 +1,41 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import MapLink from '../components/MapLink.astro';
+import { FULL_ADDRESS, SITE } from '../config/site';
+import { DEFAULT_WHATSAPP_TEXT, buildWhatsAppUrl } from '../lib/whatsapp';
+---
+
+<PageLayout
+  title="Contacto: abogado penalista en Las Palmas | Raúl Cabrera"
+  description="Escríbeme por WhatsApp, llámame o escríbeme un correo. Despacho en C/ Carmen Llopis 7, Las Palmas de Gran Canaria. Te atiendo personalmente."
+  h1="Contacto"
+  lead="Cuéntame qué ha pasado por WhatsApp o por teléfono. Si lo prefieres, rellena el formulario y se abrirá WhatsApp con tu mensaje."
+  crumb="Contacto"
+>
+  <ContactForm location="contacto" />
+
+  <h2>Otras formas de contactar</h2>
+  <ul>
+    <li>
+      <strong>WhatsApp:</strong>
+      <a href={buildWhatsAppUrl(DEFAULT_WHATSAPP_TEXT)} data-lead="whatsapp" data-lead-location="contacto"
+        >escríbeme al {SITE.phone.display}</a
+      >
+    </li>
+    <li>
+      <strong>Teléfono:</strong>
+      <a href={`tel:${SITE.phone.e164}`} data-lead="telefono" data-lead-location="contacto">{SITE.phone.display}</a>
+    </li>
+    <li><strong>Correo electrónico:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
+  </ul>
+
+  <h2>Despacho</h2>
+  <p>{FULL_ADDRESS}</p>
+  <p><MapLink /></p>
+  <p>
+    Si es urgente porque te han detenido o tienes un juicio en pocos días, lee también <a href="/te-han-detenido/"
+      >qué hacer si te han detenido</a
+    > o <a href="/juicio-rapido/">cómo preparar un juicio rápido</a>.
+  </p>
+</PageLayout>

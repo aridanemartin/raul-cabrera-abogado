@@ -23,6 +23,7 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 - **Portada y guías de urgencia** → Quien acaba de vivir una detención o tiene un juicio rápido sabe qué hacer y cómo contactarte en segundos. Las guías «¿Te han detenido?» y «¿Tienes un juicio rápido?» responden primero a lo urgente y tienen el botón de WhatsApp arriba del todo.
 - **Blog preparado** → Listo para publicar artículos que tú revisas y firmas (siguiente fase del proyecto). Cada artículo mostrará tu nombre, la fecha de publicación y la de la última revisión. Mientras no haya artículos, el blog lleva a las guías de urgencia.
 - **Textos legales nuevos** → Aviso legal, privacidad y cookies correctos, con tu nombre y colegiación, y fáciles de leer. Explican que el formulario no guarda datos, que lo que te escriben por WhatsApp está protegido por el secreto profesional, y dejan a cada visitante cambiar su elección de cookies cuando quiera.
+- **Sobre ti, cómo trabajas y preguntas frecuentes** → Generan confianza antes del primer mensaje y responden las dudas que más te hacen. «Cómo trabajo» explica el presupuesto previo por escrito en la hoja de encargo y la justicia gratuita, sin cifras. La página de contacto tiene el formulario, tu teléfono, tu correo y un enlace a Google Maps que no carga nada de Google hasta que alguien lo pulsa. Si alguien llega a una dirección que no existe, la página de error le lleva a la guía de urgencia y al contacto.
 
 ## Cómo te llegan los clientes
 
@@ -60,7 +61,11 @@ El formulario pide a la persona que no cuente detalles de su caso por escrito: e
   - [ ] Portada (sobre todo «Por qué conmigo»: confirma que llevas asuntos en todas las islas)
   - [ ] Guía «¿Te han detenido?»
   - [ ] Guía «¿Tienes un juicio rápido?»
+  - [ ] Sobre Raúl (confirma en qué islas y juzgados actúas)
+  - [ ] Cómo trabajo
+  - [ ] Preguntas frecuentes
   - [ ] Aviso legal, privacidad y cookies
+- [ ] **Las preguntas reales que más te hacen tus clientes.** Las preguntas frecuentes de ahora son generales; con las tuyas, la página responde a lo que de verdad preocupa a quien te escribe.
 - [ ] **Tu título exacto.** El aviso legal pone «Graduado en Derecho» por España. Dinos si eres Licenciado o Graduado, por qué universidad y si tienes el título profesional de abogado (el máster de acceso), para que conste bien.
 - [ ] **Violencia de género:** ¿defiendes a quien está denunciado, a víctimas o a ambos? De momento la página está escrita para quien está denunciado, y las víctimas se derivan a «Acusación particular».
 - [ ] **¿Atiendes en inglés?** Si es así, podemos preparar unas páginas en inglés.

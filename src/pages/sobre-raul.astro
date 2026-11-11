@@ -1,0 +1,68 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import Portrait from '../components/Portrait.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import UrgencyCard from '../components/UrgencyCard.astro';
+import { FULL_ADDRESS, SITE } from '../config/site';
+---
+
+<PageLayout
+  title="Sobre Raúl Cabrera, abogado penalista en Las Palmas"
+  description="Raúl Cabrera Santana, abogado colegiado nº 6555 del Ilustre Colegio de la Abogacía de Las Palmas desde 2018. Defensa penal en todas las islas."
+  h1="Sobre Raúl Cabrera"
+  lead="Soy abogado penalista en Las Palmas de Gran Canaria. Llevo yo mismo cada caso, desde la comisaría hasta la sentencia."
+  crumb="Sobre Raúl"
+>
+  <div class="identity">
+    <Portrait size="sm" />
+    <TrustStrip />
+  </div>
+
+  <h2>Quién soy</h2>
+  <p>
+    Me llamo {SITE.lawyer.fullName}. Soy abogado ejerciente, colegiado con el número {SITE.lawyer.colegiado} en el {
+      SITE.lawyer.colegio
+    } desde {SITE.lawyer.since}, y me dedico sobre todo al derecho penal: defiendo a personas detenidas, investigadas o
+    acusadas, y acompaño a víctimas que quieren participar en el proceso.
+  </p>
+
+  <h2>Dónde actúo</h2>
+  <p>
+    Tengo el despacho en {FULL_ADDRESS} y llevo asuntos en todas las islas, no solo en Gran Canaria. Te acompaño en la
+    comisaría o el cuartel de la Guardia Civil, en el juzgado de guardia, en el juicio y en los recursos ante la Audiencia
+    Provincial, en cualquier fase del procedimiento.
+  </p>
+
+  <h2>Cómo es trabajar conmigo</h2>
+  <ul>
+    <li><strong>Trato directo.</strong> Tu caso lo llevo yo, de principio a fin, y hablas siempre conmigo.</li>
+    <li>
+      <strong>Claridad.</strong> Te explico qué va a pasar y qué opciones tienes con palabras normales, también lo que no te
+      conviene oír.
+    </li>
+    <li>
+      <strong>Sin sorpresas.</strong> Antes de empezar sabes qué vamos a hacer y cuánto va a costar, por escrito. Lo
+      explico en <a href="/como-trabajo/">cómo trabajo</a>.
+    </li>
+    <li>
+      <strong>Una red de confianza.</strong> Si tu asunto necesita a un profesional de otra área del derecho, trabajo en
+      coordinación con compañeros de confianza.
+    </li>
+  </ul>
+
+  <h2>Las normas que sigo</h2>
+  <p>
+    Como cualquier abogado, estoy sujeto al secreto profesional y a las normas de la abogacía. Mis datos profesionales y
+    esas normas están en el <a href="/aviso-legal/">aviso legal</a>.
+  </p>
+
+  <UrgencyCard location="sobre-raul" title="¿Hablamos de tu caso?" />
+</PageLayout>
+
+<style>
+  .identity {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+</style>

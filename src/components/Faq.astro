@@ -1,6 +1,6 @@
 ---
 interface Props {
-  items: { q: string; a: string }[];
+  items: { q: string; a: string; link?: { href: string; text: string } }[];
   title?: string;
 }
 
@@ -14,6 +14,11 @@ const { items, title = 'Preguntas frecuentes' } = Astro.props;
       <details>
         <summary>{item.q}</summary>
         <p>{item.a}</p>
+        {item.link && (
+          <p>
+            <a href={item.link.href}>{item.link.text}</a>
+          </p>
+        )}
       </details>
     ))
   }

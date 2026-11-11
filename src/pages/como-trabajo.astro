@@ -1,0 +1,84 @@
+---
+import PageLayout from '../layouts/PageLayout.astro';
+import UrgencyCard from '../components/UrgencyCard.astro';
+
+const boe = {
+  defensa6: 'https://www.boe.es/buscar/act.php?id=BOE-A-2024-23630#a6',
+  defensa15: 'https://www.boe.es/buscar/act.php?id=BOE-A-2024-23630#a1-7',
+  ajg3: 'https://www.boe.es/buscar/act.php?id=BOE-A-1996-750#a3',
+  ajg12: 'https://www.boe.es/buscar/act.php?id=BOE-A-1996-750#a12',
+  ajg28: 'https://www.boe.es/buscar/act.php?id=BOE-A-1996-750#a28',
+};
+---
+
+<PageLayout
+  title="Cómo trabajo: del primer WhatsApp a la sentencia | Raúl Cabrera"
+  description="Cómo llevo un caso penal paso a paso, con presupuesto previo por escrito en la hoja de encargo y la opción de pedir justicia gratuita si te corresponde."
+  h1="Cómo trabajo"
+  lead="Del primer mensaje a la sentencia, sabes en cada momento qué pasa, qué vamos a hacer y cuánto te va a costar."
+  crumb="Cómo trabajo"
+>
+  <h2>Paso a paso</h2>
+  <ol>
+    <li>
+      <strong>Me escribes o me llamas.</strong> Por WhatsApp o por teléfono, me cuentas en pocas líneas qué ha pasado y si
+      tienes una fecha en el juzgado o en comisaría.
+    </li>
+    <li>
+      <strong>Vemos tu caso.</strong> Revisamos la citación, el atestado o la denuncia, y te explico con claridad qué
+      gravedad tiene, qué opciones hay y qué riesgos corres. La ley reconoce tu derecho a recibir esta información (<a
+        href={boe.defensa6}>artículo 6 de la Ley Orgánica 5/2024, del Derecho de Defensa</a
+      >).
+    </li>
+    <li>
+      <strong>Presupuesto y hoja de encargo.</strong> Antes de empezar te doy por escrito lo que vamos a hacer y cuánto va a
+      costar. Si estás de acuerdo, me encargas el asunto.
+    </li>
+    <li>
+      <strong>Tu defensa.</strong> Te acompaño en comisaría, en el juzgado de guardia, en las declaraciones y en el juicio.
+      Te aviso de cada novedad y de cada resolución que llegue.
+    </li>
+    <li>
+      <strong>La sentencia y lo que viene después.</strong> Te explico la sentencia, si conviene <a
+        href="/servicios/recursos-antecedentes/">recurrirla</a
+      > y, si hay condena, cómo se cumple y cuándo se pueden cancelar los antecedentes.
+    </li>
+  </ol>
+
+  <h2>Presupuesto previo por escrito</h2>
+  <p>
+    Lo que cuesta una defensa depende del tipo de procedimiento y de su complejidad. Por eso no publico precios: prefiero
+    ver tu caso y darte un presupuesto ajustado a lo que de verdad necesitas.
+  </p>
+  <p>
+    Ese presupuesto va en la <strong>hoja de encargo</strong>, el documento en el que dejamos por escrito lo que me
+    encargas, tus derechos, los pasos principales y sus consecuencias, y los honorarios y costes previstos. La Ley del
+    Derecho de Defensa te da derecho a pedirla (<a href={boe.defensa15}>artículo 15 de la Ley Orgánica 5/2024</a>).
+  </p>
+
+  <h2>Si no puedes pagar un abogado: justicia gratuita</h2>
+  <p>
+    Si tus ingresos son bajos, puedes tener derecho a la asistencia jurídica gratuita, lo que se conoce como justicia
+    gratuita: te asignan un abogado del turno de oficio sin coste para ti. Depende de los ingresos y del patrimonio de tu
+    unidad familiar, que no pueden pasar de unos límites ligados al indicador público de renta de efectos múltiples (<a
+      href={boe.ajg3}>artículo 3 de la Ley 1/1996, de asistencia jurídica gratuita</a
+    >). Las víctimas de violencia de género tienen este derecho sean cuales sean sus ingresos.
+  </p>
+  <p>
+    Se pide en el Colegio de la Abogacía del lugar donde está el juzgado o en el juzgado de tu domicilio (<a
+      href={boe.ajg12}>artículo 12</a
+    >). Si te corresponde y aun así prefieres elegirme a mí, la ley te permite renunciar al abogado de oficio (<a
+      href={boe.ajg28}>artículo 28</a
+    >). Antes de que decidas, te explico cómo afecta eso a lo que pagas.
+  </p>
+
+  <h2>Lo que puedes esperar de mí</h2>
+  <ul>
+    <li>Hablas siempre conmigo, no con un intermediario.</li>
+    <li>Lo que me cuentas queda protegido por el secreto profesional.</li>
+    <li>Te digo con franqueza lo que veo en tu caso, también cuando no es lo que esperas oír.</li>
+    <li>Te explico cada paso antes de darlo, sin tecnicismos.</li>
+  </ul>
+
+  <UrgencyCard location="como-trabajo" title="¿Empezamos? Cuéntame qué ha pasado" />
+</PageLayout>

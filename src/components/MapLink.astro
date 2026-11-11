@@ -1,0 +1,13 @@
+---
+// Enlace al mapa en vez de un iframe: Google no recibe nada hasta que el visitante pulsa.
+import { FULL_ADDRESS } from '../config/site';
+
+interface Props {
+  address?: string;
+}
+
+const { address = FULL_ADDRESS } = Astro.props;
+const href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`;
+---
+
+<a href={href}>Ver en Google Maps</a>

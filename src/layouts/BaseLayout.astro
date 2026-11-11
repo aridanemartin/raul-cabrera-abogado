@@ -13,11 +13,13 @@ interface Props {
   breadcrumbs?: { name: string; path: string }[];
   jsonLd?: object[];
   ogType?: 'website' | 'article';
+  /** Página 404: sin canonical y siempre noindex. */
+  notFound?: boolean;
 }
 
-const { title, description, breadcrumbs, jsonLd = [], ogType = 'website' } = Astro.props;
+const { title, description, breadcrumbs, jsonLd = [], ogType = 'website', notFound = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
-const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true';
+const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true' && !notFound;
 const structuredData = [buildSiteGraph(), ...(breadcrumbs?.length ? [buildBreadcrumbs(breadcrumbs)] : []), ...jsonLd];
 const toJson = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
 ---
@@ -29,14 +31,14 @@ const toJson = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonical} />
+    {!notFound && <link rel="canonical" href={canonical} />}
     <meta name="robots" content={indexable ? 'index, follow' : 'noindex, nofollow'} />
     <meta property="og:type" content={ogType} />
     <meta property="og:locale" content="es_ES" />
     <meta property="og:site_name" content={SITE.name} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {!notFound && <meta property="og:url" content={canonical} />}
     <meta name="theme-color" content="#0F7C8C" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>document.documentElement.classList.add('js');</script>
