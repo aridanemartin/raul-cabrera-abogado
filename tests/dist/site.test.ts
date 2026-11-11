@@ -86,6 +86,15 @@ describe('todas las páginas', () => {
     }
   });
 
+  it('la barra de contacto lleva WhatsApp y Llamar como enlaces normales', () => {
+    for (const page of pages) {
+      const bar = page.root.querySelector('[data-contact-bar]');
+      expect(bar, page.path).not.toBeNull();
+      expect(bar!.querySelector('a[href^="https://wa.me/34676882221"]'), page.path).not.toBeNull();
+      expect(bar!.querySelector('a[href="tel:+34676882221"]'), page.path).not.toBeNull();
+    }
+  });
+
   it('no usa copy prohibido', () => {
     for (const page of pages) {
       const match = visibleText(page).match(FORBIDDEN);

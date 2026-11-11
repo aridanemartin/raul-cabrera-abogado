@@ -1,0 +1,51 @@
+---
+import { SITE } from '../config/site';
+import { DEFAULT_WHATSAPP_TEXT, buildWhatsAppUrl } from '../lib/whatsapp';
+
+interface Props {
+  location?: string;
+  title?: string;
+}
+
+const { location = 'urgencia', title = '¿Te han detenido o tienes un juicio rápido?' } = Astro.props;
+---
+
+<aside class="urgency" aria-label="Contacto urgente">
+  <p class="title">{title}</p>
+  <a class="btn btn--primary" href={buildWhatsAppUrl(DEFAULT_WHATSAPP_TEXT)} data-lead="whatsapp" data-lead-location={location}>
+    Escríbeme por WhatsApp
+  </a>
+  <p class="alt">
+    o llama al <a href={`tel:${SITE.phone.e164}`} data-lead="telefono" data-lead-location={location}>{SITE.phone.display}</a>
+  </p>
+</aside>
+
+<style>
+  .urgency {
+    display: grid;
+    gap: var(--space-3);
+    max-width: 30rem;
+    padding: var(--space-5);
+    background: var(--color-surface);
+    border-radius: var(--radius);
+  }
+
+  .title {
+    font-size: var(--step-1);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.25;
+  }
+
+  .alt {
+    color: var(--color-muted);
+    text-align: center;
+  }
+
+  .alt a {
+    display: inline-block;
+    padding-block: var(--space-2);
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+</style>

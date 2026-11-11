@@ -1,0 +1,86 @@
+---
+import { ASUNTOS, URGENCIAS } from '../lib/whatsapp';
+
+interface Props {
+  location: 'contacto' | 'portada';
+}
+
+const { location } = Astro.props;
+const id = (name: string) => `${location}-${name}`;
+---
+
+<form class="contact-form" data-contact-form data-lead-location={location} novalidate>
+  <div class="field">
+    <label for={id('nombre')}>Tu nombre</label>
+    <input id={id('nombre')} name="nombre" type="text" autocomplete="name" maxlength="80" required />
+    <p class="error" id={id('nombre-error')} data-error-for="nombre" hidden></p>
+  </div>
+  <div class="field">
+    <label for={id('asunto')}>¿Qué tipo de asunto es?</label>
+    <select id={id('asunto')} name="asunto" required>
+      <option value="">Elige una opción</option>
+      {ASUNTOS.map((asunto) => <option>{asunto}</option>)}
+    </select>
+    <p class="error" id={id('asunto-error')} data-error-for="asunto" hidden></p>
+  </div>
+  <div class="field">
+    <label for={id('urgencia')}>¿Cómo de urgente es?</label>
+    <select id={id('urgencia')} name="urgencia" required>
+      <option value="">Elige una opción</option>
+      {URGENCIAS.map((urgencia) => <option>{urgencia}</option>)}
+    </select>
+    <p class="error" id={id('urgencia-error')} data-error-for="urgencia" hidden></p>
+  </div>
+  <button class="btn btn--primary" type="submit">Enviar por WhatsApp</button>
+  <p class="note">
+    Se abrirá WhatsApp con tu mensaje. La web no guarda tus datos. No incluyas detalles de tu caso: los vemos en privado.
+  </p>
+</form>
+
+<script>
+  import { bindContactForm } from '../scripts/contact-form';
+
+  document.querySelectorAll<HTMLFormElement>('form[data-contact-form]').forEach((form) => bindContactForm(form));
+</script>
+
+<style>
+  .contact-form {
+    display: grid;
+    gap: var(--space-4);
+    max-width: 32rem;
+  }
+
+  .field {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  label {
+    font-weight: 700;
+  }
+
+  input,
+  select {
+    min-height: var(--tap);
+    padding: var(--space-2) var(--space-3);
+    border: 2px solid var(--color-muted);
+    border-radius: 10px;
+    background: var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  [aria-invalid='true'] {
+    border-color: var(--color-error);
+  }
+
+  .error {
+    color: var(--color-error);
+    font-size: var(--step--1);
+    font-weight: 600;
+  }
+
+  .note {
+    color: var(--color-muted);
+    font-size: var(--step--1);
+  }
+</style>

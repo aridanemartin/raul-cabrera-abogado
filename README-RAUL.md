@@ -14,10 +14,18 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 
 - **Web nueva, hecha desde cero** → Una base rápida y moderna, sin plantillas ni contenido de relleno.
 - **Tu nombre y número de colegiado, bien escritos en todas las páginas** → Cumples la ley de servicios de internet y Google deja de confundir tus apellidos.
+- **WhatsApp y Llamar siempre a mano en el móvil** → Quien tiene prisa te escribe con un toque desde cualquier página.
+- **Un formulario que se convierte en WhatsApp** → El mensaje te llega ya redactado y la web no guarda datos de nadie.
 
 ## Cómo te llegan los clientes
 
-(Se completa en cuanto esté montado el contacto por WhatsApp.)
+Todo llega a tu WhatsApp o a tu teléfono (676 88 22 21). La web no guarda ni reenvía datos de nadie.
+
+1. **Botón de WhatsApp.** En el móvil hay una barra fija abajo con «WhatsApp» y «Llamar» en todas las páginas. En el ordenador, el botón de WhatsApp está arriba a la derecha. Te llega un mensaje que empieza por «Hola Raúl, te escribo desde tu web.»
+2. **Botón de llamar.** Te llaman directamente al móvil.
+3. **Formulario.** La persona escribe su nombre, elige el tipo de asunto y cómo de urgente es. Al pulsar «Enviar por WhatsApp» se abre su WhatsApp con un mensaje ya escrito, por ejemplo: «Hola Raúl, soy Ana López. Te escribo desde tu web por un asunto de: Juicio rápido, alcoholemia o tráfico. Urgencia: Es urgente (hoy o mañana).» Solo tiene que darle a enviar.
+
+El formulario pide a la persona que no cuente detalles de su caso por escrito: eso lo habláis en privado.
 
 ## Tu informe mensual por correo
 

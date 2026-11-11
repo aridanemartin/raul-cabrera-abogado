@@ -1,5 +1,6 @@
 ---
 import { SITE } from '../config/site';
+import { DEFAULT_WHATSAPP_TEXT, buildWhatsAppUrl } from '../lib/whatsapp';
 
 const current = Astro.url.pathname;
 ---
@@ -23,6 +24,9 @@ const current = Astro.url.pathname;
         }
       </ul>
     </nav>
+    <a class="btn btn--primary header-cta" href={buildWhatsAppUrl(DEFAULT_WHATSAPP_TEXT)} data-lead="whatsapp" data-lead-location="cabecera">
+      WhatsApp
+    </a>
   </div>
 </header>
 
@@ -126,9 +130,17 @@ const current = Astro.url.pathname;
     }
   }
 
+  .header-cta {
+    display: none;
+  }
+
   @media (min-width: 900px) {
     .menu-toggle {
       display: none;
+    }
+
+    .header-cta {
+      display: inline-flex;
     }
 
     .site-nav {
