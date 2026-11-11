@@ -1,0 +1,35 @@
+---
+// Retrato provisional con las iniciales hasta que Raúl envíe una foto real.
+interface Props {
+  size: 'sm' | 'lg';
+}
+
+const { size } = Astro.props;
+---
+
+<div class:list={['portrait', size]} aria-hidden="true">RC</div>
+
+<style>
+  .portrait {
+    display: grid;
+    place-items: center;
+    flex: none;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: linear-gradient(145deg, var(--color-accent), var(--color-ink));
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    user-select: none;
+  }
+
+  .sm {
+    width: 4.5rem;
+    font-size: 1.5rem;
+  }
+
+  .lg {
+    width: min(16rem, 100%);
+    font-size: 4.5rem;
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import { SITE } from '../config/site';
+
+const { rating, reviews, profileUrl } = SITE.google;
+---
+
+<div class="trust">
+  <p>Colegiado nº {SITE.lawyer.colegiado} · {SITE.lawyer.colegioShort} · desde {SITE.lawyer.since}</p>
+  {
+    profileUrl && (
+      <>
+        <p>
+          <a href={profileUrl}>
+            ★ {rating} en Google · {reviews} reseñas
+          </a>
+        </p>
+        <p class="note">Reseñas publicadas por usuarios en Google; no las seleccionamos ni las modificamos.</p>
+      </>
+    )
+  }
+</div>
+
+<style>
+  .trust {
+    color: var(--color-muted);
+    font-size: var(--step--1);
+    line-height: 1.6;
+  }
+
+  .trust p:first-child {
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  .note {
+    font-size: 0.8125rem;
+  }
+</style>

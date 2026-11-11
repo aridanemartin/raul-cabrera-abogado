@@ -1,0 +1,56 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import UrgencyCard from '../components/UrgencyCard.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  lead?: string;
+  /** Nombre corto de la página en las migas. */
+  crumb: string;
+  /** Muestra la tarjeta de WhatsApp justo después de la entradilla. */
+  urgency?: boolean;
+  urgencyTitle?: string;
+}
+
+const { title, description, h1, lead, crumb, urgency = false, urgencyTitle } = Astro.props;
+const crumbs = [
+  { name: 'Inicio', path: '/' },
+  { name: crumb, path: Astro.url.pathname },
+];
+---
+
+<BaseLayout title={title} description={description} breadcrumbs={crumbs}>
+  <div class="container page">
+    <header class="intro">
+      <Breadcrumbs items={crumbs} />
+      <h1>{h1}</h1>
+      {lead && <p class="lead">{lead}</p>}
+      {urgency && <UrgencyCard location="urgencia" title={urgencyTitle} />}
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: var(--space-5) var(--space-7);
+  }
+
+  .intro {
+    display: grid;
+    gap: var(--space-4);
+    margin-bottom: var(--space-5);
+  }
+
+  .lead {
+    max-width: var(--measure);
+    color: var(--color-muted);
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+</style>

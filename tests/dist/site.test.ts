@@ -176,3 +176,31 @@ describe('páginas de servicio', () => {
     for (const path of SERVICES) expect(hrefs).toContain(path);
   });
 });
+
+describe('portada y urgencias', () => {
+  it('la portada lleva el H1 y la entradilla exactos', () => {
+    const home = byPath('/')!;
+    expect(home.root.querySelector('h1')!.textContent.trim()).toBe('Abogado penalista en Las Palmas de Gran Canaria');
+    expect(visibleText(home)).toContain(
+      'Defensa penal desde la comisaría hasta la sentencia. Te explico qué va a pasar y qué podemos hacer.',
+    );
+  });
+
+  it('la portada tiene el formulario de contacto y enlaza a los seis servicios', () => {
+    const home = byPath('/')!;
+    expect(home.root.querySelector('main form[data-contact-form][data-lead-location="portada"]')).not.toBeNull();
+    const hrefs = home.root.querySelectorAll('main a').map((a) => a.getAttribute('href'));
+    for (const path of SERVICES) expect(hrefs).toContain(path);
+  });
+
+  it.each(['/te-han-detenido/', '/juicio-rapido/'])('%s enlaza al BOE y ofrece WhatsApp antes del primer h2', (path) => {
+    const page = byPath(path);
+    expect(page, path).toBeDefined();
+    expect(page!.root.querySelectorAll('main a[href^="https://www.boe.es/"]').length).toBeGreaterThan(0);
+    const main = page!.root.querySelector('main')!.innerHTML;
+    const whatsapp = main.indexOf('https://wa.me/34676882221');
+    const firstH2 = main.indexOf('<h2');
+    expect(whatsapp).toBeGreaterThanOrEqual(0);
+    expect(firstH2).toBeGreaterThan(whatsapp);
+  });
+});

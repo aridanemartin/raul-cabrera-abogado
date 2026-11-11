@@ -20,6 +20,7 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 - **Una ficha clara para Google y las IA** → Google, ChatGPT y otros asistentes entienden quién eres, dónde estás y qué casos llevas.
 - **Las direcciones antiguas llevan a las nuevas** → No se pierde lo que Google ya conocía de tu web. Las fichas de abogados de prueba que traía la plantilla desaparecen para siempre.
 - **Seis páginas, una por tipo de caso** → Quien busca, por ejemplo, «abogado alcoholemia Las Palmas» encuentra una página que habla exactamente de eso. Cada norma que se cita enlaza al BOE, y las penas y los plazos están comprobados con el texto vigente, incluida la reforma de multirreincidencia de abril de 2026.
+- **Portada y guías de urgencia** → Quien acaba de vivir una detención o tiene un juicio rápido sabe qué hacer y cómo contactarte en segundos. Las guías «¿Te han detenido?» y «¿Tienes un juicio rápido?» responden primero a lo urgente y tienen el botón de WhatsApp arriba del todo.
 
 ## Cómo te llegan los clientes
 
@@ -54,6 +55,9 @@ El formulario pide a la persona que no cuente detalles de su caso por escrito: e
   - [ ] Lesiones, amenazas y delitos leves
   - [ ] Acusación particular
   - [ ] Recursos y antecedentes
+  - [ ] Portada (sobre todo «Por qué conmigo»: confirma que llevas asuntos en todas las islas)
+  - [ ] Guía «¿Te han detenido?»
+  - [ ] Guía «¿Tienes un juicio rápido?»
 - [ ] **Violencia de género:** ¿defiendes a quien está denunciado, a víctimas o a ambos? De momento la página está escrita para quien está denunciado, y las víctimas se derivan a «Acusación particular».
 - [ ] **¿Atiendes en inglés?** Si es así, podemos preparar unas páginas en inglés.
 - [ ] **¿Atiendes urgencias fuera de horario?** Hasta que lo confirmes, la web no lo anuncia.

@@ -1,18 +1,252 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+import Portrait from '../components/Portrait.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import TrustStrip from '../components/TrustStrip.astro';
+import UrgencyCard from '../components/UrgencyCard.astro';
+import { FULL_ADDRESS, SITE } from '../config/site';
+
+const services = (await getCollection('servicios')).sort((a, b) => a.data.order - b.data.order);
+
+const steps = [
+  {
+    title: 'Me escribes o me llamas',
+    text: 'Por WhatsApp o por teléfono. Me cuentas en pocas líneas qué ha pasado y cuándo es la próxima cita con el juzgado, si la hay.',
+  },
+  {
+    title: 'Te explico qué puede pasar',
+    text: 'Con palabras claras: qué te juegas, qué opciones tienes y cuánto costará. El presupuesto te lo doy siempre por escrito antes de empezar.',
+  },
+  {
+    title: 'Te acompaño hasta el final',
+    text: 'Desde la comisaría o la primera citación hasta la sentencia y, si hace falta, el recurso. Siempre hablas conmigo.',
+  },
+];
 ---
 
 <BaseLayout
   title="Abogado penalista en Las Palmas de Gran Canaria | Raúl Cabrera"
   description="Raúl Cabrera Santana, abogado penalista colegiado en Las Palmas. Defensa penal desde la comisaría hasta la sentencia. Escríbeme por WhatsApp."
 >
-  <section class="section">
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <p class="eyebrow">Las Palmas de Gran Canaria · Todas las islas</p>
+        <h1>Abogado penalista en Las Palmas de Gran Canaria</h1>
+        <p class="lead">
+          Defensa penal desde la comisaría hasta la sentencia. Te explico qué va a pasar y qué podemos hacer.
+        </p>
+        <UrgencyCard location="hero" />
+        <TrustStrip />
+      </div>
+      <div class="hero-portrait">
+        <Portrait size="lg" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="servicios">
     <div class="container">
-      <p class="eyebrow">Las Palmas de Gran Canaria · Todas las islas</p>
-      <h1>Abogado penalista en Las Palmas de Gran Canaria</h1>
-      <p class="lead">
-        Defensa penal desde la comisaría hasta la sentencia. Te explico qué va a pasar y qué podemos hacer.
-      </p>
+      <h2 id="servicios">En qué puedo ayudarte</h2>
+      <div class="grid">
+        {
+          services.map((service) => (
+            <ServiceCard title={service.data.cardTitle} summary={service.data.summary} href={`/servicios/${service.id}/`} />
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="como-trabajo">
+    <div class="container">
+      <h2 id="como-trabajo">Cómo trabajo</h2>
+      <ol class="steps">
+        {
+          steps.map((step, index) => (
+            <li>
+              <span class="step-number" aria-hidden="true">
+                {index + 1}
+              </span>
+              <h3>{step.title}</h3>
+              <p>{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p><a href="/como-trabajo/">Cómo trabajo, paso a paso</a></p>
+    </div>
+  </section>
+
+  <section class="section section--surface" aria-labelledby="por-que">
+    <div class="container why">
+      <Portrait size="sm" />
+      <div>
+        <h2 id="por-que">Por qué conmigo</h2>
+        <ul>
+          <li>
+            <strong>Abogado colegiado desde {SITE.lawyer.since}</strong>, con el número {SITE.lawyer.colegiado} del {
+              SITE.lawyer.colegio
+            }.
+          </li>
+          <li><strong>Llevo asuntos en todas las islas</strong>, no solo en Las Palmas de Gran Canaria.</li>
+          <li><strong>Trato directo.</strong> Tu caso lo llevo yo, de principio a fin, y hablas siempre conmigo.</li>
+          <li><strong>Sin sorpresas.</strong> Antes de empezar sabes qué vamos a hacer y cuánto va a costar, por escrito.</li>
+        </ul>
+        <p><a href="/sobre-raul/">Más sobre mí</a></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="contacto">
+    <div class="container contact">
+      <div>
+        <h2 id="contacto">Cuéntame tu caso</h2>
+        <p>
+          Rellena estos tres datos y se abrirá WhatsApp con el mensaje preparado. Si lo prefieres, llámame al <a
+            href={`tel:${SITE.phone.e164}`}
+            data-lead="telefono"
+            data-lead-location="portada">{SITE.phone.display}</a
+          >.
+        </p>
+        <p class="address">Despacho: {FULL_ADDRESS}</p>
+      </div>
+      <ContactForm location="portada" />
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-6) var(--space-7);
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+
+  .hero-text {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .lead {
+    max-width: 36rem;
+    color: var(--color-muted);
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .hero-portrait {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    }
+
+    .hero-portrait {
+      display: grid;
+      justify-items: center;
+    }
+  }
+
+  h2 {
+    margin-bottom: var(--space-5);
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .steps {
+    display: grid;
+    gap: var(--space-5);
+    padding: 0;
+    margin-bottom: var(--space-5);
+    list-style: none;
+  }
+
+  @media (min-width: 768px) {
+    .steps {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .steps li {
+    display: grid;
+    gap: var(--space-2);
+  }
+
+  .step-number {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-accent-strong);
+    font-weight: 800;
+  }
+
+  .steps p {
+    color: var(--color-muted);
+  }
+
+  .why {
+    display: grid;
+    gap: var(--space-5);
+    align-items: start;
+  }
+
+  @media (min-width: 768px) {
+    .why {
+      grid-template-columns: auto 1fr;
+    }
+  }
+
+  .why ul {
+    display: grid;
+    gap: var(--space-3);
+    max-width: var(--measure);
+    padding-left: var(--space-5);
+    margin-bottom: var(--space-4);
+  }
+
+  .contact {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 900px) {
+    .contact {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .contact p + p {
+    margin-top: var(--space-3);
+  }
+
+  .address {
+    color: var(--color-muted);
+  }
+</style>
