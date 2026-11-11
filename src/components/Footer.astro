@@ -1,0 +1,99 @@
+---
+import { FOOTER_IDENTITY, SITE } from '../config/site';
+
+const pages = [
+  { label: 'Servicios', href: '/servicios/' },
+  { label: '¿Te han detenido?', href: '/te-han-detenido/' },
+  { label: '¿Tienes un juicio rápido?', href: '/juicio-rapido/' },
+  { label: 'Sobre Raúl', href: '/sobre-raul/' },
+  { label: 'Cómo trabajo', href: '/como-trabajo/' },
+  { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' },
+  { label: 'Blog', href: '/blog/' },
+  { label: 'Contacto', href: '/contacto/' },
+];
+
+const legal = [
+  { label: 'Aviso legal', href: '/aviso-legal/' },
+  { label: 'Privacidad', href: '/privacidad/' },
+  { label: 'Cookies', href: '/cookies/' },
+];
+---
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="cols">
+      <div>
+        <p class="footer-brand">Raúl Cabrera · Abogado</p>
+        <address>
+          {SITE.address.street}<br />
+          {SITE.address.postalCode}
+          {SITE.address.locality}<br />
+          <a href={`tel:${SITE.phone.e164}`}>{SITE.phone.display}</a><br />
+          <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+        </address>
+      </div>
+      <nav aria-label="Páginas">
+        <ul>{pages.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul>
+      </nav>
+      <nav aria-label="Legal">
+        <ul>{legal.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul>
+      </nav>
+    </div>
+    <p class="identity">{FOOTER_IDENTITY}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-8);
+    padding-block: var(--space-7) var(--space-6);
+    background: var(--color-ink);
+    color: #e6eef0;
+    font-size: var(--step--1);
+  }
+
+  .cols {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  @media (min-width: 768px) {
+    .cols {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+
+  .footer-brand {
+    color: #fff;
+    font-size: var(--step-1);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--space-3);
+  }
+
+  address {
+    font-style: normal;
+    line-height: 1.9;
+  }
+
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    display: inline-block;
+    padding-block: var(--space-1);
+    color: #fff;
+  }
+
+  a:hover {
+    color: #bfe3e8;
+  }
+
+  .identity {
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid rgb(255 255 255 / 20%);
+  }
+</style>

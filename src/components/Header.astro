@@ -1,0 +1,138 @@
+---
+import { SITE } from '../config/site';
+
+const current = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href="/">Raúl Cabrera <span>· Abogado</span></a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>
+      Menú
+    </button>
+    <nav id="site-nav" class="site-nav" aria-label="Principal">
+      <ul>
+        {
+          SITE.nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={current.startsWith(item.href) ? 'page' : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const button = document.querySelector<HTMLButtonElement>('.menu-toggle');
+  const nav = document.getElementById('site-nav');
+  if (button && nav) {
+    button.hidden = false;
+    nav.dataset.collapsible = '';
+    const setOpen = (open: boolean) => button.setAttribute('aria-expanded', String(open));
+    button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        button.focus();
+      }
+    });
+  }
+</script>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-4);
+    padding-block: var(--space-3);
+  }
+
+  .brand {
+    color: var(--color-ink);
+    font-size: var(--step-1);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+    min-height: var(--tap);
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .brand span {
+    color: var(--color-accent-strong);
+  }
+
+  .menu-toggle {
+    min-height: var(--tap);
+    padding-inline: var(--space-4);
+    border: 2px solid var(--color-ink);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--color-ink);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .menu-toggle[hidden] {
+    display: none;
+  }
+
+  .site-nav {
+    flex-basis: 100%;
+  }
+
+  .site-nav ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-4);
+    padding: 0;
+    list-style: none;
+  }
+
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: var(--tap);
+    color: var(--color-ink);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .site-nav a:hover,
+  .site-nav a[aria-current='page'] {
+    color: var(--color-accent-strong);
+    text-decoration: underline;
+  }
+
+  @media (max-width: 899px) {
+    .menu-toggle[aria-expanded='false'] + .site-nav[data-collapsible] {
+      display: none;
+    }
+
+    .site-nav[data-collapsible] ul {
+      flex-direction: column;
+      padding-bottom: var(--space-3);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .menu-toggle {
+      display: none;
+    }
+
+    .site-nav {
+      flex-basis: auto;
+    }
+  }
+</style>
