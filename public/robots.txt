@@ -1,0 +1,7 @@
+# Se permite el acceso a todos los buscadores y asistentes de IA (incluidos los
+# que entrenan modelos) por decisión del cliente: el objetivo es la visibilidad.
+# Para bloquear un bot concreto, añade un bloque «User-agent: <nombre>» con «Disallow: /».
+User-agent: *
+Allow: /
+
+Sitemap: https://raulcabreraabogado.com/sitemap-index.xml

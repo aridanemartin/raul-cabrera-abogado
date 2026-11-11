@@ -1,5 +1,7 @@
+import { readdirSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { loadPages, type Page } from './load';
+import { DIST, loadPages, type Page } from './load';
 
 const ORIGIN = 'https://raulcabreraabogado.com/';
 const GOOGLE =
@@ -95,10 +97,44 @@ describe('todas las páginas', () => {
     }
   });
 
+  it('cada página lleva datos estructurados válidos', () => {
+    for (const page of pages) {
+      const blocks = page.root.querySelectorAll('script[type="application/ld+json"]');
+      expect(blocks.length, page.path).toBeGreaterThan(0);
+      for (const block of blocks) {
+        expect(() => JSON.parse(block.textContent), page.path).not.toThrow();
+      }
+    }
+  });
+
   it('no usa copy prohibido', () => {
     for (const page of pages) {
       const match = visibleText(page).match(FORBIDDEN);
       expect(match?.[0], `${page.path}: «${match?.[0]}»`).toBeUndefined();
     }
+  });
+});
+
+describe('archivos para buscadores e IA', () => {
+  it('el sitemap existe y no lista la página 404', () => {
+    const files = readdirSync(DIST).filter((f) => /^sitemap-.*\.xml$/.test(f));
+    expect(files).toContain('sitemap-index.xml');
+    const all = files.map((f) => readFileSync(join(DIST, f), 'utf8')).join('\n');
+    expect(all).toContain('<loc>https://raulcabreraabogado.com/</loc>');
+    expect(all).not.toMatch(/\/404\/?</);
+  });
+
+  it('robots.txt permite todo y apunta al sitemap', () => {
+    const robots = readFileSync(join(DIST, 'robots.txt'), 'utf8');
+    expect(robots).toMatch(/^User-agent: \*$/m);
+    expect(robots).toMatch(/^Allow: \/$/m);
+    expect(robots).toContain('Sitemap: https://raulcabreraabogado.com/sitemap-index.xml');
+  });
+
+  it('llms.txt presenta a Raúl con su colegiación', () => {
+    const llms = readFileSync(join(DIST, 'llms.txt'), 'utf8');
+    expect(llms.startsWith('# Raúl Cabrera Santana — Abogado penalista en Las Palmas de Gran Canaria')).toBe(true);
+    expect(llms).toMatch(/^> .*6555/m);
+    expect(llms).not.toContain('Santana Cabrera');
   });
 });

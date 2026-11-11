@@ -17,6 +17,8 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 - **WhatsApp y Llamar siempre a mano en el móvil** → Quien tiene prisa te escribe con un toque desde cualquier página.
 - **Un formulario que se convierte en WhatsApp** → El mensaje te llega ya redactado y la web no guarda datos de nadie.
 - **Google Analytics con aviso de cookies** → Sabrás cuánta gente te contacta y por dónde (WhatsApp, llamada o formulario), cumpliendo la normativa. Google Analytics solo se activa si el visitante pulsa «Aceptar», así que quien rechaza las cookies no aparece en las cifras: los números reales siempre serán algo mayores.
+- **Una ficha clara para Google y las IA** → Google, ChatGPT y otros asistentes entienden quién eres, dónde estás y qué casos llevas.
+- **Las direcciones antiguas llevan a las nuevas** → No se pierde lo que Google ya conocía de tu web. Las fichas de abogados de prueba que traía la plantilla desaparecen para siempre.
 
 ## Cómo te llegan los clientes
 
@@ -54,7 +56,7 @@ El formulario pide a la persona que no cuente detalles de su caso por escrito: e
 
 ## Decisiones que puedes cambiar
 
-(Se irán añadiendo aquí las decisiones que hemos tomado por ti y que puedes cambiar cuando quieras.)
+- **Asistentes de IA.** La web deja que ChatGPT, Gemini, Perplexity y otros asistentes la lean, también para entrenarse, porque así es más fácil que te recomienden cuando alguien les pregunta por un abogado penalista en Las Palmas. Si prefieres que no la usen para entrenarse, se puede bloquear en cinco minutos.
 
 ## Qué viene después
 

@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import ContactBar from '../components/ContactBar.astro';
 import ConsentBanner from '../components/ConsentBanner.astro';
 import { SITE } from '../config/site';
+import { buildBreadcrumbs, buildSiteGraph } from '../lib/seo';
 
 interface Props {
   title: string;
@@ -14,9 +15,10 @@ interface Props {
   ogType?: 'website' | 'article';
 }
 
-const { title, description, jsonLd = [], ogType = 'website' } = Astro.props;
+const { title, description, breadcrumbs, jsonLd = [], ogType = 'website' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true';
+const structuredData = [buildSiteGraph(), ...(breadcrumbs?.length ? [buildBreadcrumbs(breadcrumbs)] : []), ...jsonLd];
 const toJson = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
 ---
 
@@ -38,7 +40,7 @@ const toJson = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
     <meta name="theme-color" content="#0F7C8C" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script is:inline>document.documentElement.classList.add('js');</script>
-    {jsonLd.map((data) => <script type="application/ld+json" set:html={toJson(data)} />)}
+    {structuredData.map((data) => <script type="application/ld+json" set:html={toJson(data)} />)}
   </head>
   <body>
     <a class="skip-link" href="#contenido">Saltar al contenido</a>

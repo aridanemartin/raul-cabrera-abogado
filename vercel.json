@@ -1,0 +1,95 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/sobre-mi/",
+      "destination": "/sobre-raul/",
+      "statusCode": 301
+    },
+    {
+      "source": "/politica-de-privacidad/",
+      "destination": "/privacidad/",
+      "statusCode": 301
+    },
+    {
+      "source": "/politica-de-cookies/",
+      "destination": "/cookies/",
+      "statusCode": 301
+    },
+    {
+      "source": "/terminos-y-condiciones/",
+      "destination": "/aviso-legal/",
+      "statusCode": 301
+    },
+    {
+      "source": "/mapa-del-sitio/",
+      "destination": "/",
+      "statusCode": 301
+    },
+    {
+      "source": "/servicio/defensa-penal-personalizada/",
+      "destination": "/servicios/",
+      "statusCode": 301
+    },
+    {
+      "source": "/servicio/asistencia-en-investigaciones/",
+      "destination": "/servicios/asistencia-detenido-investigado/",
+      "statusCode": 301
+    },
+    {
+      "source": "/servicio/delitos-de-violencia/",
+      "destination": "/servicios/violencia-genero-domestica/",
+      "statusCode": 301
+    },
+    {
+      "source": "/servicio/delitos-menores/",
+      "destination": "/servicios/lesiones-amenazas-delitos-leves/",
+      "statusCode": 301
+    },
+    {
+      "source": "/servicio/proteccion-de-derechos/",
+      "destination": "/servicios/",
+      "statusCode": 301
+    },
+    {
+      "source": "/servicio/revision-de-sentencias/",
+      "destination": "/servicios/recursos-antecedentes/",
+      "statusCode": 301
+    },
+    {
+      "source": "/como-saber-si-necesitas-un-abogado-penalista/",
+      "destination": "/como-trabajo/",
+      "statusCode": 301
+    },
+    {
+      "source": "/que-hacer-si-te-ves-envuelto-en-un-proceso-penal/",
+      "destination": "/servicios/asistencia-detenido-investigado/",
+      "statusCode": 301
+    },
+    {
+      "source": "/conocer-tus-derechos-una-herramienta-para-la-vida/",
+      "destination": "/te-han-detenido/",
+      "statusCode": 301
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    }
+  ]
+}
