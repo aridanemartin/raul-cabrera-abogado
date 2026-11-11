@@ -21,6 +21,7 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 - **Las direcciones antiguas llevan a las nuevas** → No se pierde lo que Google ya conocía de tu web. Las fichas de abogados de prueba que traía la plantilla desaparecen para siempre.
 - **Seis páginas, una por tipo de caso** → Quien busca, por ejemplo, «abogado alcoholemia Las Palmas» encuentra una página que habla exactamente de eso. Cada norma que se cita enlaza al BOE, y las penas y los plazos están comprobados con el texto vigente, incluida la reforma de multirreincidencia de abril de 2026.
 - **Portada y guías de urgencia** → Quien acaba de vivir una detención o tiene un juicio rápido sabe qué hacer y cómo contactarte en segundos. Las guías «¿Te han detenido?» y «¿Tienes un juicio rápido?» responden primero a lo urgente y tienen el botón de WhatsApp arriba del todo.
+- **Blog preparado** → Listo para publicar artículos que tú revisas y firmas (siguiente fase del proyecto). Cada artículo mostrará tu nombre, la fecha de publicación y la de la última revisión. Mientras no haya artículos, el blog lleva a las guías de urgencia.
 
 ## Cómo te llegan los clientes
 

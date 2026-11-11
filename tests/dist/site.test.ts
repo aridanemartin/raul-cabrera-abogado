@@ -204,3 +204,16 @@ describe('portada y urgencias', () => {
     expect(firstH2).toBeGreaterThan(whatsapp);
   });
 });
+
+describe('blog', () => {
+  it('el índice existe y, sin artículos, invita a las guías de urgencia', () => {
+    const blog = byPath('/blog/');
+    expect(blog).toBeDefined();
+    expect(blog!.root.querySelectorAll('h1')).toHaveLength(1);
+    if (blog!.root.querySelector('[data-post-list]')) return;
+    expect(visibleText(blog!)).toContain('Muy pronto publicaré aquí guías prácticas sobre derecho penal en Las Palmas.');
+    const hrefs = blog!.root.querySelectorAll('main a').map((a) => a.getAttribute('href'));
+    expect(hrefs).toContain('/te-han-detenido/');
+    expect(hrefs).toContain('/juicio-rapido/');
+  });
+});

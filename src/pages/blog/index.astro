@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { CLUSTERS, formatDate, isPublished, type Cluster } from '../../lib/blog';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => isPublished(post))
+  .sort((a, b) => b.data.datePublished.getTime() - a.data.datePublished.getTime());
+
+const groups = (Object.keys(CLUSTERS) as Cluster[])
+  .map((cluster) => ({ cluster, label: CLUSTERS[cluster], posts: posts.filter((p) => p.data.cluster === cluster) }))
+  .filter((group) => group.posts.length > 0);
+---
+
+<PageLayout
+  title="Blog de derecho penal en Las Palmas | Raúl Cabrera"
+  description="Guías prácticas sobre detenciones, juicios rápidos, violencia de género, delitos leves y recursos, escritas por un abogado penalista de Las Palmas."
+  h1="Blog de derecho penal"
+  lead="Guías prácticas, escritas y revisadas por mí, para entender qué pasa en cada fase de un proceso penal."
+  crumb="Blog"
+>
+  {
+    groups.length === 0 ? (
+      <>
+        <p>Muy pronto publicaré aquí guías prácticas sobre derecho penal en Las Palmas.</p>
+        <p>Mientras tanto, si tienes prisa, empieza por aquí:</p>
+        <ul>
+          <li>
+            <a href="/te-han-detenido/">¿Te han detenido? Qué hacer ahora</a>
+          </li>
+          <li>
+            <a href="/juicio-rapido/">¿Tienes un juicio rápido? Cómo prepararlo</a>
+          </li>
+        </ul>
+      </>
+    ) : (
+      <div data-post-list>
+        {groups.map((group) => (
+          <section aria-labelledby={`tema-${group.cluster}`}>
+            <h2 id={`tema-${group.cluster}`}>{group.label}</h2>
+            <ul>
+              {group.posts.map((post) => (
+                <li>
+                  <a href={`/blog/${post.id}/`}>{post.data.h1}</a>
+                  <br />
+                  <small>
+                    <time datetime={post.data.datePublished.toISOString()}>{formatDate(post.data.datePublished)}</time>
+                  </small>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    )
+  }
+</PageLayout>

@@ -1,0 +1,83 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import UrgencyCard from '../components/UrgencyCard.astro';
+import { SITE } from '../config/site';
+import { CLUSTERS, formatDate } from '../lib/blog';
+import { buildArticle } from '../lib/seo';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { data } = post;
+const path = `/blog/${post.id}/`;
+const crumbs = [
+  { name: 'Inicio', path: '/' },
+  { name: 'Blog', path: '/blog/' },
+  { name: data.h1, path },
+];
+const modified = data.dateModified ?? data.datePublished;
+const article = buildArticle({
+  title: data.h1,
+  description: data.description,
+  path,
+  datePublished: data.datePublished,
+  dateModified: data.dateModified,
+});
+---
+
+<BaseLayout title={data.title} description={data.description} breadcrumbs={crumbs} jsonLd={[article]} ogType="article">
+  <article class="container post">
+    <header class="intro">
+      <Breadcrumbs items={crumbs} />
+      <p class="eyebrow">{CLUSTERS[data.cluster]}</p>
+      <h1>{data.h1}</h1>
+      <p class="meta">
+        Por <a href="/sobre-raul/">{SITE.lawyer.fullName}</a>, abogado colegiado nº {SITE.lawyer.colegiado}<br />
+        Publicado el <time datetime={data.datePublished.toISOString()}>{formatDate(data.datePublished)}</time> · Última
+        revisión: <time datetime={modified.toISOString()}>{formatDate(modified)}</time>
+      </p>
+    </header>
+    <div class="prose">
+      <slot />
+    </div>
+    <footer class="post-footer">
+      <p class="note">
+        Este artículo explica la ley de forma general y no sustituye a una consulta sobre tu caso concreto.
+      </p>
+      <UrgencyCard location="blog" title="¿Te pasa algo parecido? Cuéntamelo" />
+    </footer>
+  </article>
+</BaseLayout>
+
+<style>
+  .post {
+    display: grid;
+    gap: var(--space-5);
+    padding-block: var(--space-5) var(--space-7);
+  }
+
+  .intro {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .meta {
+    color: var(--color-muted);
+    font-size: var(--step--1);
+  }
+
+  .post-footer {
+    display: grid;
+    gap: var(--space-5);
+    max-width: var(--measure);
+  }
+
+  .note {
+    color: var(--color-muted);
+    font-size: var(--step--1);
+  }
+</style>
