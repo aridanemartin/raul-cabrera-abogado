@@ -16,6 +16,7 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 - **Tu nombre y número de colegiado, bien escritos en todas las páginas** → Cumples la ley de servicios de internet y Google deja de confundir tus apellidos.
 - **WhatsApp y Llamar siempre a mano en el móvil** → Quien tiene prisa te escribe con un toque desde cualquier página.
 - **Un formulario que se convierte en WhatsApp** → El mensaje te llega ya redactado y la web no guarda datos de nadie.
+- **Google Analytics con aviso de cookies** → Sabrás cuánta gente te contacta y por dónde (WhatsApp, llamada o formulario), cumpliendo la normativa. Google Analytics solo se activa si el visitante pulsa «Aceptar», así que quien rechaza las cookies no aparece en las cifras: los números reales siempre serán algo mayores.
 
 ## Cómo te llegan los clientes
 
@@ -29,7 +30,16 @@ El formulario pide a la persona que no cuente detalles de su caso por escrito: e
 
 ## Tu informe mensual por correo
 
-(Se completa en cuanto esté montado Google Analytics.)
+**Qué es.** Un resumen en PDF de Google Analytics, la herramienta de Google que cuenta las visitas de la web. Te llega solo, sin que tengas que entrar en ningún sitio.
+
+**Cuándo llega.** El día 4 de cada mes, con los datos del mes anterior (Google tarda hasta tres días en tener las cifras completas).
+
+**Qué mirar.**
+- **Contactos**: cuántas personas te han escrito por WhatsApp, te han llamado o han enviado el formulario. Es la cifra que importa.
+- **Desde qué página**: qué páginas traen más contactos (por ejemplo, «¿Te han detenido?» o «Alcoholemia»). Así sabemos qué temas funcionan.
+- **Visitas y de dónde vienen**: cuánta gente entra y si llega desde Google, desde Google Maps o escribiendo tu web directamente.
+
+**Si no llega.** Mira en la carpeta de spam o de promociones. Si tampoco está ahí, avísanos y lo revisamos.
 
 ## Lo que necesitamos de ti
 

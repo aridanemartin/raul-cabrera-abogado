@@ -1,0 +1,69 @@
+<section class="consent" data-consent-banner aria-labelledby="consent-title" hidden>
+  <p id="consent-title" class="title">Cookies de análisis</p>
+  <p class="text">
+    Uso Google Analytics para saber cuánta gente visita la web y cuántos me contactan. Solo se activa si aceptas.
+    Puedes cambiar tu elección cuando quieras en la página de cookies. <a href="/cookies/">Más información</a>
+  </p>
+  <div class="actions">
+    <button type="button" class="btn btn--dark" data-consent="accept">Aceptar</button>
+    <button type="button" class="btn btn--dark" data-consent="reject">Rechazar</button>
+  </div>
+</section>
+
+<script>
+  import { initAnalytics } from '../lib/analytics';
+  import { bindLeadTracking } from '../scripts/lead-tracking';
+  import { bindConsentBanner } from '../scripts/consent-banner';
+
+  const gaId = import.meta.env.PUBLIC_GA_ID || undefined;
+  initAnalytics(gaId);
+  bindLeadTracking(document);
+  const banner = document.querySelector<HTMLElement>('[data-consent-banner]');
+  if (banner) bindConsentBanner(banner, gaId);
+</script>
+
+<style>
+  .consent {
+    position: fixed;
+    right: var(--space-3);
+    bottom: calc(var(--contact-bar-height) + env(safe-area-inset-bottom) + var(--space-2));
+    left: var(--space-3);
+    z-index: 50;
+    display: grid;
+    gap: var(--space-2);
+    max-height: 30vh;
+    overflow-y: auto;
+    padding: var(--space-4);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: 0 8px 24px rgb(14 42 59 / 18%);
+    font-size: var(--step--1);
+    line-height: 1.5;
+  }
+
+  .consent[hidden] {
+    display: none;
+  }
+
+  .title {
+    font-size: var(--step-0);
+    font-weight: 800;
+  }
+
+  .actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .consent {
+      right: auto;
+      bottom: var(--space-4);
+      left: var(--space-4);
+      max-width: 28rem;
+      max-height: none;
+    }
+  }
+</style>
