@@ -341,6 +341,19 @@ describe('portada y urgencias', () => {
     expect(hero!.querySelector('.portrait'), 'el retrato redondo sobra en la cabecera').toBeNull();
   });
 
+  it('«Por qué conmigo» muestra la foto grande de Raúl, sin círculo, junto a los cuatro motivos', () => {
+    const section = byPath('/')!.root.querySelector('main section[aria-labelledby="por-que"]')!;
+    const picture = section.querySelector('picture');
+    expect(picture, 'la sección no tiene foto').toBeTruthy();
+    expect(picture!.querySelector('source[type="image/avif"]')?.getAttribute('srcset')).toContain('raul-cabrera-por-que');
+    expect(picture!.querySelector('img')!.getAttribute('alt')).toContain('Raúl Cabrera');
+    expect(section.querySelector('.portrait'), 'la foto ya no va en un círculo').toBeNull();
+    const reasons = section.querySelectorAll('ul li').map((li) => li.textContent.replace(/\s+/g, ' '));
+    expect(reasons).toHaveLength(4);
+    expect(reasons.join(' ')).toMatch(/2018.*6555.*todas las islas.*Trato directo.*por escrito/);
+    expect(section.querySelector('a[href="/sobre-raul/"]')).not.toBeNull();
+  });
+
   it('la portada tiene el formulario de contacto y enlaza a los seis servicios', () => {
     const home = byPath('/')!;
     expect(home.root.querySelector('main form[data-contact-form][data-lead-location="portada"]')).not.toBeNull();

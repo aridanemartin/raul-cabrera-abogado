@@ -12,7 +12,7 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 
 ### 21 de noviembre de 2026
 
-- **Tus fotos en la web** → Quien te busca ve a quién le va a defender antes de escribirte. La portada abre con tu foto profesional a todo lo ancho, con el titular y el botón de WhatsApp encima. La otra foto sale en «Sobre Raúl», en «Por qué conmigo» y como imagen cuando alguien comparte un enlace de la web por WhatsApp o en redes sociales. Pesan muy poco, así que la web sigue cargando rápido en el móvil.
+- **Tus fotos en la web** → Quien te busca ve a quién le va a defender antes de escribirte. La portada abre con tu foto profesional a todo lo ancho, con el titular y el botón de WhatsApp encima, y la sección «Por qué conmigo» lleva una foto grande tuya con un libro junto a los cuatro motivos para elegirte. La foto con el cuadro de fondo sale en «Sobre Raúl» y como imagen cuando alguien comparte un enlace de la web por WhatsApp o en redes sociales. Pesan muy poco, así que la web sigue cargando rápido en el móvil.
 - **Menú nuevo en el móvil** → El botón de menú es ahora el icono de tres rayas. Al tocarlo, el menú se abre a pantalla completa con una animación, con enlaces grandes y fáciles de pulsar y, abajo, el botón de WhatsApp y tu teléfono. En el ordenador el menú no cambia.
 
 ### 11 de noviembre de 2026
