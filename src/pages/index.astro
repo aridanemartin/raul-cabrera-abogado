@@ -1,4 +1,5 @@
 ---
+import { Picture } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
@@ -7,6 +8,7 @@ import ServiceCard from '../components/ServiceCard.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import UrgencyCard from '../components/UrgencyCard.astro';
 import { FULL_ADDRESS, SITE } from '../config/site';
+import heroPhoto from '../assets/raul-cabrera-portada.jpg';
 
 const services = (await getCollection('servicios')).sort((a, b) => a.data.order - b.data.order);
 
@@ -31,19 +33,24 @@ const steps = [
   description="Raúl Cabrera Santana, abogado penalista colegiado en Las Palmas. Defensa penal desde la comisaría hasta la sentencia. Escríbeme por WhatsApp."
 >
   <section class="hero">
-    <div class="container hero-grid">
-      <div class="hero-text">
-        <p class="eyebrow">Las Palmas de Gran Canaria · Todas las islas</p>
-        <h1>Abogado penalista en Las Palmas de Gran Canaria</h1>
-        <p class="lead">
-          Defensa penal desde la comisaría hasta la sentencia. Te explico qué va a pasar y qué podemos hacer.
-        </p>
-        <UrgencyCard location="hero" />
-        <TrustStrip />
-      </div>
-      <div class="hero-portrait">
-        <Portrait size="lg" />
-      </div>
+    <div class="hero-media">
+      <Picture
+        src={heroPhoto}
+        formats={['avif', 'webp']}
+        widths={[480, 768, 1080, 1440, 1672]}
+        sizes="100vw"
+        priority
+        alt="Raúl Cabrera Santana, abogado penalista en Las Palmas de Gran Canaria"
+      />
+    </div>
+    <div class="container hero-text">
+      <p class="eyebrow">Las Palmas de Gran Canaria · Todas las islas</p>
+      <h1>Abogado penalista en Las Palmas de Gran Canaria</h1>
+      <p class="lead">
+        Defensa penal desde la comisaría hasta la sentencia. Te explico qué va a pasar y qué podemos hacer.
+      </p>
+      <UrgencyCard location="hero" />
+      <TrustStrip />
     </div>
   </section>
 
@@ -119,14 +126,39 @@ const steps = [
 </BaseLayout>
 
 <style>
+  /* En el móvil la foto va arriba y el texto debajo; desde 900 px la foto
+     ocupa toda la cabecera y el texto queda sobre la parte oscura de la izquierda. */
   .hero {
-    padding-block: var(--space-6) var(--space-7);
+    /* Color del fondo de la foto: la continúa por debajo y hacia la izquierda. */
+    --hero-bg: #4a4241;
+    background: var(--hero-bg);
+    padding-bottom: var(--space-7);
   }
 
-  .hero-grid {
-    display: grid;
-    gap: var(--space-6);
-    align-items: center;
+  .hero-media {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    max-height: 26rem;
+    overflow: hidden;
+  }
+
+  .hero-media :global(picture),
+  .hero-media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-media :global(img) {
+    object-fit: cover;
+    object-position: 80% top;
+  }
+
+  .hero-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 55%, var(--hero-bg));
   }
 
   .hero-text {
@@ -134,25 +166,65 @@ const steps = [
     gap: var(--space-4);
   }
 
+  .hero .eyebrow {
+    color: #9ed8df;
+  }
+
+  .hero h1 {
+    color: #fff;
+  }
+
   .lead {
     max-width: 36rem;
-    color: var(--color-muted);
+    color: #e7e1df;
     font-size: var(--step-1);
     line-height: 1.5;
   }
 
-  .hero-portrait {
-    display: none;
+  .hero :global(.trust),
+  .hero :global(.trust a) {
+    color: #e7e1df;
+  }
+
+  .hero :global(.trust p:first-child) {
+    color: #fff;
+  }
+
+  .hero :global(.trust a:focus-visible) {
+    outline-color: #fff;
   }
 
   @media (min-width: 900px) {
-    .hero-grid {
-      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    .hero {
+      position: relative;
+      display: grid;
+      align-items: center;
+      min-height: clamp(34rem, 42vw, 46rem);
+      padding-block: var(--space-7);
     }
 
-    .hero-portrait {
-      display: grid;
-      justify-items: center;
+    .hero-media {
+      position: absolute;
+      inset: 0;
+      aspect-ratio: auto;
+      max-height: none;
+    }
+
+    .hero-media :global(img) {
+      object-position: right top;
+    }
+
+    .hero-media::after {
+      background: linear-gradient(to right, var(--hero-bg) 30%, rgb(74 66 65 / 0%) 60%);
+    }
+
+    .hero-text {
+      position: relative;
+      justify-items: start;
+    }
+
+    .hero-text > * {
+      max-width: 32rem;
     }
   }
 

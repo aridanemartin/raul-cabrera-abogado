@@ -189,6 +189,18 @@ describe('todas las páginas', () => {
     }
   });
 
+  it('el menú del móvil es un botón de hamburguesa que abre la navegación con WhatsApp y teléfono', () => {
+    for (const page of pages) {
+      const button = page.root.querySelector('header button.menu-toggle[aria-controls="site-nav"][aria-expanded="false"]');
+      expect(button, page.path).not.toBeNull();
+      expect(button!.querySelectorAll('.menu-icon > span'), page.path).toHaveLength(3);
+      expect(button!.querySelector('.visually-hidden')?.textContent.trim(), page.path).toBe('Menú');
+      const nav = page.root.querySelector('header nav#site-nav')!;
+      expect(nav.querySelector('a[href^="https://wa.me/"][data-lead-location="menu"]'), page.path).not.toBeNull();
+      expect(nav.querySelector('a[href^="tel:"][data-lead-location="menu"]'), page.path).not.toBeNull();
+    }
+  });
+
   it('en ningún ancho de pantalla falta un botón de contacto a la vista', () => {
     const inline = pages.flatMap((p) => p.root.querySelectorAll('style').map((el) => el.textContent)).join('\n');
     const css = builtCss() + inline;
@@ -315,6 +327,18 @@ describe('portada y urgencias', () => {
     expect(visibleText(home)).toContain(
       'Defensa penal desde la comisaría hasta la sentencia. Te explico qué va a pasar y qué podemos hacer.',
     );
+  });
+
+  it('la portada abre con la foto de Raúl a todo lo ancho, cargada con prioridad', () => {
+    const hero = byPath('/')!.root.querySelector('main .hero');
+    const picture = hero?.querySelector('picture');
+    expect(picture, 'la cabecera de la portada no tiene foto').toBeTruthy();
+    expect(picture!.querySelector('source[type="image/avif"]')?.getAttribute('srcset')).toContain('raul-cabrera-portada');
+    const img = picture!.querySelector('img')!;
+    expect(img.getAttribute('loading')).toBe('eager');
+    expect(img.getAttribute('fetchpriority')).toBe('high');
+    expect(img.getAttribute('sizes')).toBe('100vw');
+    expect(hero!.querySelector('.portrait'), 'el retrato redondo sobra en la cabecera').toBeNull();
   });
 
   it('la portada tiene el formulario de contacto y enlaza a los seis servicios', () => {
