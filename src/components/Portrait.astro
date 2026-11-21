@@ -1,35 +1,55 @@
 ---
-// Retrato provisional con las iniciales hasta que Raúl envíe una foto real.
+import { Picture } from 'astro:assets';
+import photo from '../assets/raul-cabrera.jpg';
+
 interface Props {
   size: 'sm' | 'lg';
 }
 
 const { size } = Astro.props;
+// Ancho en pantalla de cada tamaño (4,5rem y 16rem); se generan versiones a 1x, 2x y 3x.
+const width = size === 'lg' ? 256 : 72;
 ---
 
-<div class:list={['portrait', size]} aria-hidden="true">RC</div>
+<!-- Carga diferida (la de Astro por defecto): el retrato grande de la portada está oculto en el móvil y así no se descarga. -->
+<span class:list={['portrait', size]}>
+  <Picture
+    src={photo}
+    formats={['avif', 'webp']}
+    widths={[width, width * 2, width * 3]}
+    sizes={`${width}px`}
+    width={width}
+    height={width}
+    alt="Raúl Cabrera Santana, abogado penalista"
+  />
+</span>
 
 <style>
   .portrait {
-    display: grid;
-    place-items: center;
+    display: block;
     flex: none;
     aspect-ratio: 1;
+    overflow: hidden;
     border-radius: 50%;
-    background: linear-gradient(145deg, var(--color-accent), var(--color-ink));
-    color: #fff;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    user-select: none;
+    background: var(--color-border);
+  }
+
+  .portrait :global(picture),
+  .portrait :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .portrait :global(img) {
+    object-fit: cover;
   }
 
   .sm {
     width: 4.5rem;
-    font-size: 1.5rem;
   }
 
   .lg {
     width: min(16rem, 100%);
-    font-size: 4.5rem;
   }
 </style>

@@ -4,6 +4,7 @@ import { SITE } from '../config/site';
 
 const PERSON_ID = `${SITE.url}/#raul`;
 const OFFICE_ID = `${SITE.url}/#despacho`;
+const IMAGE_URL = new URL(SITE.ogImage.path, SITE.url).href;
 
 export function absoluteUrl(path: string): string {
   const href = new URL(path, SITE.url).href;
@@ -21,6 +22,7 @@ export function buildSiteGraph(): Record<string, unknown> {
         '@id': OFFICE_ID,
         name: SITE.name,
         url: absoluteUrl('/'),
+        image: IMAGE_URL,
         telephone: SITE.phone.e164,
         email: SITE.email,
         address: {
@@ -43,6 +45,7 @@ export function buildSiteGraph(): Record<string, unknown> {
         name: SITE.lawyer.fullName,
         jobTitle: 'Abogado',
         url: absoluteUrl('/sobre-raul/'),
+        image: IMAGE_URL,
         identifier: {
           '@type': 'PropertyValue',
           propertyID: `Número de colegiado (${SITE.lawyer.colegioShort})`,

@@ -10,6 +10,10 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 
 ## Mejoras hechas
 
+### 21 de noviembre de 2026
+
+- **Tu foto en la web** → Quien te busca ve a quién le va a defender antes de escribirte. Sale en la portada, en «Sobre Raúl» y como imagen cuando alguien comparte un enlace de la web por WhatsApp o en redes sociales. Pesa muy poco, así que la web sigue cargando rápido en el móvil.
+
 ### 11 de noviembre de 2026
 
 - **Web nueva, hecha desde cero** → Una base rápida y moderna, sin plantillas ni contenido de relleno.
@@ -52,7 +56,7 @@ El formulario pide a la persona que no cuente detalles de su caso por escrito: e
 
 ## Lo que necesitamos de ti
 
-- [ ] **Una foto profesional tuya.** Mientras tanto, la web muestra tus iniciales.
+- [x] **Una foto profesional tuya.** Ya está en la web.
 - [ ] **Revisar y aprobar los textos antes de publicar.** Respondes de lo que dice la web, así que nada se publica en tu dominio sin tu visto bueno.
   - [ ] Asistencia al detenido e investigado
   - [ ] Alcoholemia y delitos de tráfico

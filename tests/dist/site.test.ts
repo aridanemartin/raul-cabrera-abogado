@@ -158,6 +158,37 @@ describe('todas las páginas', () => {
     }
   });
 
+  it('cada página lleva la foto de Raúl para compartir el enlace', () => {
+    for (const page of pages) {
+      const meta = (property: string) =>
+        page.root.querySelector(`meta[property="${property}"]`)?.getAttribute('content') ?? '';
+      expect(meta('og:image'), page.path).toBe(`${ORIGIN}og-raul-cabrera.jpg`);
+      expect(meta('og:image:width'), page.path).toBe('1200');
+      expect(meta('og:image:height'), page.path).toBe('630');
+      expect(meta('og:image:alt'), page.path).toContain('Raúl Cabrera');
+    }
+    expect(existsSync(join(DIST, 'og-raul-cabrera.jpg'))).toBe(true);
+  });
+
+  it('los retratos son la foto de Raúl en AVIF y WebP, con texto alternativo y medidas', () => {
+    for (const path of ['/', '/sobre-raul/']) {
+      const page = byPath(path)!;
+      const pictures = page.root.querySelectorAll('main picture');
+      expect(pictures.length, path).toBeGreaterThan(0);
+      for (const picture of pictures) {
+        expect(picture.querySelector('source[type="image/avif"]'), path).not.toBeNull();
+        expect(picture.querySelector('source[type="image/webp"]'), path).not.toBeNull();
+        const img = picture.querySelector('img')!;
+        expect(img.getAttribute('alt'), path).toContain('Raúl Cabrera');
+        expect(Number(img.getAttribute('width')), path).toBeGreaterThan(0);
+        expect(Number(img.getAttribute('height')), path).toBeGreaterThan(0);
+        expect(existsSync(join(DIST, img.getAttribute('src')!)), `${path} ${img.getAttribute('src')}`).toBe(true);
+      }
+      // Ya no queda el retrato provisional con las iniciales.
+      expect(page.root.querySelectorAll('main *').filter((el) => el.textContent.trim() === 'RC'), path).toEqual([]);
+    }
+  });
+
   it('en ningún ancho de pantalla falta un botón de contacto a la vista', () => {
     const inline = pages.flatMap((p) => p.root.querySelectorAll('style').map((el) => el.textContent)).join('\n');
     const css = builtCss() + inline;

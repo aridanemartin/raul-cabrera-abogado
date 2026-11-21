@@ -42,6 +42,13 @@ export const SITE = {
     profileUrl: null as string | null,
   },
   sameAs: ['https://www.elabogado.com/abogados/raul-cabrera-santana/'] as string[],
+  // Foto de Raúl para compartir enlaces y para los datos estructurados (en public/).
+  ogImage: {
+    path: '/og-raul-cabrera.jpg',
+    width: 1200,
+    height: 630,
+    alt: 'Raúl Cabrera Santana, abogado penalista, en su despacho de Las Palmas de Gran Canaria',
+  },
   nav: [
     { label: 'Servicios', href: '/servicios/' },
     { label: '¿Te han detenido?', href: '/te-han-detenido/' },

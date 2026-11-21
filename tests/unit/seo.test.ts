@@ -30,6 +30,12 @@ describe('buildSiteGraph', () => {
     expect(office.employee).toEqual({ '@id': 'https://raulcabreraabogado.com/#raul' });
   });
 
+  it('lleva la foto de Raúl en la persona y en el despacho', () => {
+    const image = 'https://raulcabreraabogado.com/og-raul-cabrera.jpg';
+    expect(byType('Person').image).toBe(image);
+    expect(byType('LegalService').image).toBe(image);
+  });
+
   it('no publica enlaces vacíos ni valoraciones propias', () => {
     const json = JSON.stringify(graph);
     for (const node of graph['@graph']) {
