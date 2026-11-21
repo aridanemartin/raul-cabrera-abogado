@@ -333,11 +333,21 @@ describe('portada y urgencias', () => {
     const hero = byPath('/')!.root.querySelector('main .hero');
     const picture = hero?.querySelector('picture');
     expect(picture, 'la cabecera de la portada no tiene foto').toBeTruthy();
-    expect(picture!.querySelector('source[type="image/avif"]')?.getAttribute('srcset')).toContain('raul-cabrera-portada');
+    const avif = picture!.querySelectorAll('source').filter((source) => source.getAttribute('type') === 'image/avif');
+    // Desde 1440 px, la foto de fondo liso, que no pasa de ~99rem de ancho; por debajo, la del despacho.
+    const wide = avif.find((source) => source.getAttribute('media') === '(min-width: 1440px)');
+    expect(wide, 'falta la foto para pantallas grandes').toBeTruthy();
+    expect(wide!.getAttribute('srcset')).toContain('raul-cabrera-portada-ancha');
+    expect(wide!.getAttribute('srcset'), 'falta la versión a tamaño completo').toContain('1840w');
+    expect(wide!.getAttribute('sizes')).toBe('min(100vw, 99rem)');
+    const narrow = avif.find((source) => !source.hasAttribute('media'));
+    expect(narrow, 'falta la foto para el móvil y portátiles').toBeTruthy();
+    expect(narrow!.getAttribute('srcset')).toContain('raul-cabrera-portada.');
+    expect(narrow!.getAttribute('srcset')).not.toContain('ancha');
     const img = picture!.querySelector('img')!;
     expect(img.getAttribute('loading')).toBe('eager');
     expect(img.getAttribute('fetchpriority')).toBe('high');
-    expect(img.getAttribute('sizes')).toBe('100vw');
+    expect(img.getAttribute('alt')).toContain('Raúl Cabrera');
     expect(hero!.querySelector('.portrait'), 'el retrato redondo sobra en la cabecera').toBeNull();
   });
 

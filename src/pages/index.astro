@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
@@ -8,9 +8,28 @@ import TrustStrip from '../components/TrustStrip.astro';
 import UrgencyCard from '../components/UrgencyCard.astro';
 import { FULL_ADDRESS, SITE } from '../config/site';
 import heroPhoto from '../assets/raul-cabrera-portada.jpg';
+import heroPhotoWide from '../assets/raul-cabrera-portada-ancha.jpg';
 import whyPhoto from '../assets/raul-cabrera-por-que.jpg';
 
 const services = (await getCollection('servicios')).sort((a, b) => a.data.order - b.data.order);
+
+// La portada cambia de foto según el ancho: desde 1440 px va la de fondo liso, más apaisada,
+// para que se vea de la cabeza al pecho; por debajo, la del despacho. <Picture> no admite
+// una foto distinta por media query, así que el <picture> se monta a mano.
+const heroFormats = ['avif', 'webp'] as const;
+const heroVariants = [
+  { src: heroPhotoWide, media: '(min-width: 1440px)', widths: [1440, 1840], sizes: 'min(100vw, 99rem)' },
+  { src: heroPhoto, media: undefined, widths: [480, 768, 1080, 1440, 1672], sizes: '100vw' },
+];
+const heroSources = await Promise.all(
+  heroVariants.flatMap(({ src, media, widths, sizes }) =>
+    heroFormats.map(async (format) => {
+      const image = await getImage({ src, format, widths, sizes });
+      return { media, type: `image/${format}`, srcset: image.srcSet.attribute, sizes, width: src.width, height: src.height };
+    }),
+  ),
+);
+const heroFallback = await getImage({ src: heroPhoto, format: 'jpg', widths: heroVariants[1].widths, sizes: '100vw' });
 
 const steps = [
   {
@@ -58,14 +77,20 @@ const reasons = [
 >
   <section class="hero">
     <div class="hero-media">
-      <Picture
-        src={heroPhoto}
-        formats={['avif', 'webp']}
-        widths={[480, 768, 1080, 1440, 1672]}
-        sizes="100vw"
-        priority
-        alt="Raúl Cabrera Santana, abogado penalista en Las Palmas de Gran Canaria"
-      />
+      <picture>
+        {heroSources.map((source) => <source {...source} />)}
+        <img
+          src={heroFallback.src}
+          srcset={heroFallback.srcSet.attribute}
+          sizes="100vw"
+          width={heroPhoto.width}
+          height={heroPhoto.height}
+          alt="Raúl Cabrera Santana, abogado penalista en Las Palmas de Gran Canaria"
+          loading="eager"
+          decoding="sync"
+          fetchpriority="high"
+        />
+      </picture>
     </div>
     <div class="container hero-text">
       <p class="eyebrow">Las Palmas de Gran Canaria · Todas las islas</p>
@@ -164,16 +189,19 @@ const reasons = [
 
 <style>
   /* En el móvil la foto va arriba y el texto debajo; desde 900 px la foto
-     ocupa toda la cabecera y el texto queda sobre la parte oscura de la izquierda. */
+     ocupa la cabecera y el texto queda sobre la parte oscura de la izquierda. */
   .hero {
-    /* Color del fondo de la foto: la continúa por debajo y hacia la izquierda. */
-    --hero-bg: #4a4241;
+    /* Color de la pared de la foto: la continúa por debajo y hacia los lados. */
+    --hero-bg: #39322f;
     background: var(--hero-bg);
     padding-bottom: var(--space-7);
   }
 
+  /* El ancho explícito hace falta: con aspect-ratio y ancho automático, el max-height
+     también limita el ancho (26rem × 16/10) y la foto no llegaba al borde entre ~670 y 900 px. */
   .hero-media {
     position: relative;
+    width: 100%;
     aspect-ratio: 16 / 10;
     max-height: 26rem;
     overflow: hidden;
@@ -240,19 +268,34 @@ const reasons = [
       padding-block: var(--space-7);
     }
 
+    /* La foto va pegada a la derecha de un marco centrado de 110rem, siempre a la altura
+       de la cabecera y sin estirarse más allá de su proporción: en pantallas anchas se ve
+       de la cabeza al pecho y el hueco que sobra es color de pared. */
     .hero-media {
       position: absolute;
-      inset: 0;
+      inset-block: 0;
+      inset-inline: max(0px, (100% - 110rem) / 2);
+      width: auto;
       aspect-ratio: auto;
       max-height: none;
     }
 
+    .hero-media :global(picture) {
+      position: absolute;
+      inset: 0;
+    }
+
     .hero-media :global(img) {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: auto;
       object-position: right top;
+      mask-image: linear-gradient(to right, transparent, #000 30%);
     }
 
     .hero-media::after {
-      background: linear-gradient(to right, var(--hero-bg) 30%, rgb(74 66 65 / 0%) 60%);
+      background: linear-gradient(to right, var(--hero-bg) 30%, rgb(57 50 47 / 0%) 60%);
     }
 
     .hero-text {
@@ -262,6 +305,13 @@ const reasons = [
 
     .hero-text > * {
       max-width: 32rem;
+    }
+  }
+
+  /* Con la pantalla más ancha que el marco, su borde derecho se funde con la pared. */
+  @media (min-width: 110rem) {
+    .hero-media {
+      mask-image: linear-gradient(to right, #000 calc(100% - 6rem), transparent);
     }
   }
 
