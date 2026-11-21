@@ -1,4 +1,5 @@
 ---
+import Logo from '../assets/raul-cabrera-logo.svg';
 import { SITE } from '../config/site';
 import { DEFAULT_WHATSAPP_TEXT, buildWhatsAppUrl } from '../lib/whatsapp';
 
@@ -7,7 +8,9 @@ const current = Astro.url.pathname;
 
 <header class="site-header">
   <div class="container bar">
-    <a class="brand" href="/">Raúl Cabrera <span>· Abogado</span></a>
+    <a class="brand" href="/">
+      <Logo class="logo" role="img" aria-label="Raúl Cabrera, abogado penalista" />
+    </a>
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" hidden>
       <span class="menu-icon" aria-hidden="true"><span></span><span></span><span></span></span>
       <span class="visually-hidden">Menú</span>
@@ -72,20 +75,17 @@ const current = Astro.url.pathname;
     transition: color 0.3s ease;
   }
 
+  /* El logo se pinta con el color del texto: azul en la barra y blanco con el menú abierto. */
   .brand {
-    color: var(--color-ink);
-    font-size: var(--step-1);
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    text-decoration: none;
-    min-height: var(--tap);
     display: inline-flex;
     align-items: center;
+    min-height: var(--tap);
+    color: var(--color-ink);
   }
 
-  .brand span {
-    color: var(--color-accent-strong);
-    transition: color 0.3s ease;
+  .brand :global(.logo) {
+    width: auto;
+    height: 3rem;
   }
 
   .menu-toggle {
@@ -163,10 +163,6 @@ const current = Astro.url.pathname;
   .site-header[data-menu-open] .brand,
   .site-header[data-menu-open] .menu-toggle {
     color: #fff;
-  }
-
-  .site-header[data-menu-open] .brand span {
-    color: #9ed8df;
   }
 
   :global(html.menu-open) {

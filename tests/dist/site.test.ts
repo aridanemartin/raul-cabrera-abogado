@@ -201,6 +201,19 @@ describe('todas las páginas', () => {
     }
   });
 
+  it('la cabecera lleva el logo de Raúl, que vuelve a la portada', () => {
+    for (const page of pages) {
+      const logo = page.root.querySelector('header a.brand[href="/"] svg');
+      expect(logo, page.path).not.toBeNull();
+      // El logo da nombre al enlace.
+      expect(logo!.getAttribute('role'), page.path).toBe('img');
+      expect(logo!.getAttribute('aria-label'), page.path).toBe('Raúl Cabrera, abogado penalista');
+      // Toma el color del texto: azul en la barra blanca y blanco con el menú abierto.
+      expect(logo!.querySelector('path')?.getAttribute('fill'), page.path).toBe('currentColor');
+      expect(page.root.querySelector('header a.brand img'), page.path).toBeNull();
+    }
+  });
+
   it('en ningún ancho de pantalla falta un botón de contacto a la vista', () => {
     const inline = pages.flatMap((p) => p.root.querySelectorAll('style').map((el) => el.textContent)).join('\n');
     const css = builtCss() + inline;
