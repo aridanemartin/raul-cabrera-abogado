@@ -40,6 +40,13 @@ const legal = [
   </div>
 </footer>
 
+<p class="credit">
+  Sitio web desarrollado por{' '}
+  <a href={SITE.developer.url} target="_blank" rel="noopener noreferrer">
+    {SITE.developer.name}
+  </a>
+</p>
+
 <style>
   .site-footer {
     margin-top: var(--space-8);
@@ -92,5 +99,27 @@ const legal = [
     margin-top: var(--space-6);
     padding-top: var(--space-5);
     border-top: 1px solid rgb(255 255 255 / 20%);
+  }
+
+  .credit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background: var(--color-surface);
+    color: var(--color-ink);
+    padding: var(--space-4);
+    font-weight: 500;
+    font-size: var(--step--1);
+  }
+
+  .credit a {
+    color: var(--color-ink);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .credit a:hover {
+    color: var(--color-accent);
   }
 </style>

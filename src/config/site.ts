@@ -42,6 +42,10 @@ export const SITE = {
     profileUrl: null as string | null,
   },
   sameAs: ['https://www.elabogado.com/abogados/raul-cabrera-santana/'] as string[],
+  developer: {
+    name: 'Aridane Martín',
+    url: 'https://www.aridanemartin.dev',
+  },
   // Foto de Raúl para compartir enlaces y para los datos estructurados (en public/).
   ogImage: {
     path: '/og-raul-cabrera.jpg',
