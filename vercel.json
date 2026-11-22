@@ -59,7 +59,7 @@
     },
     {
       "source": "/como-saber-si-necesitas-un-abogado-penalista/",
-      "destination": "/como-trabajo/",
+      "destination": "/sobre-raul/",
       "statusCode": 301
     },
     {
@@ -69,7 +69,17 @@
     },
     {
       "source": "/conocer-tus-derechos-una-herramienta-para-la-vida/",
-      "destination": "/te-han-detenido/",
+      "destination": "/blog/te-han-detenido/",
+      "statusCode": 301
+    },
+    {
+      "source": "/como-trabajo/",
+      "destination": "/sobre-raul/",
+      "statusCode": 301
+    },
+    {
+      "source": "/te-han-detenido/",
+      "destination": "/blog/te-han-detenido/",
       "statusCode": 301
     }
   ],

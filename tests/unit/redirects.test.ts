@@ -21,9 +21,12 @@ const MAP: Record<string, string> = {
   '/servicio/delitos-menores/': '/servicios/lesiones-amenazas-delitos-leves/',
   '/servicio/proteccion-de-derechos/': '/servicios/',
   '/servicio/revision-de-sentencias/': '/servicios/recursos-antecedentes/',
-  '/como-saber-si-necesitas-un-abogado-penalista/': '/como-trabajo/',
+  '/como-saber-si-necesitas-un-abogado-penalista/': '/sobre-raul/',
   '/que-hacer-si-te-ves-envuelto-en-un-proceso-penal/': '/servicios/asistencia-detenido-investigado/',
-  '/conocer-tus-derechos-una-herramienta-para-la-vida/': '/te-han-detenido/',
+  '/conocer-tus-derechos-una-herramienta-para-la-vida/': '/blog/te-han-detenido/',
+  // Páginas de esta web que se unieron a otra o pasaron al blog.
+  '/como-trabajo/': '/sobre-raul/',
+  '/te-han-detenido/': '/blog/te-han-detenido/',
 };
 
 describe('vercel.json', () => {

@@ -51,9 +51,7 @@ export const SITE = {
   },
   nav: [
     { label: 'Servicios', href: '/servicios/' },
-    { label: '¿Te han detenido?', href: '/te-han-detenido/' },
     { label: 'Sobre Raúl', href: '/sobre-raul/' },
-    { label: 'Cómo trabajo', href: '/como-trabajo/' },
     { label: 'Blog', href: '/blog/' },
     { label: 'Contacto', href: '/contacto/' },
   ] as NavItem[],

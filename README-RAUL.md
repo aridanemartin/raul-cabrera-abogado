@@ -10,6 +10,11 @@ Este documento se actualiza cada vez que hacemos una mejora. No hace falta que l
 
 ## Mejoras hechas
 
+### 22 de noviembre de 2026
+
+- **Menú más corto y claro** → El menú de arriba queda en Servicios, Sobre Raúl, Blog y Contacto, así cabe entero y se lee de un vistazo. «Sobre Raúl» y «Cómo trabajo» son ahora una sola página: quién eres, dónde actúas, cómo llevas un caso paso a paso, el presupuesto por escrito y la justicia gratuita. Quien entre por la dirección antigua de «Cómo trabajo» llega a esta página.
+- **«¿Te han detenido?» pasa al blog** → La guía es ahora el primer artículo del blog, en el tema «Detenciones y comisaría», con tu firma y la fecha. Sigue teniendo el botón de WhatsApp arriba del todo, y las preguntas frecuentes, la página de contacto y la de error siguen enlazándola. La dirección antigua lleva al artículo.
+
 ### 21 de noviembre de 2026
 
 - **Tus fotos en la web** → Quien te busca ve a quién le va a defender antes de escribirte. La portada abre con tu foto profesional, con el titular y el botón de WhatsApp al lado: en el móvil y el portátil sale la del despacho, y en pantallas de ordenador grandes una con fondo liso en la que se te ve de la cabeza al pecho, y no solo la cara. La sección «Por qué conmigo» lleva una foto grande tuya con un libro junto a los cuatro motivos para elegirte. La foto con el cuadro de fondo sale en «Sobre Raúl» y como imagen cuando alguien comparte un enlace de la web por WhatsApp o en redes sociales. Pesan muy poco, así que la web sigue cargando rápido en el móvil.
@@ -67,10 +72,9 @@ El formulario pide a la persona que no cuente detalles de su caso por escrito: e
   - [ ] Acusación particular
   - [ ] Recursos y antecedentes
   - [ ] Portada (sobre todo «Por qué conmigo»: confirma que llevas asuntos en todas las islas)
-  - [ ] Guía «¿Te han detenido?»
+  - [ ] Artículo del blog «¿Te han detenido?»
   - [ ] Guía «¿Tienes un juicio rápido?»
-  - [ ] Sobre Raúl (confirma en qué islas y juzgados actúas)
-  - [ ] Cómo trabajo
+  - [ ] Sobre Raúl, con cómo trabajas (confirma en qué islas y juzgados actúas)
   - [ ] Preguntas frecuentes
   - [ ] Aviso legal, privacidad y cookies
 - [ ] **Las preguntas reales que más te hacen tus clientes.** Las preguntas frecuentes de ahora son generales; con las tuyas, la página responde a lo que de verdad preocupa a quien te escribe.

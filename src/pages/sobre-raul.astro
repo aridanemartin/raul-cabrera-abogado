@@ -4,13 +4,21 @@ import Portrait from '../components/Portrait.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import UrgencyCard from '../components/UrgencyCard.astro';
 import { FULL_ADDRESS, SITE } from '../config/site';
+
+const boe = {
+  defensa6: 'https://www.boe.es/buscar/act.php?id=BOE-A-2024-23630#a6',
+  defensa15: 'https://www.boe.es/buscar/act.php?id=BOE-A-2024-23630#a1-7',
+  ajg3: 'https://www.boe.es/buscar/act.php?id=BOE-A-1996-750#a3',
+  ajg12: 'https://www.boe.es/buscar/act.php?id=BOE-A-1996-750#a12',
+  ajg28: 'https://www.boe.es/buscar/act.php?id=BOE-A-1996-750#a28',
+};
 ---
 
 <PageLayout
-  title="Sobre Raúl Cabrera, abogado penalista en Las Palmas"
-  description="Raúl Cabrera Santana, abogado colegiado nº 6555 del Ilustre Colegio de la Abogacía de Las Palmas desde 2018. Defensa penal en todas las islas."
+  title="Sobre Raúl Cabrera y cómo trabajo | Abogado en Las Palmas"
+  description="Raúl Cabrera Santana, abogado penalista colegiado en Las Palmas desde 2018. Cómo llevo tu caso paso a paso, con presupuesto por escrito y justicia gratuita."
   h1="Sobre Raúl Cabrera"
-  lead="Soy abogado penalista en Las Palmas de Gran Canaria. Llevo yo mismo cada caso, desde la comisaría hasta la sentencia."
+  lead="Soy abogado penalista en Las Palmas de Gran Canaria. Llevo yo mismo cada caso, desde la comisaría hasta la sentencia, y en cada momento sabes qué pasa, qué vamos a hacer y cuánto te va a costar."
   crumb="Sobre Raúl"
 >
   <div class="identity">
@@ -33,16 +41,19 @@ import { FULL_ADDRESS, SITE } from '../config/site';
     Provincial, en cualquier fase del procedimiento.
   </p>
 
-  <h2>Cómo es trabajar conmigo</h2>
+  <h2>Lo que puedes esperar de mí</h2>
   <ul>
-    <li><strong>Trato directo.</strong> Tu caso lo llevo yo, de principio a fin, y hablas siempre conmigo.</li>
     <li>
-      <strong>Claridad.</strong> Te explico qué va a pasar y qué opciones tienes con palabras normales, también lo que no te
-      conviene oír.
+      <strong>Trato directo.</strong> Tu caso lo llevo yo, de principio a fin, y hablas siempre conmigo, no con un
+      intermediario.
     </li>
     <li>
-      <strong>Sin sorpresas.</strong> Antes de empezar sabes qué vamos a hacer y cuánto va a costar, por escrito. Lo
-      explico en <a href="/como-trabajo/">cómo trabajo</a>.
+      <strong>Claridad.</strong> Te explico cada paso antes de darlo, con palabras normales, y te digo con franqueza lo que
+      veo en tu caso, también lo que no te conviene oír.
+    </li>
+    <li>
+      <strong>Sin sorpresas.</strong> Antes de empezar sabes qué vamos a hacer y cuánto va a costar, por escrito. Te lo
+      explico más abajo, en el <a href="#presupuesto">presupuesto previo</a>.
     </li>
     <li>
       <strong>Una red de confianza.</strong> Si tu asunto necesita a un profesional de otra área del derecho, trabajo en
@@ -50,10 +61,64 @@ import { FULL_ADDRESS, SITE } from '../config/site';
     </li>
   </ul>
 
+  <h2 id="como-trabajo">Cómo trabajo, paso a paso</h2>
+  <ol>
+    <li>
+      <strong>Me escribes o me llamas.</strong> Por WhatsApp o por teléfono, me cuentas en pocas líneas qué ha pasado y si
+      tienes una fecha en el juzgado o en comisaría.
+    </li>
+    <li>
+      <strong>Vemos tu caso.</strong> Revisamos la citación, el atestado o la denuncia, y te explico con claridad qué
+      gravedad tiene, qué opciones hay y qué riesgos corres. La ley reconoce tu derecho a recibir esta información (<a
+        href={boe.defensa6}>artículo 6 de la Ley Orgánica 5/2024, del Derecho de Defensa</a
+      >).
+    </li>
+    <li>
+      <strong>Presupuesto y hoja de encargo.</strong> Antes de empezar te doy por escrito lo que vamos a hacer y cuánto va a
+      costar. Si estás de acuerdo, me encargas el asunto.
+    </li>
+    <li>
+      <strong>Tu defensa.</strong> Te acompaño en comisaría, en el juzgado de guardia, en las declaraciones y en el juicio.
+      Te aviso de cada novedad y de cada resolución que llegue.
+    </li>
+    <li>
+      <strong>La sentencia y lo que viene después.</strong> Te explico la sentencia, si conviene <a
+        href="/servicios/recursos-antecedentes/">recurrirla</a
+      > y, si hay condena, cómo se cumple y cuándo se pueden cancelar los antecedentes.
+    </li>
+  </ol>
+
+  <h2 id="presupuesto">Presupuesto previo por escrito</h2>
+  <p>
+    Lo que cuesta una defensa depende del tipo de procedimiento y de su complejidad. Por eso no publico precios: prefiero
+    ver tu caso y darte un presupuesto ajustado a lo que de verdad necesitas.
+  </p>
+  <p>
+    Ese presupuesto va en la <strong>hoja de encargo</strong>, el documento en el que dejamos por escrito lo que me
+    encargas, tus derechos, los pasos principales y sus consecuencias, y los honorarios y costes previstos. La Ley del
+    Derecho de Defensa te da derecho a pedirla (<a href={boe.defensa15}>artículo 15 de la Ley Orgánica 5/2024</a>).
+  </p>
+
+  <h2 id="justicia-gratuita">Si no puedes pagar un abogado: justicia gratuita</h2>
+  <p>
+    Si tus ingresos son bajos, puedes tener derecho a la asistencia jurídica gratuita, lo que se conoce como justicia
+    gratuita: te asignan un abogado del turno de oficio sin coste para ti. Depende de los ingresos y del patrimonio de tu
+    unidad familiar, que no pueden pasar de unos límites ligados al indicador público de renta de efectos múltiples (<a
+      href={boe.ajg3}>artículo 3 de la Ley 1/1996, de asistencia jurídica gratuita</a
+    >). Las víctimas de violencia de género tienen este derecho sean cuales sean sus ingresos.
+  </p>
+  <p>
+    Se pide en el Colegio de la Abogacía del lugar donde está el juzgado o en el juzgado de tu domicilio (<a
+      href={boe.ajg12}>artículo 12</a
+    >). Si te corresponde y aun así prefieres elegirme a mí, la ley te permite renunciar al abogado de oficio (<a
+      href={boe.ajg28}>artículo 28</a
+    >). Antes de que decidas, te explico cómo afecta eso a lo que pagas.
+  </p>
+
   <h2>Las normas que sigo</h2>
   <p>
-    Como cualquier abogado, estoy sujeto al secreto profesional y a las normas de la abogacía. Mis datos profesionales y
-    esas normas están en el <a href="/aviso-legal/">aviso legal</a>.
+    Lo que me cuentas queda protegido por el secreto profesional. Como cualquier abogado, estoy sujeto a las normas de la
+    abogacía, y mis datos profesionales y esas normas están en el <a href="/aviso-legal/">aviso legal</a>.
   </p>
 
   <UrgencyCard location="sobre-raul" title="¿Hablamos de tu caso?" />

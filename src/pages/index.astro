@@ -3,6 +3,7 @@ import { Picture, getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ContactForm from '../components/ContactForm.astro';
+import GoogleReviews from '../components/GoogleReviews.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import UrgencyCard from '../components/UrgencyCard.astro';
@@ -96,7 +97,7 @@ const reasons = [
       <p class="eyebrow">Las Palmas de Gran Canaria · Todas las islas</p>
       <h1>Abogado penalista en Las Palmas de Gran Canaria</h1>
       <p class="lead">
-        Defensa penal desde la comisaría hasta la sentencia. Te explico qué va a pasar y qué podemos hacer.
+        Defensa penal urgente en comisaría, juzgados y juicios rápidos. Protejo tus derechos desde el primer minuto con una estrategia clara.
       </p>
       <UrgencyCard location="hero" />
       <TrustStrip />
@@ -116,15 +117,18 @@ const reasons = [
     </div>
   </section>
 
-  <section class="section" aria-labelledby="como-trabajo">
+  <section class="section steps-band" aria-labelledby="como-trabajo">
     <div class="container">
-      <h2 id="como-trabajo">Cómo trabajo</h2>
+      <div class="steps-head">
+        <h2 id="como-trabajo">Cómo trabajo</h2>
+        <p>Tres pasos, sin letra pequeña. Desde el primer mensaje sabes qué está pasando y cuánto va a costar.</p>
+      </div>
       <ol class="steps">
         {
           steps.map((step, index) => (
             <li>
               <span class="step-number" aria-hidden="true">
-                {index + 1}
+                {String(index + 1).padStart(2, '0')}
               </span>
               <h3>{step.title}</h3>
               <p>{step.text}</p>
@@ -132,7 +136,7 @@ const reasons = [
           ))
         }
       </ol>
-      <p><a href="/como-trabajo/">Cómo trabajo, paso a paso</a></p>
+      <a class="steps-link" href="/sobre-raul/#como-trabajo">Cómo trabajo, paso a paso <span aria-hidden="true">→</span></a>
     </div>
   </section>
 
@@ -168,6 +172,8 @@ const reasons = [
       </div>
     </div>
   </section>
+
+  <GoogleReviews />
 
   <section class="section" aria-labelledby="contacto">
     <div class="container contact">
@@ -336,38 +342,135 @@ const reasons = [
     }
   }
 
+  /* Banda oscura entre las dos secciones claras: en el móvil, pasos en fila separados por una
+     raya, con el número a la izquierda; desde 768 px, tres columnas con números grandes. */
+  .steps-band {
+    --steps-tint: #9ed8df;
+    --steps-text: #c5d3da;
+    --steps-rule: rgb(255 255 255 / 14%);
+    background: var(--color-ink);
+    color: #fff;
+  }
+
+  .steps-head {
+    display: grid;
+    gap: var(--space-3);
+  }
+
+  .steps-band h2 {
+    margin-bottom: 0;
+  }
+
+  .steps-head p {
+    max-width: 30rem;
+    color: var(--steps-text);
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
   .steps {
     display: grid;
-    gap: var(--space-5);
+    margin-block: var(--space-6) var(--space-2);
     padding: 0;
-    margin-bottom: var(--space-5);
     list-style: none;
   }
 
-  @media (min-width: 768px) {
-    .steps {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
+  /* align-content evita que, en columnas de distinta altura, se estiren las filas y los títulos queden descolocados. */
   .steps li {
     display: grid;
-    gap: var(--space-2);
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: var(--space-1) var(--space-3);
+    align-content: start;
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--steps-rule);
   }
 
   .step-number {
-    display: grid;
-    place-items: center;
-    width: 2.5rem;
-    height: 2.5rem;
-    border-radius: 50%;
-    background: var(--color-surface);
-    color: var(--color-accent-strong);
+    grid-row: span 2;
+    font-size: 2.5rem;
     font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--steps-tint);
+  }
+
+  .steps h3 {
+    padding-top: 0.375rem;
   }
 
   .steps p {
-    color: var(--color-muted);
+    color: var(--steps-text);
+  }
+
+  .steps-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap);
+    color: var(--steps-tint);
+    font-weight: 700;
+  }
+
+  .steps-link:hover {
+    color: #fff;
+  }
+
+  .steps-link span {
+    transition: transform 0.2s ease;
+  }
+
+  .steps-link:hover span {
+    transform: translateX(4px);
+  }
+
+  .steps-link:focus-visible {
+    outline-color: #fff;
+  }
+
+  @media (min-width: 768px) {
+    .steps-band {
+      padding-block: var(--space-8);
+    }
+
+    .steps-head {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      gap: var(--space-6);
+      align-items: end;
+    }
+
+    .steps-head p {
+      justify-self: end;
+    }
+
+    .steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-block: var(--space-7) var(--space-5);
+    }
+
+    .steps li {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-3);
+      padding: 0 var(--space-6);
+      border-top: 0;
+      border-left: 1px solid var(--steps-rule);
+    }
+
+    .steps li:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .step-number {
+      grid-row: auto;
+      margin-bottom: var(--space-3);
+      font-size: 4.5rem;
+      -webkit-text-stroke-width: 2px;
+    }
+
+    .steps h3 {
+      padding-top: 0;
+    }
   }
 
   /* Foto grande con un marco desplazado detrás; en el ordenador, foto a la izquierda y motivos a la derecha. */

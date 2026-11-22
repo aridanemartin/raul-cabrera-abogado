@@ -80,7 +80,7 @@ describe('todas las páginas', () => {
 
   it('el pie identifica a Raúl y su colegiación', () => {
     for (const page of content) {
-      const footer = page.root.querySelector('footer')?.textContent.replace(/\s+/g, ' ') ?? '';
+      const footer = page.root.querySelector('footer.site-footer')?.textContent.replace(/\s+/g, ' ') ?? '';
       expect(footer, page.path).toContain('Colegiado nº 6555');
       expect(footer, page.path).toContain('Raúl Cabrera Santana');
     }
@@ -88,7 +88,7 @@ describe('todas las páginas', () => {
 
   it('el pie muestra el código postal separado de la ciudad', () => {
     for (const page of pages) {
-      const address = page.root.querySelector('footer address')?.textContent.replace(/\s+/g, ' ') ?? '';
+      const address = page.root.querySelector('footer.site-footer address')?.textContent.replace(/\s+/g, ' ') ?? '';
       expect(address, page.path).toContain('35003 Las Palmas de Gran Canaria');
     }
   });
@@ -212,6 +212,16 @@ describe('todas las páginas', () => {
       expect(logo!.querySelector('path')?.getAttribute('fill'), page.path).toBe('currentColor');
       expect(page.root.querySelector('header a.brand img'), page.path).toBeNull();
     }
+  });
+
+  it('el menú lleva a servicios, sobre Raúl, el blog y contacto', () => {
+    for (const page of pages) {
+      const hrefs = page.root.querySelectorAll('header nav#site-nav > ul a').map((a) => a.getAttribute('href'));
+      expect(hrefs, page.path).toEqual(['/servicios/', '/sobre-raul/', '/blog/', '/contacto/']);
+    }
+    // «¿Te han detenido?» es un artículo del blog, no una página del menú.
+    expect(byPath('/te-han-detenido/')).toBeUndefined();
+    expect(byPath('/blog/te-han-detenido/')).toBeDefined();
   });
 
   it('en ningún ancho de pantalla falta un botón de contacto a la vista', () => {
@@ -384,7 +394,7 @@ describe('portada y urgencias', () => {
     for (const path of SERVICES) expect(hrefs).toContain(path);
   });
 
-  it.each(['/te-han-detenido/', '/juicio-rapido/'])('%s enlaza al BOE y ofrece WhatsApp antes del primer h2', (path) => {
+  it.each(['/blog/te-han-detenido/', '/juicio-rapido/'])('%s enlaza al BOE y ofrece WhatsApp antes del primer h2', (path) => {
     const page = byPath(path);
     expect(page, path).toBeDefined();
     expect(page!.root.querySelectorAll('main a[href^="https://www.boe.es/"]').length).toBeGreaterThan(0);
@@ -397,15 +407,13 @@ describe('portada y urgencias', () => {
 });
 
 describe('blog', () => {
-  it('el índice existe y, sin artículos, invita a las guías de urgencia', () => {
+  it('el índice lista «¿Te han detenido?» en «Detenciones y comisaría»', () => {
     const blog = byPath('/blog/');
     expect(blog).toBeDefined();
     expect(blog!.root.querySelectorAll('h1')).toHaveLength(1);
-    if (blog!.root.querySelector('[data-post-list]')) return;
-    expect(visibleText(blog!)).toContain('Muy pronto publicaré aquí guías prácticas sobre derecho penal en Las Palmas.');
-    const hrefs = blog!.root.querySelectorAll('main a').map((a) => a.getAttribute('href'));
-    expect(hrefs).toContain('/te-han-detenido/');
-    expect(hrefs).toContain('/juicio-rapido/');
+    const section = blog!.root.querySelector('[data-post-list] section[aria-labelledby="tema-detenido"]');
+    expect(section?.querySelector('h2')?.textContent.trim()).toBe('Detenciones y comisaría');
+    expect(section?.querySelector('a[href="/blog/te-han-detenido/"]')).not.toBeNull();
   });
 });
 
@@ -489,7 +497,7 @@ describe('textos legales revisados', () => {
 });
 
 describe('páginas de confianza, contacto y 404', () => {
-  it.each(['/sobre-raul/', '/como-trabajo/', '/preguntas-frecuentes/', '/contacto/', '/404/'])('%s existe', (path) => {
+  it.each(['/sobre-raul/', '/preguntas-frecuentes/', '/contacto/', '/404/'])('%s existe', (path) => {
     expect(byPath(path), path).toBeDefined();
   });
 
@@ -503,15 +511,21 @@ describe('páginas de confianza, contacto y 404', () => {
     expect(page.root.querySelectorAll('iframe')).toHaveLength(0);
   });
 
-  it('cómo trabajo explica la hoja de encargo y la justicia gratuita', () => {
-    const text = visibleText(byPath('/como-trabajo/')!);
+  it('sobre Raúl explica también cómo trabaja: los pasos, la hoja de encargo y la justicia gratuita', () => {
+    const page = byPath('/sobre-raul/')!;
+    const text = visibleText(page);
     expect(text).toContain('hoja de encargo');
     expect(text).toContain('justicia gratuita');
+    // Otras páginas enlazan directamente a estas secciones.
+    for (const id of ['como-trabajo', 'presupuesto', 'justicia-gratuita']) {
+      expect(page.root.querySelector(`main h2#${id}`), id).not.toBeNull();
+    }
+    expect(byPath('/como-trabajo/'), 'cómo trabajo ya no es una página aparte').toBeUndefined();
   });
 
   it('la 404 lleva a la guía de urgencia y a contacto', () => {
     const hrefs = byPath('/404/')!.root.querySelectorAll('main a').map((a) => a.getAttribute('href'));
-    expect(hrefs).toContain('/te-han-detenido/');
+    expect(hrefs).toContain('/blog/te-han-detenido/');
     expect(hrefs).toContain('/contacto/');
   });
 

@@ -1,0 +1,332 @@
+---
+import { SITE } from '../config/site';
+import { REVIEWS } from '../config/reviews';
+
+const { rating, reviews, profileUrl } = SITE.google;
+const monogram = (initials: string) => initials.replace(/[.\s]/g, '');
+const stars = (n: number) => '★'.repeat(n) + '☆'.repeat(5 - n);
+// Las tres primeras iniciales y, en el último círculo, cuántas reseñas más hay.
+const stacked = REVIEWS.slice(0, 3);
+---
+
+<section class="reviews" aria-labelledby="resenas" data-carousel>
+  <div class="container layout">
+    <header class="intro">
+      <h2 id="resenas">Lo que dicen de mí en Google</h2>
+      <p class="rating">
+        <span class="stars" aria-hidden="true">{stars(5)}</span>
+        <strong>{rating}</strong> de 5 · {reviews} reseñas
+      </p>
+      <div class="stack" aria-hidden="true">
+        {stacked.map((review) => <span>{monogram(review.initials)}</span>)}
+        <span>+{reviews - stacked.length}</span>
+      </div>
+      {
+        profileUrl && (
+          <a class="all" href={profileUrl}>
+            Ver todas las reseñas <span aria-hidden="true">→</span>
+          </a>
+        )
+      }
+    </header>
+
+    <ul class="track" id="resenas-lista" aria-label="Reseñas de Google" tabindex="0" data-carousel-track>
+      {
+        REVIEWS.map((review) => (
+          <li>
+            <article class="review">
+              <span class="quote" aria-hidden="true">“</span>
+              <blockquote>{review.text}</blockquote>
+              <div class="author">
+                <span class="avatar" aria-hidden="true">{monogram(review.initials)}</span>
+                <div>
+                  <p class="name">{review.initials}</p>
+                  <p class="stars" role="img" aria-label={`${review.rating} de 5 estrellas`}>{stars(review.rating)}</p>
+                </div>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="controls" data-requires-js>
+      <p class="count" aria-hidden="true" data-carousel-count></p>
+      <div class="arrows">
+        <button type="button" aria-controls="resenas-lista" aria-label="Reseña anterior" data-carousel-prev>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5m6-6-6 6 6 6"></path></svg>
+        </button>
+        <button type="button" aria-controls="resenas-lista" aria-label="Reseña siguiente" data-carousel-next>
+          <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <p class="note">Reseñas publicadas por usuarios en Google.</p>
+  </div>
+</section>
+
+<script>
+  import { bindCarousel } from '../scripts/carousel';
+
+  document.querySelectorAll<HTMLElement>('[data-carousel]').forEach((root) => bindCarousel(root));
+</script>
+
+<style>
+  /* Banda oscura con las reseñas en una fila que se desliza. En el móvil: título arriba y
+     tarjetas debajo, a sangre hasta los bordes; desde 900 px, título a la izquierda y
+     dos tarjetas a la vista a la derecha. */
+  .reviews {
+    --reviews-tint: #9ed8df;
+    --reviews-text: #c5d3da;
+    padding-block: var(--space-7);
+    background: linear-gradient(160deg, #0d4a55, var(--color-ink) 65%);
+    color: #fff;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-areas: 'intro' 'track' 'controls' 'note';
+    gap: var(--space-5);
+  }
+
+  .intro {
+    grid-area: intro;
+    display: grid;
+    justify-items: start;
+    gap: var(--space-4);
+  }
+
+  .rating {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--reviews-text);
+  }
+
+  .rating strong {
+    color: #fff;
+    font-weight: 800;
+  }
+
+  .stars {
+    color: #eab308;
+    letter-spacing: 0.06em;
+    line-height: 1;
+  }
+
+  .stack {
+    display: flex;
+  }
+
+  .stack span {
+    display: grid;
+    place-items: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    margin-left: -6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    box-shadow: 0 0 0 3px #0d4250;
+    font-size: 0.75rem;
+    font-weight: 800;
+  }
+
+  .stack span:first-child {
+    margin-left: 0;
+  }
+
+  .stack span:nth-child(2) {
+    background: var(--color-accent-strong);
+  }
+
+  .stack span:last-child {
+    background: var(--reviews-tint);
+    color: var(--color-ink);
+  }
+
+  .all {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap);
+    color: var(--reviews-tint);
+    font-weight: 700;
+  }
+
+  .all:hover {
+    color: #fff;
+  }
+
+  /* La fila sale hasta el borde de la pantalla para que se vea asomar la tarjeta siguiente. */
+  .track {
+    grid-area: track;
+    display: flex;
+    gap: var(--space-3);
+    margin: 0 calc(-1 * var(--space-4));
+    padding: var(--space-1) var(--space-4);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: var(--space-4);
+    list-style: none;
+  }
+
+  .track:focus-visible {
+    outline-color: var(--reviews-tint);
+    outline-offset: -3px;
+  }
+
+  /* Con flechas, la barra de desplazamiento sobra; sin JavaScript se deja para poder moverse. */
+  :global(html.js) .track {
+    scrollbar-width: none;
+  }
+
+  :global(html.js) .track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .track > li {
+    display: flex;
+    flex: 0 0 85%;
+    scroll-snap-align: start;
+  }
+
+  .review {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    width: 100%;
+    padding: var(--space-5);
+    background: var(--color-bg);
+    color: var(--color-ink);
+    border-radius: 18px;
+  }
+
+  .quote {
+    height: 1.25rem;
+    color: var(--color-accent);
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .review blockquote {
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  .author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-top: auto;
+    padding-top: var(--space-1);
+  }
+
+  .avatar {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+  }
+
+  .name {
+    font-weight: 800;
+    line-height: 1.3;
+  }
+
+  .author .stars {
+    font-size: var(--step--1);
+  }
+
+  .controls {
+    grid-area: controls;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .count {
+    color: var(--reviews-text);
+    font-size: var(--step--1);
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .arrows {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .arrows button {
+    display: grid;
+    place-items: center;
+    width: var(--tap);
+    height: var(--tap);
+    padding: 0;
+    border: 1.5px solid rgb(255 255 255 / 35%);
+    border-radius: 50%;
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .arrows button:hover:not(:disabled) {
+    border-color: #fff;
+  }
+
+  .arrows button:disabled {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .arrows button:focus-visible,
+  .all:focus-visible {
+    outline-color: #fff;
+  }
+
+  .note {
+    grid-area: note;
+    color: var(--reviews-text);
+    font-size: var(--step--1);
+  }
+
+  @media (min-width: 600px) {
+    .track > li {
+      flex-basis: calc((100% - var(--space-3)) / 2);
+    }
+  }
+
+  @media (min-width: 900px) {
+    .reviews {
+      padding-block: var(--space-8);
+    }
+
+    .layout {
+      grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+      grid-template-areas: 'intro track' 'note controls';
+      align-items: center;
+      column-gap: var(--space-8);
+    }
+
+    .track {
+      gap: var(--space-4);
+      margin: 0;
+      padding-inline: 0;
+      scroll-padding-inline: 0;
+    }
+
+    .track > li {
+      flex-basis: calc((100% - var(--space-4)) / 2);
+    }
+  }
+</style>

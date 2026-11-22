@@ -11,7 +11,7 @@ Contacto:
 
 ## Urgencias
 
-- [¿Te han detenido?](https://raulcabreraabogado.com/te-han-detenido/): qué pasa en las primeras horas, derechos del detenido y qué hacer ahora.
+- [¿Te han detenido?](https://raulcabreraabogado.com/blog/te-han-detenido/): qué pasa en las primeras horas, derechos del detenido y qué hacer ahora.
 - [¿Tienes un juicio rápido?](https://raulcabreraabogado.com/juicio-rapido/): qué es un juicio rápido, la conformidad y cómo prepararlo.
 
 ## Servicios
@@ -26,5 +26,4 @@ Contacto:
 ## Sobre el despacho
 
 - [Inicio](https://raulcabreraabogado.com/)
-- [Sobre Raúl](https://raulcabreraabogado.com/sobre-raul/): colegiación, trayectoria y juzgados donde actúa.
-- [Cómo trabajo](https://raulcabreraabogado.com/como-trabajo/): del primer contacto a la sentencia, presupuesto por escrito y justicia gratuita.
+- [Sobre Raúl](https://raulcabreraabogado.com/sobre-raul/): colegiación, trayectoria, juzgados donde actúa y cómo trabaja: del primer contacto a la sentencia, presupuesto por escrito y justicia gratuita.

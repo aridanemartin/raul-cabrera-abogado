@@ -35,11 +35,13 @@ const article = buildArticle({
       <Breadcrumbs items={crumbs} />
       <p class="eyebrow">{CLUSTERS[data.cluster]}</p>
       <h1>{data.h1}</h1>
+      {data.lead && <p class="lead">{data.lead}</p>}
       <p class="meta">
         Por <a href="/sobre-raul/">{SITE.lawyer.fullName}</a>, abogado colegiado nº {SITE.lawyer.colegiado}<br />
         Publicado el <time datetime={data.datePublished.toISOString()}>{formatDate(data.datePublished)}</time> · Última
         revisión: <time datetime={modified.toISOString()}>{formatDate(modified)}</time>
       </p>
+      {data.urgencyTitle && <UrgencyCard location="urgencia" title={data.urgencyTitle} />}
     </header>
     <div class="prose">
       <slot />
@@ -63,6 +65,13 @@ const article = buildArticle({
   .intro {
     display: grid;
     gap: var(--space-3);
+  }
+
+  .lead {
+    max-width: var(--measure);
+    color: var(--color-muted);
+    font-size: var(--step-1);
+    line-height: 1.5;
   }
 
   .meta {

@@ -63,7 +63,7 @@ Lo que dices en las primeras horas puede pesar en todo lo que viene después. Po
 
 Atiendo detenciones y citaciones como investigado en Las Palmas de Gran Canaria y en el resto de Gran Canaria, y también llevo asuntos en las demás islas. Si la detención ocurre lejos, empezamos por teléfono o videoconferencia, como permite la ley, y me desplazo cuando hace falta.
 
-Si eres extranjero, tienes derecho a un intérprete gratuito y a que se avise al consulado de tu país ([art. 520][lecrim520]). Si no puedes pagar un abogado, puedes pedir la asistencia jurídica gratuita, que te explico en la página de [cómo trabajo](/como-trabajo/).
+Si eres extranjero, tienes derecho a un intérprete gratuito y a que se avise al consulado de tu país ([art. 520][lecrim520]). Si no puedes pagar un abogado, puedes pedir la asistencia jurídica gratuita, que te explico en [cómo trabajo](/sobre-raul/#justicia-gratuita).
 
 Y si quien está detenido es un familiar tuyo, escríbeme con lo que sepas: con el nombre y la comisaría puedo empezar a moverme.
 

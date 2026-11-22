@@ -28,6 +28,9 @@ const blog = defineCollection({
     title,
     description,
     h1: z.string(),
+    lead: z.string().optional(),
+    // Para artículos urgentes: tarjeta de WhatsApp arriba del todo, con este título.
+    urgencyTitle: z.string().optional(),
     datePublished: z.coerce.date(),
     dateModified: z.coerce.date().optional(),
     cluster: z.enum(['detenido', 'juicio-rapido', 'violencia', 'delitos-leves', 'sentencia', 'extranjeros']),
