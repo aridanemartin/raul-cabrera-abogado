@@ -4,6 +4,7 @@ description: 'Alcoholemia, conducir sin carnet o negarte a la prueba: qué penas
 h1: 'Alcoholemia y delitos de tráfico en Las Palmas'
 cardTitle: 'Alcoholemia y delitos de tráfico'
 summary: 'Si te han parado con una tasa alta de alcohol, sin carnet o te negaste a hacer la prueba, lo habitual es que te citen a un juicio rápido en pocos días. Te explico qué pena puede caer, cuándo te conviene la conformidad y cómo preparamos la defensa.'
+cardHook: 'Tasa alta, sin carnet o sin prueba: juicio rápido en días.'
 order: 2
 legalRefs:
   - label: 'Código Penal, artículo 379 (alcohol, drogas y velocidad)'

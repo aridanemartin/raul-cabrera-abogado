@@ -13,6 +13,8 @@ const servicios = defineCollection({
     h1: z.string(),
     cardTitle: z.string(),
     summary: z.string(),
+    // Una línea corta para el índice de la portada.
+    cardHook: z.string().max(80),
     order: z.number(),
     legalRefs: z
       .array(z.object({ label: z.string(), url: z.string().startsWith('https://www.boe.es/') }))

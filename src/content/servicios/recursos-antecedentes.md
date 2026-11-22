@@ -4,6 +4,7 @@ description: 'Recurrir una sentencia penal, pedir la suspensión de la condena p
 h1: 'Recursos, suspensión de la condena y antecedentes penales'
 cardTitle: 'Recursos y antecedentes'
 summary: 'Una sentencia no siempre es el final. Se puede recurrir en plazos muy cortos, pedir que no se ejecute la pena de prisión y, con el tiempo, cancelar los antecedentes. Te explico los plazos y lo que hace falta en cada caso.'
+cardHook: 'Recurrir, evitar la prisión y cancelar antecedentes.'
 order: 6
 legalRefs:
   - label: 'Ley de Enjuiciamiento Criminal, artículo 790 (apelación)'

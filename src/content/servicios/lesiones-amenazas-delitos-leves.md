@@ -4,6 +4,7 @@ description: 'Denuncias por lesiones, amenazas, coacciones o hurto: qué penas p
 h1: 'Lesiones, amenazas y delitos leves'
 cardTitle: 'Lesiones, amenazas y delitos leves'
 summary: 'Una pelea, una discusión que acaba en denuncia o un hurto de poco valor suelen terminar en un juicio rápido o en un juicio por delito leve. Te explico qué puede pasar, incluido lo que cambió en abril de 2026 para quien ya tiene antecedentes.'
+cardHook: 'Peleas, discusiones o hurtos que acaban en juicio.'
 order: 4
 legalRefs:
   - label: 'Código Penal, artículo 147 (lesiones)'

@@ -4,6 +4,7 @@ description: 'Si te han denunciado por violencia de género o doméstica en Las 
 h1: 'Defensa en casos de violencia de género y doméstica'
 cardTitle: 'Violencia de género y doméstica'
 summary: 'Si te han denunciado o detenido por violencia de género o doméstica, lo más urgente es la primera declaración y las medidas que se pidan en el juzgado de guardia, como una orden de alejamiento. Te explico qué puede pasar y defiendo tus derechos desde el primer momento.'
+cardHook: 'Primera declaración y orden de alejamiento en el juzgado de guardia.'
 order: 3
 legalRefs:
   - label: 'Constitución Española, artículo 24 (derecho de defensa y presunción de inocencia)'

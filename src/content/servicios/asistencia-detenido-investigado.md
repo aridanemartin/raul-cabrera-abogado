@@ -4,6 +4,7 @@ description: 'Si te han detenido o citado como investigado en Las Palmas, tienes
 h1: 'Asistencia al detenido y al investigado en Las Palmas'
 cardTitle: 'Asistencia al detenido e investigado'
 summary: 'Si te han detenido o te han citado como investigado, tienes derecho a elegir abogado y a hablar con él a solas antes de declarar. Voy a comisaría y al juzgado de guardia, te explico qué está pasando y decidimos juntos qué decir y qué no.'
+cardHook: 'Voy a comisaría y al juzgado de guardia antes de que declares.'
 order: 1
 legalRefs:
   - label: 'Constitución Española, artículo 17 (libertad y detención)'

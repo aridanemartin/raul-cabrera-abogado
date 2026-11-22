@@ -4,6 +4,7 @@ description: 'Si has sido víctima de un delito, puedes personarte en el proceso
 h1: 'Acusación particular: tus derechos como víctima'
 cardTitle: 'Acusación particular'
 summary: 'Si has sufrido un delito, no tienes por qué quedarte al margen del proceso. Como acusación particular eres parte: puedes proponer pruebas, acusar y reclamar la indemnización que te corresponde, con tu propio abogado.'
+cardHook: 'Si eres la víctima: acusar y reclamar tu indemnización.'
 order: 5
 legalRefs:
   - label: 'Ley de Enjuiciamiento Criminal, artículo 109 (información a la víctima)'
