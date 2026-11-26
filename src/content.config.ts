@@ -26,18 +26,27 @@ const servicios = defineCollection({
 // Un artículo = src/content/blog/<slug>.md. Con `draft: true` no se publica.
 const blog = defineCollection({
   loader: glob({ base: './src/content/blog', pattern: '**/*.md' }),
-  schema: z.object({
-    title,
-    description,
-    h1: z.string(),
-    lead: z.string().optional(),
-    // Para artículos urgentes: tarjeta de WhatsApp arriba del todo, con este título.
-    urgencyTitle: z.string().optional(),
-    datePublished: z.coerce.date(),
-    dateModified: z.coerce.date().optional(),
-    cluster: z.enum(['detenido', 'juicio-rapido', 'violencia', 'delitos-leves', 'sentencia', 'extranjeros']),
-    draft: z.boolean().default(false),
-  }),
+  schema: ({ image }) =>
+    z
+      .object({
+        title,
+        description,
+        h1: z.string(),
+        lead: z.string().optional(),
+        // Portada propia, relativa al .md (p. ej. '../../assets/foto.webp'). Sin ella se usa la portada por defecto.
+        image: image().optional(),
+        imageAlt: z.string().optional(),
+        // Para artículos urgentes: tarjeta de WhatsApp arriba del todo, con este título.
+        urgencyTitle: z.string().optional(),
+        datePublished: z.coerce.date(),
+        dateModified: z.coerce.date().optional(),
+        cluster: z.enum(['detenido', 'juicio-rapido', 'violencia', 'delitos-leves', 'sentencia', 'extranjeros']),
+        draft: z.boolean().default(false),
+      })
+      .refine((data) => !data.image || data.imageAlt, {
+        message: 'Una portada propia necesita imageAlt',
+        path: ['imageAlt'],
+      }),
 });
 
 export const collections = { servicios, blog };

@@ -13,9 +13,11 @@ interface Props {
   /** Muestra la tarjeta de WhatsApp justo después de la entradilla. */
   urgency?: boolean;
   urgencyTitle?: string;
+  /** Contenido a todo el ancho del contenedor, sin la medida de lectura (p. ej. una rejilla de tarjetas). */
+  wide?: boolean;
 }
 
-const { title, description, h1, lead, crumb, urgency = false, urgencyTitle } = Astro.props;
+const { title, description, h1, lead, crumb, urgency = false, urgencyTitle, wide = false } = Astro.props;
 const crumbs = [
   { name: 'Inicio', path: '/' },
   { name: crumb, path: Astro.url.pathname },
@@ -30,7 +32,7 @@ const crumbs = [
       {lead && <p class="lead">{lead}</p>}
       {urgency && <UrgencyCard location="urgencia" title={urgencyTitle} />}
     </header>
-    <div class="prose">
+    <div class:list={{ prose: !wide }}>
       <slot />
     </div>
   </div>

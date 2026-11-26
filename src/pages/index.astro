@@ -2,11 +2,12 @@
 import { Picture, getImage } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import ContactForm from '../components/ContactForm.astro';
+import ClosingBanner from '../components/ClosingBanner.astro';
+import consultaPhoto from '../assets/raul-cabrera-consulta.webp';
 import GoogleReviews from '../components/GoogleReviews.astro';
 import TrustStrip from '../components/TrustStrip.astro';
 import UrgencyCard from '../components/UrgencyCard.astro';
-import { FULL_ADDRESS, SITE } from '../config/site';
+import { SITE } from '../config/site';
 import heroPhoto from '../assets/raul-cabrera-portada.jpg';
 import heroPhotoWide from '../assets/raul-cabrera-portada-ancha.jpg';
 import whyPhoto from '../assets/raul-cabrera-por-que.jpg';
@@ -205,22 +206,13 @@ const reasons = [
 
   <GoogleReviews />
 
-  <section class="section" aria-labelledby="contacto">
-    <div class="container contact">
-      <div>
-        <h2 id="contacto">Cuéntame tu caso</h2>
-        <p>
-          Rellena estos tres datos y se abrirá WhatsApp con el mensaje preparado. Si lo prefieres, llámame al <a
-            href={`tel:${SITE.phone.e164}`}
-            data-lead="telefono"
-            data-lead-location="portada">{SITE.phone.display}</a
-          >.
-        </p>
-        <p class="address">Despacho: {FULL_ADDRESS}</p>
-      </div>
-      <ContactForm location="portada" />
-    </div>
-  </section>
+  <ClosingBanner
+    location="portada-final"
+    tone="light"
+    photo={consultaPhoto}
+    photoAlt="Manos de Raúl Cabrera y de un cliente sobre la mesa durante una consulta"
+    photoPosition={{ mobile: '80% bottom', desktop: '82% center' }}
+  />
 </BaseLayout>
 
 <style>
@@ -304,14 +296,11 @@ const reasons = [
       padding-block: var(--space-7);
     }
 
-    /* La foto va pegada a la derecha de un marco centrado de 110rem, siempre a la altura
-       de la cabecera y sin estirarse más allá de su proporción: en pantallas anchas se ve
-       de la cabeza al pecho y el hueco que sobra es color de pared. */
+    /* La foto cubre todo el fondo de la cabecera, de borde a borde: el velo plano de color
+       cae sobre la pared y no hay costura entre la imagen y el fondo. La cara queda a la derecha. */
     .hero-media {
       position: absolute;
-      inset-block: 0;
-      inset-inline: max(0px, (100% - 110rem) / 2);
-      width: auto;
+      inset: 0;
       aspect-ratio: auto;
       max-height: none;
     }
@@ -323,15 +312,16 @@ const reasons = [
 
     .hero-media :global(img) {
       position: absolute;
-      top: 0;
-      right: 0;
-      width: auto;
+      inset: 0;
+      width: 100%;
+      height: 100%;
       object-position: right top;
-      mask-image: linear-gradient(to right, transparent, #000 30%);
     }
 
+    /* Un solo velo plano sobre todo el fondo, del mismo color que la pared:
+       nada de degradados ni fundidos hacia un lado. */
     .hero-media::after {
-      background: linear-gradient(to right, var(--hero-bg) 30%, rgb(57 50 47 / 0%) 60%);
+      background: rgb(57 50 47 / 40%);
     }
 
     .hero-text {
@@ -341,13 +331,6 @@ const reasons = [
 
     .hero-text > * {
       max-width: 32rem;
-    }
-  }
-
-  /* Con la pantalla más ancha que el marco, su borde derecho se funde con la pared. */
-  @media (min-width: 110rem) {
-    .hero-media {
-      mask-image: linear-gradient(to right, #000 calc(100% - 6rem), transparent);
     }
   }
 
@@ -740,24 +723,5 @@ const reasons = [
       width: calc(100% - var(--space-4));
       max-width: none;
     }
-  }
-
-  .contact {
-    display: grid;
-    gap: var(--space-6);
-  }
-
-  @media (min-width: 900px) {
-    .contact {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  .contact p + p {
-    margin-top: var(--space-3);
-  }
-
-  .address {
-    color: var(--color-muted);
   }
 </style>

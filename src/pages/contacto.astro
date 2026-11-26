@@ -1,41 +1,225 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
-import ContactForm from '../components/ContactForm.astro';
+import { Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
 import MapLink from '../components/MapLink.astro';
 import { FULL_ADDRESS, SITE } from '../config/site';
 import { DEFAULT_WHATSAPP_TEXT, buildWhatsAppUrl } from '../lib/whatsapp';
+import consultaPhoto from '../assets/raul-cabrera-consulta.webp';
+
+const crumbs = [
+  { name: 'Inicio', path: '/' },
+  { name: 'Contacto', path: '/contacto/' },
+];
 ---
 
-<PageLayout
+<BaseLayout
   title="Contacto: abogado penalista en Las Palmas | Raúl Cabrera"
   description="Escríbeme por WhatsApp, llámame o escríbeme un correo. Despacho en C/ Carmen Llopis 7, Las Palmas de Gran Canaria. Te atiendo personalmente."
-  h1="Contacto"
-  lead="Cuéntame qué ha pasado por WhatsApp o por teléfono. Si lo prefieres, rellena el formulario y se abrirá WhatsApp con tu mensaje."
-  crumb="Contacto"
+  breadcrumbs={crumbs}
 >
-  <ContactForm location="contacto" />
+  <div class="contact joins-footer">
+    <section class="card" aria-labelledby="contacto-titulo">
+      <div class="card-media">
+        <Picture
+          src={consultaPhoto}
+          formats={['avif', 'webp']}
+          widths={[768, 1080, 1440, 2172]}
+          sizes="(min-width: 900px) 2172px, 150vw"
+          alt="Manos de Raúl Cabrera y de un cliente sobre la mesa durante una consulta"
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="card-text">
+        <Breadcrumbs items={crumbs} />
+        <h1 id="contacto-titulo">Contacto</h1>
+        <p class="lead">Cuéntame qué ha pasado por WhatsApp o por teléfono.</p>
+        <dl class="channels">
+          <div>
+            <dt>WhatsApp</dt>
+            <dd>
+              <a href={buildWhatsAppUrl(DEFAULT_WHATSAPP_TEXT)} data-lead="whatsapp" data-lead-location="contacto"
+                >Escríbeme al {SITE.phone.display}</a
+              >
+            </dd>
+          </div>
+          <div>
+            <dt>Teléfono</dt>
+            <dd>
+              <a class="phone" href={`tel:${SITE.phone.e164}`} data-lead="telefono" data-lead-location="contacto"
+                >{SITE.phone.display}</a
+              >
+            </dd>
+          </div>
+          <div>
+            <dt>Correo</dt>
+            <dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd>
+          </div>
+          <div>
+            <dt>Despacho</dt>
+            <dd>
+              {FULL_ADDRESS}<br />
+              <MapLink />
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
 
-  <h2>Otras formas de contactar</h2>
-  <ul>
-    <li>
-      <strong>WhatsApp:</strong>
-      <a href={buildWhatsAppUrl(DEFAULT_WHATSAPP_TEXT)} data-lead="whatsapp" data-lead-location="contacto"
-        >escríbeme al {SITE.phone.display}</a
-      >
-    </li>
-    <li>
-      <strong>Teléfono:</strong>
-      <a href={`tel:${SITE.phone.e164}`} data-lead="telefono" data-lead-location="contacto">{SITE.phone.display}</a>
-    </li>
-    <li><strong>Correo electrónico:</strong> <a href={`mailto:${SITE.email}`}>{SITE.email}</a></li>
-  </ul>
+<style>
+  /* Panel color madera con la foto de las manos y los datos de contacto como una tarjeta de visita.
+     En el móvil, una franja de foto con los datos debajo. */
+  .contact {
+    --card-bg: #26140b;
+    --card-text: #e9dfda;
+    --card-label: #c9b8ae;
+    --card-rule: rgb(255 255 255 / 14%);
+    display: grid;
+  }
 
-  <h2>Despacho</h2>
-  <p>{FULL_ADDRESS}</p>
-  <p><MapLink /></p>
-  <p>
-    Si es urgente porque te han detenido o tienes un juicio en pocos días, lee también <a href="/blog/te-han-detenido/"
-      >qué hacer si te han detenido</a
-    > o <a href="/juicio-rapido/">cómo preparar un juicio rápido</a>.
-  </p>
-</PageLayout>
+  .contact > * {
+    min-width: 0;
+  }
+
+  .card {
+    position: relative;
+    overflow: hidden;
+    background: var(--card-bg);
+    color: var(--card-text);
+  }
+
+  .card-media {
+    position: relative;
+    aspect-ratio: 2 / 1;
+  }
+
+  .card-media :global(picture),
+  .card-media :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .card-media :global(img) {
+    object-fit: cover;
+    object-position: 82% center;
+  }
+
+  .card-media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, var(--card-bg));
+  }
+
+  .card-text {
+    position: relative;
+    display: grid;
+    gap: var(--space-4);
+    padding: 0 var(--space-4) var(--space-7);
+  }
+
+  .card h1 {
+    color: #fff;
+  }
+
+  .lead {
+    max-width: 36rem;
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .card :global(.crumbs ol),
+  .card :global(.crumbs a) {
+    color: var(--card-text);
+    font-weight: 400;
+  }
+
+  .card :global(.crumbs li + li::before) {
+    color: rgb(255 255 255 / 35%);
+  }
+
+  /* :global porque el enlace del mapa viene de MapLink, fuera del ámbito de estos estilos. */
+  .card :global(a) {
+    color: #fff;
+    font-weight: 700;
+    overflow-wrap: anywhere;
+  }
+
+  .card :global(a:focus-visible) {
+    outline-color: #fff;
+  }
+
+  .channels {
+    margin-top: var(--space-2);
+    border-top: 1px solid var(--card-rule);
+  }
+
+  .channels > div {
+    display: grid;
+    grid-template-columns: 6.5rem minmax(0, 1fr);
+    gap: var(--space-3);
+    align-items: baseline;
+    padding-block: var(--space-3);
+    border-bottom: 1px solid var(--card-rule);
+  }
+
+  .channels dt {
+    color: var(--card-label);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .channels dd {
+    margin: 0;
+    font-size: var(--step--1);
+  }
+
+  .channels dd :global(a) {
+    display: inline-block;
+    padding-block: var(--space-1);
+  }
+
+  .channels .phone {
+    font-size: var(--step-2);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    text-decoration: none;
+  }
+
+  /* Desde 900 px, la foto ocupa todo el fondo y el texto conserva una columna de media página,
+     alineada a la izquierda con el contenedor principal. */
+  @media (min-width: 900px) {
+    .contact {
+      min-height: 46rem;
+    }
+
+    .card-media {
+      position: absolute;
+      inset: 0;
+      aspect-ratio: auto;
+    }
+
+    /* La foto (3:1) cubre toda la altura, así que se ve casi a su tamaño real: de ahí el sizes de
+       2172px. Solo asoma la parte de las manos. */
+    .card-media :global(img) {
+      object-position: 80% bottom;
+    }
+
+    .card-media::after {
+      background: none;
+    }
+
+    .card-text {
+      width: 50%;
+      align-content: start;
+      padding-block: var(--space-6) 20rem;
+      padding-inline: max(var(--space-4), 50vw - 36rem) var(--space-7);
+    }
+  }
+</style>

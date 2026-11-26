@@ -1,0 +1,191 @@
+---
+// Banda de contacto que cierra la portada, «Sobre Raúl» y «Servicios»: la foto de Raúl fundida con
+// el azul de la web (como la portada por defecto del blog). Va la última dentro de <main> y se
+// pega al pie gracias a `.joins-footer` (global.css). La clara (`tone="light"`) es la de la portada,
+// donde las reseñas de encima ya son oscuras.
+import type { ImageMetadata } from 'astro';
+import { Picture } from 'astro:assets';
+import portrait from '../assets/raul-cabrera-portada.jpg';
+import { SITE } from '../config/site';
+import { DEFAULT_WHATSAPP_TEXT, buildWhatsAppUrl } from '../lib/whatsapp';
+
+interface Props {
+  /** Para la analítica de contactos: en qué página está la banda. */
+  location: string;
+  title?: string;
+  tone?: 'dark' | 'light';
+  /** Otra foto de fondo; por defecto, el retrato de la portada. */
+  photo?: ImageMetadata;
+  photoAlt?: string;
+  /** object-position de la foto en el móvil y desde 900 px. */
+  photoPosition?: { mobile: string; desktop: string };
+}
+
+const {
+  location,
+  title = '¿Te han detenido o tienes un juicio rápido?',
+  tone = 'dark',
+  photo = portrait,
+  photoAlt = `${SITE.lawyer.fullName}, abogado penalista`,
+  photoPosition = { mobile: '78% 15%', desktop: '85% 20%' },
+} = Astro.props;
+const headingId = `cierre-${location}`;
+---
+
+<section
+  class:list={['closing', `closing--${tone}`, 'joins-footer']}
+  aria-labelledby={headingId}
+  style={`--photo-pos: ${photoPosition.mobile}; --photo-pos-wide: ${photoPosition.desktop}`}
+>
+  <Picture
+    class="photo"
+    src={photo}
+    alt={photoAlt}
+    formats={['avif', 'webp']}
+    widths={[480, 960, 1440, 1672]}
+    sizes="100vw"
+    loading="lazy"
+  />
+  <div class="container inner">
+    <h2 id={headingId}>{title}</h2>
+    <p>Cuéntame qué ha pasado y te digo qué podemos hacer. Hablas siempre conmigo.</p>
+    <div class="actions">
+      <a class="btn btn--primary" href={buildWhatsAppUrl(DEFAULT_WHATSAPP_TEXT)} data-lead="whatsapp" data-lead-location={location}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5Z"></path></svg>
+        Escríbeme por WhatsApp
+      </a>
+      <a class="btn btn--outline" href={`tel:${SITE.phone.e164}`} data-lead="telefono" data-lead-location={location}>
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2Z"></path></svg>
+        Llama al {SITE.phone.display}
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .closing {
+    position: relative;
+    overflow: hidden;
+    background: var(--color-ink);
+    color: #fff;
+    /* Una línea fina la separa del pie, que es del mismo azul. */
+    border-bottom: 1px solid rgb(255 255 255 / 12%);
+  }
+
+  /* `class` de <Picture> va al <img>. */
+  /* Móvil: la foto ocupa solo la parte de arriba, para que el titular no tape la cara. */
+  .closing :global(.photo) {
+    position: absolute;
+    inset: 0 0 auto;
+    width: 100%;
+    height: 17rem;
+    object-fit: cover;
+    object-position: var(--photo-pos);
+    filter: grayscale(1);
+    opacity: 0.9;
+  }
+
+  .closing::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(14 42 59 / 35%) 0, rgb(14 42 59 / 75%) 10rem, var(--color-ink) 17rem);
+  }
+
+  .inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-4);
+    padding-block: 14rem var(--space-7);
+  }
+
+  h2 {
+    max-width: 34rem;
+    color: #fff;
+  }
+
+  p {
+    max-width: 30rem;
+    color: #e6eef0;
+    font-size: var(--step-1);
+    line-height: 1.5;
+  }
+
+  .actions {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .btn--outline {
+    color: #fff;
+    box-shadow: inset 0 0 0 2px rgb(255 255 255 / 75%);
+  }
+
+  .btn--outline:hover {
+    background: rgb(255 255 255 / 10%);
+    color: #fff;
+  }
+
+  @media (min-width: 900px) {
+    .closing :global(.photo) {
+      inset: 0;
+      height: 100%;
+      object-position: var(--photo-pos-wide);
+    }
+
+    .closing::after {
+      background: linear-gradient(90deg, rgb(14 42 59 / 97%) 0%, rgb(14 42 59 / 88%) 45%, rgb(15 124 140 / 55%) 100%);
+    }
+
+    .inner {
+      padding-block: var(--space-8);
+    }
+
+    .actions {
+      grid-auto-flow: column;
+      justify-content: start;
+    }
+  }
+  /* Clara: la foto fundida con el azul claro, texto en tinta. */
+  .closing--light {
+    background: var(--color-surface);
+    color: var(--color-ink);
+    border-bottom: 0;
+  }
+
+  .closing--light :global(.photo) {
+    filter: grayscale(1) contrast(0.9) brightness(1.15);
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+  }
+
+  .closing--light::after {
+    background: linear-gradient(180deg, rgb(238 246 247 / 20%) 0, rgb(238 246 247 / 80%) 10rem, var(--color-surface) 17rem);
+  }
+
+  .closing--light h2 {
+    color: var(--color-ink);
+  }
+
+  .closing--light p {
+    color: var(--color-muted);
+  }
+
+  .closing--light .btn--outline {
+    color: var(--color-ink);
+    box-shadow: inset 0 0 0 2px var(--color-ink);
+  }
+
+  .closing--light .btn--outline:hover {
+    background: var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  @media (min-width: 900px) {
+    .closing--light::after {
+      background: linear-gradient(90deg, var(--color-surface) 0%, rgb(238 246 247 / 92%) 45%, rgb(238 246 247 / 25%) 100%);
+    }
+  }
+</style>

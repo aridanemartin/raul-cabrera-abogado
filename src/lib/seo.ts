@@ -83,6 +83,8 @@ export function buildArticle(input: {
   path: string;
   datePublished: Date;
   dateModified?: Date;
+  /** URL absoluta de la portada. */
+  image?: string;
 }): Record<string, unknown> {
   const url = absoluteUrl(input.path);
   return {
@@ -92,6 +94,7 @@ export function buildArticle(input: {
     description: input.description,
     url,
     mainEntityOfPage: url,
+    ...(input.image ? { image: input.image } : {}),
     inLanguage: 'es',
     datePublished: input.datePublished.toISOString(),
     dateModified: (input.dateModified ?? input.datePublished).toISOString(),

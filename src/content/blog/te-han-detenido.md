@@ -41,7 +41,7 @@ Escríbeme por WhatsApp con lo que sepas: el nombre completo, dónde lo han dete
 
 ## Qué pasa después
 
-Al terminar en comisaría, la policía puede dejarte en libertad con una citación o llevarte ante el juzgado de guardia. Muchos delitos sencillos, como los de tráfico, el hurto o las lesiones y amenazas dentro de la familia, se juzgan por la vía del [juicio rápido](/juicio-rapido/) ([artículo 795 de la Ley de Enjuiciamiento Criminal][lecrim795]), a veces en el mismo día.
+Al terminar en comisaría, la policía puede dejarte en libertad con una citación o llevarte ante el juzgado de guardia. Muchos delitos sencillos, como los de tráfico, el hurto o las lesiones y amenazas dentro de la familia, se juzgan por la vía del [juicio rápido](/blog/juicio-rapido/) ([artículo 795 de la Ley de Enjuiciamiento Criminal][lecrim795]), a veces en el mismo día.
 
 Te lo explico con más detalle en la página de [asistencia al detenido e investigado](/servicios/asistencia-detenido-investigado/).
 

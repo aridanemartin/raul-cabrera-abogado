@@ -3,7 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Breadcrumbs from '../../components/Breadcrumbs.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
-import UrgencyCard from '../../components/UrgencyCard.astro';
+import ClosingBanner from '../../components/ClosingBanner.astro';
 
 const services = (await getCollection('servicios')).sort((a, b) => a.data.order - b.data.order);
 const crumbs = [
@@ -36,8 +36,8 @@ const crumbs = [
         ))
       }
     </div>
-    <UrgencyCard location="pagina" />
   </div>
+  <ClosingBanner location="servicios" />
 </BaseLayout>
 
 <style>

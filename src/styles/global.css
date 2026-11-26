@@ -203,6 +203,11 @@ html:not(.js) [data-requires-js] {
   background: var(--color-surface);
 }
 
+/* Una banda a todo lo ancho que cierra la página va pegada al pie, sin el margen que el pie deja normalmente. */
+main:has(> .joins-footer:last-child) + .site-footer {
+  margin-top: 0;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

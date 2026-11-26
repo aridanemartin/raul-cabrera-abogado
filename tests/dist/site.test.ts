@@ -158,11 +158,13 @@ describe('todas las páginas', () => {
     }
   });
 
-  it('cada página lleva la foto de Raúl para compartir el enlace', () => {
+  it('cada página lleva la foto de Raúl para compartir el enlace (los artículos, su portada)', () => {
     for (const page of pages) {
       const meta = (property: string) =>
         page.root.querySelector(`meta[property="${property}"]`)?.getAttribute('content') ?? '';
-      expect(meta('og:image'), page.path).toBe(`${ORIGIN}og-raul-cabrera.jpg`);
+      const isArticle = page.path.startsWith('/blog/') && page.path !== '/blog/';
+      if (isArticle) expect(meta('og:image'), page.path).toMatch(new RegExp(`^${ORIGIN}_astro/.+\\.jpg$`));
+      else expect(meta('og:image'), page.path).toBe(`${ORIGIN}og-raul-cabrera.jpg`);
       expect(meta('og:image:width'), page.path).toBe('1200');
       expect(meta('og:image:height'), page.path).toBe('630');
       expect(meta('og:image:alt'), page.path).toContain('Raúl Cabrera');
@@ -251,8 +253,9 @@ describe('todas las páginas', () => {
 
   it('sin JavaScript el formulario se oculta y se ofrecen WhatsApp y el teléfono', () => {
     expect(builtCss()).toMatch(/html:not\(\.js\)\s*\[data-requires-js\]\s*\{display:none\s*!important\}/);
+    // Hoy ninguna página lleva el formulario (la portada cierra con la banda de contacto);
+    // si vuelve a usarse, tiene que cumplir esto.
     const withForm = pages.filter((p) => p.root.querySelector('form[data-contact-form]'));
-    expect(withForm.length).toBeGreaterThan(0);
     for (const page of withForm) {
       for (const form of page.root.querySelectorAll('form[data-contact-form]')) {
         expect(form.hasAttribute('data-requires-js'), page.path).toBe(true);
@@ -387,14 +390,15 @@ describe('portada y urgencias', () => {
     expect(section.querySelector('a[href="/sobre-raul/"]')).not.toBeNull();
   });
 
-  it('la portada tiene el formulario de contacto y enlaza a los seis servicios', () => {
+  it('la portada cierra con la banda de contacto, sin formulario, y enlaza a los seis servicios', () => {
     const home = byPath('/')!;
-    expect(home.root.querySelector('main form[data-contact-form][data-lead-location="portada"]')).not.toBeNull();
+    expect(home.root.querySelector('main form[data-contact-form]')).toBeNull();
+    expect(home.root.querySelector('#contacto')).toBeNull();
     const hrefs = home.root.querySelectorAll('main a').map((a) => a.getAttribute('href'));
     for (const path of SERVICES) expect(hrefs).toContain(path);
   });
 
-  it.each(['/blog/te-han-detenido/', '/juicio-rapido/'])('%s enlaza al BOE y ofrece WhatsApp antes del primer h2', (path) => {
+  it.each(['/blog/te-han-detenido/', '/blog/juicio-rapido/'])('%s enlaza al BOE y ofrece WhatsApp antes del primer h2', (path) => {
     const page = byPath(path);
     expect(page, path).toBeDefined();
     expect(page!.root.querySelectorAll('main a[href^="https://www.boe.es/"]').length).toBeGreaterThan(0);
@@ -406,14 +410,46 @@ describe('portada y urgencias', () => {
   });
 });
 
+describe('banda de contacto final', () => {
+  // En la portada va la versión clara: las reseñas de encima ya son oscuras.
+  it.each([
+    ['/', 'closing--light'],
+    ['/sobre-raul/', 'closing--dark'],
+    ['/servicios/', 'closing--dark'],
+  ])('%s termina con la banda de contacto pegada al pie, con WhatsApp y teléfono', (path, tone) => {
+    const main = byPath(path)!.root.querySelector('main')!;
+    const last = main.childNodes.filter((node) => 'tagName' in node).at(-1) as ReturnType<typeof main.querySelector>;
+    expect(last?.classList.contains('closing'), path).toBe(true);
+    expect(last?.classList.contains('joins-footer'), path).toBe(true);
+    expect(last?.classList.contains(tone), path).toBe(true);
+    expect(last?.querySelector('h2')?.textContent.trim(), path).toBe('¿Te han detenido o tienes un juicio rápido?');
+    expect(last?.querySelector('a[href^="https://wa.me/"][data-lead="whatsapp"]'), path).not.toBeNull();
+    expect(last?.querySelector('a[href^="tel:"][data-lead="telefono"]'), path).not.toBeNull();
+  });
+});
+
 describe('blog', () => {
-  it('el índice lista «¿Te han detenido?» en «Detenciones y comisaría»', () => {
+  it('el índice muestra «¿Te han detenido?» como tarjeta con portada y tema', () => {
     const blog = byPath('/blog/');
     expect(blog).toBeDefined();
     expect(blog!.root.querySelectorAll('h1')).toHaveLength(1);
-    const section = blog!.root.querySelector('[data-post-list] section[aria-labelledby="tema-detenido"]');
-    expect(section?.querySelector('h2')?.textContent.trim()).toBe('Detenciones y comisaría');
-    expect(section?.querySelector('a[href="/blog/te-han-detenido/"]')).not.toBeNull();
+    const card = blog!.root.querySelector('[data-post-list] li[data-cluster="detenido"]');
+    expect(card?.querySelector('h2 a[href="/blog/te-han-detenido/"]')).not.toBeNull();
+    expect(card?.querySelector('.eyebrow')?.textContent.trim()).toBe('Detenciones y comisaría');
+    expect(card?.querySelector('img')?.getAttribute('alt')).toBe('');
+  });
+
+  it('los borradores (las maquetas) no se publican', () => {
+    expect(pages.some((page) => page.path.includes('maqueta'))).toBe(false);
+    expect(byPath('/blog/')!.root.querySelectorAll('a[href*="maqueta"]')).toHaveLength(0);
+  });
+
+  it('un artículo sin portada propia usa la portada por defecto, también al compartirlo', () => {
+    const post = byPath('/blog/te-han-detenido/')!;
+    const cover = post.root.querySelector('article img.cover');
+    expect(cover?.getAttribute('src')).toMatch(/blog-portada-por-defecto/);
+    const og = post.root.querySelector('meta[property="og:image"]')?.getAttribute('content');
+    expect(og).toMatch(/^https:\/\/raulcabreraabogado\.com\/.*blog-portada-por-defecto.*\.jpg$/);
   });
 });
 
@@ -475,7 +511,7 @@ describe('páginas legales', () => {
 
 describe('textos legales revisados', () => {
   it('juicio rápido: nombra el robo de uso de vehículos y condiciona la suspensión de la pena', () => {
-    const text = visibleText(byPath('/juicio-rapido/')!);
+    const text = visibleText(byPath('/blog/juicio-rapido/')!);
     expect(text).toContain('hurto y robo de uso de vehículos');
     expect(text).not.toContain('hurto o robo de vehículos');
     expect(text).not.toContain('puede suspenderla en el mismo acto, y basta');
@@ -501,9 +537,9 @@ describe('páginas de confianza, contacto y 404', () => {
     expect(byPath(path), path).toBeDefined();
   });
 
-  it('contacto tiene el formulario, el teléfono y la dirección exacta, sin iframe', () => {
+  it('contacto no tiene formulario y muestra el teléfono y la dirección exacta, sin iframe', () => {
     const page = byPath('/contacto/')!;
-    expect(page.root.querySelector('main form[data-contact-form][data-lead-location="contacto"]')).not.toBeNull();
+    expect(page.root.querySelector('main form[data-contact-form][data-lead-location="contacto"]')).toBeNull();
     expect(page.root.querySelector('main a[href="tel:+34676882221"]')).not.toBeNull();
     expect(visibleText(page)).toContain('C/ Carmen Llopis 7, 4º, 35003 Las Palmas de Gran Canaria');
     const map = page.root.querySelector('main a[href^="https://www.google.com/maps/search/?api=1&query="]');

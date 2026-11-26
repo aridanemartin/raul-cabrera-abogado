@@ -3,7 +3,7 @@ import { FOOTER_IDENTITY, SITE } from '../config/site';
 
 const pages = [
   { label: 'Servicios', href: '/servicios/' },
-  { label: '¿Tienes un juicio rápido?', href: '/juicio-rapido/' },
+  { label: '¿Tienes un juicio rápido?', href: '/blog/juicio-rapido/' },
   { label: 'Sobre Raúl', href: '/sobre-raul/' },
   { label: 'Preguntas frecuentes', href: '/preguntas-frecuentes/' },
   { label: 'Blog', href: '/blog/' },
@@ -103,8 +103,10 @@ const legal = [
 
   .credit {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
+    gap: var(--space-1);
     text-align: center;
     background: var(--color-surface);
     color: var(--color-ink);

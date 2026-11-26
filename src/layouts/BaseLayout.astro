@@ -16,9 +16,19 @@ interface Props {
   ogType?: 'website' | 'article';
   /** Página 404: sin canonical y siempre noindex. */
   notFound?: boolean;
+  /** Imagen al compartir el enlace; por defecto, la foto de Raúl. `src` es una ruta del sitio. */
+  ogImage?: { src: string; width: number; height: number; alt: string };
 }
 
-const { title, description, breadcrumbs, jsonLd = [], ogType = 'website', notFound = false } = Astro.props;
+const {
+  title,
+  description,
+  breadcrumbs,
+  jsonLd = [],
+  ogType = 'website',
+  notFound = false,
+  ogImage = { src: SITE.ogImage.path, width: SITE.ogImage.width, height: SITE.ogImage.height, alt: SITE.ogImage.alt },
+} = Astro.props;
 const canonical = new URL(Astro.url.pathname, SITE.url).href;
 const indexable = import.meta.env.PUBLIC_INDEXABLE === 'true' && !notFound;
 const structuredData = [buildSiteGraph(), ...(breadcrumbs?.length ? [buildBreadcrumbs(breadcrumbs)] : []), ...jsonLd];
@@ -40,10 +50,10 @@ const toJson = (data: object) => JSON.stringify(data).replace(/</g, '\\u003c');
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {!notFound && <meta property="og:url" content={canonical} />}
-    <meta property="og:image" content={new URL(SITE.ogImage.path, SITE.url).href} />
-    <meta property="og:image:width" content={String(SITE.ogImage.width)} />
-    <meta property="og:image:height" content={String(SITE.ogImage.height)} />
-    <meta property="og:image:alt" content={SITE.ogImage.alt} />
+    <meta property="og:image" content={new URL(ogImage.src, SITE.url).href} />
+    <meta property="og:image:width" content={String(ogImage.width)} />
+    <meta property="og:image:height" content={String(ogImage.height)} />
+    <meta property="og:image:alt" content={ogImage.alt} />
     <meta name="theme-color" content="#0F7C8C" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <Font cssVariable="--font-manrope" preload />

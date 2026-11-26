@@ -1,15 +1,14 @@
 ---
-import { getCollection } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
-import { CLUSTERS, formatDate, isPublished, type Cluster } from '../../lib/blog';
+import BlogGrid from '../../components/BlogGrid.astro';
+import { CLUSTERS, type Cluster } from '../../lib/blog';
+import { getPublishedPosts } from '../../lib/posts';
 
-const posts = (await getCollection('blog'))
-  .filter((post) => isPublished(post))
-  .sort((a, b) => b.data.datePublished.getTime() - a.data.datePublished.getTime());
+const posts = await getPublishedPosts();
 
-const groups = (Object.keys(CLUSTERS) as Cluster[])
-  .map((cluster) => ({ cluster, label: CLUSTERS[cluster], posts: posts.filter((p) => p.data.cluster === cluster) }))
-  .filter((group) => group.posts.length > 0);
+// El filtro solo tiene sentido con artículos de al menos dos temas.
+const topics = (Object.keys(CLUSTERS) as Cluster[]).filter((cluster) => posts.some((p) => p.data.cluster === cluster));
+const showFilter = topics.length > 1;
 ---
 
 <PageLayout
@@ -18,40 +17,97 @@ const groups = (Object.keys(CLUSTERS) as Cluster[])
   h1="Blog de derecho penal"
   lead="Guías prácticas, escritas y revisadas por mí, para entender qué pasa en cada fase de un proceso penal."
   crumb="Blog"
+  wide
 >
   {
-    groups.length === 0 ? (
+    posts.length === 0 ? (
       <>
         <p>Muy pronto publicaré aquí guías prácticas sobre derecho penal en Las Palmas.</p>
         <p>Mientras tanto, si tienes prisa, empieza por aquí:</p>
         <ul>
           <li>
-            <a href="/blog/te-han-detenido/">¿Te han detenido? Qué hacer ahora</a>
-          </li>
-          <li>
-            <a href="/juicio-rapido/">¿Tienes un juicio rápido? Cómo prepararlo</a>
+            <a href="/blog/juicio-rapido/">¿Tienes un juicio rápido? Cómo prepararlo</a>
           </li>
         </ul>
       </>
     ) : (
-      <div data-post-list>
-        {groups.map((group) => (
-          <section aria-labelledby={`tema-${group.cluster}`}>
-            <h2 id={`tema-${group.cluster}`}>{group.label}</h2>
-            <ul>
-              {group.posts.map((post) => (
-                <li>
-                  <a href={`/blog/${post.id}/`}>{post.data.h1}</a>
-                  <br />
-                  <small>
-                    <time datetime={post.data.datePublished.toISOString()}>{formatDate(post.data.datePublished)}</time>
-                  </small>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
+      <div class="blog" data-blog-filter>
+        {showFilter && (
+          <div class="chips" role="group" aria-label="Filtrar por tema" data-requires-js>
+            <button type="button" class="chip" data-filter="todos" aria-pressed="true">
+              Todos
+            </button>
+            {topics.map((cluster) => (
+              <button type="button" class="chip" data-filter={cluster} aria-pressed="false">
+                {CLUSTERS[cluster]}
+              </button>
+            ))}
+          </div>
+        )}
+        <p class="visually-hidden" aria-live="polite" data-filter-status />
+        <BlogGrid posts={posts} />
       </div>
     )
   }
 </PageLayout>
+
+<script>
+  import { bindBlogFilter } from '../../scripts/blog-filter';
+
+  document.querySelectorAll<HTMLElement>('[data-blog-filter]').forEach(bindBlogFilter);
+</script>
+
+<style>
+  .blog {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  /* En el móvil los temas se deslizan en una fila; en pantallas anchas caben en varias líneas. */
+  .chips {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: var(--space-2);
+    min-width: 0;
+    margin-inline: calc(-1 * var(--space-4));
+    padding-inline: var(--space-4);
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: var(--space-4);
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .chip {
+    flex: none;
+    min-height: 44px;
+    scroll-snap-align: start;
+    padding: 0 var(--space-4);
+    border: 0;
+    border-radius: 999px;
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-size: var(--step--1);
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .chip:hover {
+    background: var(--color-border);
+  }
+
+  .chip[aria-pressed='true'] {
+    background: var(--color-ink);
+    color: #fff;
+  }
+
+  @media (min-width: 900px) {
+    .chips {
+      flex-wrap: wrap;
+      margin-inline: 0;
+      padding-inline: 0;
+      overflow: visible;
+    }
+  }
+</style>

@@ -1,17 +1,23 @@
 ---
-import type { CollectionEntry } from 'astro:content';
+import type { MarkdownHeading } from 'astro';
+import { Image, getImage } from 'astro:assets';
 import BaseLayout from './BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import UrgencyCard from '../components/UrgencyCard.astro';
+import BlogGrid from '../components/BlogGrid.astro';
 import { SITE } from '../config/site';
-import { CLUSTERS, formatDate } from '../lib/blog';
+import { CLUSTERS, formatDate, readingMinutes } from '../lib/blog';
+import { coverOf, type Post } from '../lib/posts';
 import { buildArticle } from '../lib/seo';
 
 interface Props {
-  post: CollectionEntry<'blog'>;
+  post: Post;
+  headings: MarkdownHeading[];
+  /** Otros artículos para «Sigue leyendo». */
+  related: Post[];
 }
 
-const { post } = Astro.props;
+const { post, headings, related } = Astro.props;
 const { data } = post;
 const path = `/blog/${post.id}/`;
 const crumbs = [
@@ -20,16 +26,35 @@ const crumbs = [
   { name: data.h1, path },
 ];
 const modified = data.dateModified ?? data.datePublished;
+const minutes = readingMinutes(post.body ?? '');
+
+const cover = coverOf(post);
+// La misma portada, recortada a 1200×630, es la imagen al compartir el enlace.
+const share = await getImage({ src: cover.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const ogImage = { src: share.src, width: 1200, height: 630, alt: cover.alt || data.h1 };
+
 const article = buildArticle({
   title: data.h1,
   description: data.description,
   path,
   datePublished: data.datePublished,
   dateModified: data.dateModified,
+  image: new URL(share.src, SITE.url).href,
 });
+
+// El índice solo ayuda en artículos con varias secciones.
+const sections = headings.filter((heading) => heading.depth === 2);
+const showToc = sections.length >= 3;
 ---
 
-<BaseLayout title={data.title} description={data.description} breadcrumbs={crumbs} jsonLd={[article]} ogType="article">
+<BaseLayout
+  title={data.title}
+  description={data.description}
+  breadcrumbs={crumbs}
+  jsonLd={[article]}
+  ogType="article"
+  ogImage={ogImage}
+>
   <article class="container post">
     <header class="intro">
       <Breadcrumbs items={crumbs} />
@@ -39,19 +64,77 @@ const article = buildArticle({
       <p class="meta">
         Por <a href="/sobre-raul/">{SITE.lawyer.fullName}</a>, abogado colegiado nº {SITE.lawyer.colegiado}<br />
         Publicado el <time datetime={data.datePublished.toISOString()}>{formatDate(data.datePublished)}</time> · Última
-        revisión: <time datetime={modified.toISOString()}>{formatDate(modified)}</time>
+        revisión: <time datetime={modified.toISOString()}>{formatDate(modified)}</time> · {minutes} min de lectura
       </p>
-      {data.urgencyTitle && <UrgencyCard location="urgencia" title={data.urgencyTitle} />}
     </header>
-    <div class="prose">
-      <slot />
+
+    <Image
+      class="cover"
+      src={cover.src}
+      alt={cover.alt}
+      widths={[480, 800, 1200, 1600]}
+      sizes="(min-width: 72rem) 72rem, calc(100vw - 2rem)"
+      width={1200}
+      height={628}
+      fit="cover"
+      loading="eager"
+      fetchpriority="high"
+    />
+
+    <div class="layout">
+      <aside class="rail" aria-label="En este artículo y contacto">
+        {
+          showToc && (
+            <>
+              <details class="toc toc--mobile">
+                <summary>En este artículo</summary>
+                <ol>
+                  {sections.map((heading) => (
+                    <li>
+                      <a href={`#${heading.slug}`}>{heading.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              </details>
+              <nav class="toc toc--desktop" aria-label="En este artículo">
+                <p class="toc-label">En este artículo</p>
+                <ol>
+                  {sections.map((heading) => (
+                    <li>
+                      <a href={`#${heading.slug}`}>{heading.text}</a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+            </>
+          )
+        }
+        <div class="rail-urgency">
+          <UrgencyCard location="blog-lateral" title={data.urgencyTitle} />
+        </div>
+      </aside>
+
+      <div class="body">
+        <div class="prose">
+          <slot />
+        </div>
+        <footer class="post-footer">
+          <p class="note">
+            Este artículo explica la ley de forma general y no sustituye a una consulta sobre tu caso concreto.
+          </p>
+          <UrgencyCard location="blog" title="¿Te pasa algo parecido? Cuéntamelo" />
+        </footer>
+      </div>
     </div>
-    <footer class="post-footer">
-      <p class="note">
-        Este artículo explica la ley de forma general y no sustituye a una consulta sobre tu caso concreto.
-      </p>
-      <UrgencyCard location="blog" title="¿Te pasa algo parecido? Cuéntamelo" />
-    </footer>
+
+    {
+      related.length > 0 && (
+        <section class="related" aria-labelledby="sigue-leyendo">
+          <h2 id="sigue-leyendo">Sigue leyendo</h2>
+          <BlogGrid posts={related} headingLevel={3} />
+        </section>
+      )
+    }
   </article>
 </BaseLayout>
 
@@ -79,14 +162,139 @@ const article = buildArticle({
     font-size: var(--step--1);
   }
 
+  .cover {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.91 / 1;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  .layout {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .rail {
+    display: grid;
+    gap: var(--space-5);
+    align-content: start;
+  }
+
+  .toc {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .toc ol {
+    display: grid;
+    gap: var(--space-1);
+    margin: 0;
+    padding: 0 var(--space-5) var(--space-4) calc(var(--space-5) + var(--space-4));
+  }
+
+  .toc a {
+    display: block;
+    padding-block: var(--space-2);
+    line-height: 1.4;
+    color: var(--color-ink);
+    font-size: 0.9375rem;
+  }
+
+  .toc a:hover {
+    color: var(--color-accent-strong);
+  }
+
+  .toc summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: var(--tap);
+    padding-inline: var(--space-5);
+    font-weight: 800;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .toc summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .toc summary::after {
+    content: '+';
+    color: var(--color-accent-strong);
+    font-size: 1.375rem;
+    line-height: 1;
+  }
+
+  .toc[open] summary::after {
+    content: '−';
+  }
+
+  .toc--desktop,
+  .rail-urgency {
+    display: none;
+  }
+
+  .toc-label {
+    padding: var(--space-5) var(--space-5) var(--space-2);
+    color: var(--color-muted);
+    font-size: var(--step--1);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
   .post-footer {
     display: grid;
     gap: var(--space-5);
     max-width: var(--measure);
+    margin-top: var(--space-7);
   }
 
   .note {
     color: var(--color-muted);
     font-size: var(--step--1);
+  }
+
+  .related {
+    display: grid;
+    gap: var(--space-5);
+    margin-top: var(--space-6);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .related h2 {
+    font-size: var(--step-2);
+  }
+
+  /* Escritorio: índice y WhatsApp en una columna lateral fija mientras se lee. */
+  @media (min-width: 900px) {
+    .layout {
+      grid-template-columns: minmax(0, var(--measure)) 17rem;
+      justify-content: space-between;
+      gap: var(--space-8);
+    }
+
+    .rail {
+      order: 2;
+      align-self: start;
+      position: sticky;
+      top: var(--space-5);
+    }
+
+    .toc--mobile {
+      display: none;
+    }
+
+    .toc--desktop,
+    .rail-urgency {
+      display: block;
+    }
+
+    .toc ol {
+      padding-left: calc(var(--space-5) + var(--space-3));
+    }
   }
 </style>

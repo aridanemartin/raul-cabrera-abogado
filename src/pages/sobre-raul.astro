@@ -1,9 +1,15 @@
 ---
-import PageLayout from '../layouts/PageLayout.astro';
-import Portrait from '../components/Portrait.astro';
-import TrustStrip from '../components/TrustStrip.astro';
-import UrgencyCard from '../components/UrgencyCard.astro';
+import { Picture } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import ClosingBanner from '../components/ClosingBanner.astro';
 import { FULL_ADDRESS, SITE } from '../config/site';
+import bookPhoto from '../assets/raul-cabrera-por-que.jpg';
+
+const crumbs = [
+  { name: 'Inicio', path: '/' },
+  { name: 'Sobre Raúl', path: '/sobre-raul/' },
+];
 
 const boe = {
   defensa6: 'https://www.boe.es/buscar/act.php?id=BOE-A-2024-23630#a6',
@@ -12,122 +18,451 @@ const boe = {
   ajg12: 'https://www.boe.es/buscar/act.php?id=BOE-A-1996-750#a12',
   ajg28: 'https://www.boe.es/buscar/act.php?id=BOE-A-1996-750#a28',
 };
+
+// Iconos de trazo (24×24) de cada compromiso; el texto lleva HTML por el enlace al presupuesto.
+const promises = [
+  {
+    title: 'Trato directo',
+    text: 'Tu caso lo llevo yo, de principio a fin, y hablas siempre conmigo, no con un intermediario.',
+    icon: '<path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>',
+  },
+  {
+    title: 'Claridad',
+    text: 'Te explico cada paso antes de darlo, con palabras normales, y te digo con franqueza lo que veo en tu caso, también lo que no te conviene oír.',
+    icon: '<path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.4A8.4 8.4 0 1 1 21 11.5Z"/>',
+  },
+  {
+    title: 'Sin sorpresas',
+    text: 'Antes de empezar sabes qué vamos a hacer y cuánto va a costar, por escrito. Te lo explico más abajo, en el <a href="#presupuesto">presupuesto previo</a>.',
+    icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  },
+  {
+    title: 'Una red de confianza',
+    text: 'Si tu asunto necesita a un profesional de otra área del derecho, trabajo en coordinación con compañeros de confianza.',
+    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/>',
+  },
+];
+
+// Pasos del encargo; el texto lleva HTML por los enlaces al BOE y a recursos.
+const steps = [
+  {
+    title: 'Me escribes o me llamas',
+    text: 'Por WhatsApp o por teléfono, me cuentas en pocas líneas qué ha pasado y si tienes una fecha en el juzgado o en comisaría.',
+  },
+  {
+    title: 'Vemos tu caso',
+    text: `Revisamos la citación, el atestado o la denuncia, y te explico con claridad qué gravedad tiene, qué opciones hay y qué riesgos corres. La ley reconoce tu derecho a recibir esta información (<a href="${boe.defensa6}">artículo 6 de la Ley Orgánica 5/2024, del Derecho de Defensa</a>).`,
+  },
+  {
+    title: 'Presupuesto y hoja de encargo',
+    text: 'Antes de empezar te doy por escrito lo que vamos a hacer y cuánto va a costar. Si estás de acuerdo, me encargas el asunto.',
+  },
+  {
+    title: 'Tu defensa',
+    text: 'Te acompaño en comisaría, en el juzgado de guardia, en las declaraciones y en el juicio. Te aviso de cada novedad y de cada resolución que llegue.',
+  },
+  {
+    title: 'La sentencia y lo que viene después',
+    text: 'Te explico la sentencia, si conviene <a href="/servicios/recursos-antecedentes/">recurrirla</a> y, si hay condena, cómo se cumple y cuándo se pueden cancelar los antecedentes.',
+  },
+];
 ---
 
-<PageLayout
+<BaseLayout
   title="Sobre Raúl Cabrera y cómo trabajo | Abogado en Las Palmas"
   description="Raúl Cabrera Santana, abogado penalista colegiado en Las Palmas desde 2018. Cómo llevo tu caso paso a paso, con presupuesto por escrito y justicia gratuita."
-  h1="Sobre Raúl Cabrera"
-  lead="Soy abogado penalista en Las Palmas de Gran Canaria. Llevo yo mismo cada caso, desde la comisaría hasta la sentencia, y en cada momento sabes qué pasa, qué vamos a hacer y cuánto te va a costar."
-  crumb="Sobre Raúl"
+  breadcrumbs={crumbs}
 >
-  <div class="identity">
-    <Portrait size="sm" />
-    <TrustStrip />
+  <div class="container page-crumbs">
+    <Breadcrumbs items={crumbs} />
   </div>
 
-  <h2>Quién soy</h2>
-  <p>
-    Me llamo {SITE.lawyer.fullName}. Soy abogado ejerciente, colegiado con el número {SITE.lawyer.colegiado} en el {
-      SITE.lawyer.colegio
-    } desde {SITE.lawyer.since}, y me dedico sobre todo al derecho penal: defiendo a personas detenidas, investigadas o
-    acusadas, y acompaño a víctimas que quieren participar en el proceso.
-  </p>
+  <section class="section section--lg who-section" aria-labelledby="quien-soy">
+    <div class="container who">
+      <div class="who-photo">
+        <Picture
+          src={bookPhoto}
+          formats={['avif', 'webp']}
+          widths={[360, 540, 720, 1080]}
+          sizes="(min-width: 900px) 26rem, calc(100vw - 3rem)"
+          alt="Raúl Cabrera Santana, abogado penalista, consultando un libro"
+        />
+      </div>
+      <div class="who-text">
+        <h2 id="quien-soy">Quién soy</h2>
+        <p>
+          Me llamo {SITE.lawyer.fullName}. Soy abogado ejerciente, colegiado con el número {SITE.lawyer.colegiado} en el {
+            SITE.lawyer.colegio
+          } desde {SITE.lawyer.since}, y me dedico sobre todo al derecho penal: defiendo a personas detenidas, investigadas
+          o acusadas, y acompaño a víctimas que quieren participar en el proceso.
+        </p>
+        <h2 id="donde-actuo" class="who-sub">Dónde actúo</h2>
+        <p class="muted">
+          Tengo el despacho en {FULL_ADDRESS} y llevo asuntos en todas las islas, no solo en Gran Canaria. Te acompaño en
+          la comisaría o el cuartel de la Guardia Civil, en el juzgado de guardia, en el juicio y en los recursos ante la
+          Audiencia Provincial, en cualquier fase del procedimiento.
+        </p>
+      </div>
+    </div>
+  </section>
 
-  <h2>Dónde actúo</h2>
-  <p>
-    Tengo el despacho en {FULL_ADDRESS} y llevo asuntos en todas las islas, no solo en Gran Canaria. Te acompaño en la
-    comisaría o el cuartel de la Guardia Civil, en el juzgado de guardia, en el juicio y en los recursos ante la Audiencia
-    Provincial, en cualquier fase del procedimiento.
-  </p>
+  <section class="section section--surface" aria-labelledby="compromisos">
+    <div class="container">
+      <h2 id="compromisos">Lo que puedes esperar de mí</h2>
+      <ul class="promises">
+        {
+          promises.map((promise) => (
+            <li>
+              <span class="promise-icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" set:html={promise.icon} />
+              </span>
+              <div>
+                <strong>{promise.title}</strong>
+                <p set:html={promise.text} />
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
 
-  <h2>Lo que puedes esperar de mí</h2>
-  <ul>
-    <li>
-      <strong>Trato directo.</strong> Tu caso lo llevo yo, de principio a fin, y hablas siempre conmigo, no con un
-      intermediario.
-    </li>
-    <li>
-      <strong>Claridad.</strong> Te explico cada paso antes de darlo, con palabras normales, y te digo con franqueza lo que
-      veo en tu caso, también lo que no te conviene oír.
-    </li>
-    <li>
-      <strong>Sin sorpresas.</strong> Antes de empezar sabes qué vamos a hacer y cuánto va a costar, por escrito. Te lo
-      explico más abajo, en el <a href="#presupuesto">presupuesto previo</a>.
-    </li>
-    <li>
-      <strong>Una red de confianza.</strong> Si tu asunto necesita a un profesional de otra área del derecho, trabajo en
-      coordinación con compañeros de confianza.
-    </li>
-  </ul>
+  <section class="section section--lg steps-band" aria-labelledby="como-trabajo">
+    <div class="container">
+      <h2 id="como-trabajo">Cómo trabajo, paso a paso</h2>
+      <ol class="steps">
+        {
+          steps.map((step, index) => (
+            <li>
+              <span class="step-number" aria-hidden="true">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3>{step.title}</h3>
+              <p set:html={step.text} />
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
 
-  <h2 id="como-trabajo">Cómo trabajo, paso a paso</h2>
-  <ol>
-    <li>
-      <strong>Me escribes o me llamas.</strong> Por WhatsApp o por teléfono, me cuentas en pocas líneas qué ha pasado y si
-      tienes una fecha en el juzgado o en comisaría.
-    </li>
-    <li>
-      <strong>Vemos tu caso.</strong> Revisamos la citación, el atestado o la denuncia, y te explico con claridad qué
-      gravedad tiene, qué opciones hay y qué riesgos corres. La ley reconoce tu derecho a recibir esta información (<a
-        href={boe.defensa6}>artículo 6 de la Ley Orgánica 5/2024, del Derecho de Defensa</a
-      >).
-    </li>
-    <li>
-      <strong>Presupuesto y hoja de encargo.</strong> Antes de empezar te doy por escrito lo que vamos a hacer y cuánto va a
-      costar. Si estás de acuerdo, me encargas el asunto.
-    </li>
-    <li>
-      <strong>Tu defensa.</strong> Te acompaño en comisaría, en el juzgado de guardia, en las declaraciones y en el juicio.
-      Te aviso de cada novedad y de cada resolución que llegue.
-    </li>
-    <li>
-      <strong>La sentencia y lo que viene después.</strong> Te explico la sentencia, si conviene <a
-        href="/servicios/recursos-antecedentes/">recurrirla</a
-      > y, si hay condena, cómo se cumple y cuándo se pueden cancelar los antecedentes.
-    </li>
-  </ol>
+  <section class="section section--lg">
+    <div class="container">
+      <div class="costs">
+        <article class="cost">
+          <h2 id="presupuesto">Presupuesto previo por escrito</h2>
+          <p>
+            Lo que cuesta una defensa depende del tipo de procedimiento y de su complejidad. Por eso no publico precios:
+            prefiero ver tu caso y darte un presupuesto ajustado a lo que de verdad necesitas.
+          </p>
+          <p>
+            Ese presupuesto va en la <strong>hoja de encargo</strong>, el documento en el que dejamos por escrito lo que me
+            encargas, tus derechos, los pasos principales y sus consecuencias, y los honorarios y costes previstos. La Ley
+            del Derecho de Defensa te da derecho a pedirla (<a href={boe.defensa15}>artículo 15 de la Ley Orgánica 5/2024</a
+            >).
+          </p>
+        </article>
+        <article class="cost">
+          <h2 id="justicia-gratuita">Si no puedes pagar un abogado: justicia gratuita</h2>
+          <p>
+            Si tus ingresos son bajos, puedes tener derecho a la asistencia jurídica gratuita, lo que se conoce como
+            justicia gratuita: te asignan un abogado del turno de oficio sin coste para ti. Depende de los ingresos y del
+            patrimonio de tu unidad familiar, que no pueden pasar de unos límites ligados al indicador público de renta de
+            efectos múltiples (<a href={boe.ajg3}>artículo 3 de la Ley 1/1996, de asistencia jurídica gratuita</a>). Las
+            víctimas de violencia de género tienen este derecho sean cuales sean sus ingresos.
+          </p>
+          <p>
+            Se pide en el Colegio de la Abogacía del lugar donde está el juzgado o en el juzgado de tu domicilio (<a
+              href={boe.ajg12}>artículo 12</a
+            >). Si te corresponde y aun así prefieres elegirme a mí, la ley te permite renunciar al abogado de oficio (<a
+              href={boe.ajg28}>artículo 28</a
+            >). Antes de que decidas, te explico cómo afecta eso a lo que pagas.
+          </p>
+        </article>
+      </div>
+      <div class="norms">
+        <h2 id="normas">Las normas que sigo</h2>
+        <p>
+          Lo que me cuentas queda protegido por el secreto profesional. Como cualquier abogado, estoy sujeto a las normas
+          de la abogacía, y mis datos profesionales y esas normas están en el <a href="/aviso-legal/">aviso legal</a>.
+        </p>
+      </div>
+    </div>
+  </section>
 
-  <h2 id="presupuesto">Presupuesto previo por escrito</h2>
-  <p>
-    Lo que cuesta una defensa depende del tipo de procedimiento y de su complejidad. Por eso no publico precios: prefiero
-    ver tu caso y darte un presupuesto ajustado a lo que de verdad necesitas.
-  </p>
-  <p>
-    Ese presupuesto va en la <strong>hoja de encargo</strong>, el documento en el que dejamos por escrito lo que me
-    encargas, tus derechos, los pasos principales y sus consecuencias, y los honorarios y costes previstos. La Ley del
-    Derecho de Defensa te da derecho a pedirla (<a href={boe.defensa15}>artículo 15 de la Ley Orgánica 5/2024</a>).
-  </p>
-
-  <h2 id="justicia-gratuita">Si no puedes pagar un abogado: justicia gratuita</h2>
-  <p>
-    Si tus ingresos son bajos, puedes tener derecho a la asistencia jurídica gratuita, lo que se conoce como justicia
-    gratuita: te asignan un abogado del turno de oficio sin coste para ti. Depende de los ingresos y del patrimonio de tu
-    unidad familiar, que no pueden pasar de unos límites ligados al indicador público de renta de efectos múltiples (<a
-      href={boe.ajg3}>artículo 3 de la Ley 1/1996, de asistencia jurídica gratuita</a
-    >). Las víctimas de violencia de género tienen este derecho sean cuales sean sus ingresos.
-  </p>
-  <p>
-    Se pide en el Colegio de la Abogacía del lugar donde está el juzgado o en el juzgado de tu domicilio (<a
-      href={boe.ajg12}>artículo 12</a
-    >). Si te corresponde y aun así prefieres elegirme a mí, la ley te permite renunciar al abogado de oficio (<a
-      href={boe.ajg28}>artículo 28</a
-    >). Antes de que decidas, te explico cómo afecta eso a lo que pagas.
-  </p>
-
-  <h2>Las normas que sigo</h2>
-  <p>
-    Lo que me cuentas queda protegido por el secreto profesional. Como cualquier abogado, estoy sujeto a las normas de la
-    abogacía, y mis datos profesionales y esas normas están en el <a href="/aviso-legal/">aviso legal</a>.
-  </p>
-
-  <UrgencyCard location="sobre-raul" title="¿Hablamos de tu caso?" />
-</PageLayout>
+  <ClosingBanner location="sobre-raul" />
+</BaseLayout>
 
 <style>
-  .identity {
-    display: flex;
+  .page-crumbs {
+    padding-top: var(--space-5);
+  }
+
+  @media (min-width: 768px) {
+    .section--lg {
+      padding-block: var(--space-8);
+    }
+  }
+
+  .who-section {
+    padding-top: var(--space-5);
+  }
+
+  .muted {
+    color: var(--color-muted);
+  }
+
+  /* Quién soy: foto con el marco desplazado de «Por qué conmigo» en la portada. */
+  .who {
+    display: grid;
+    gap: var(--space-7);
     align-items: center;
+  }
+
+  .who-photo {
+    position: relative;
+    width: calc(100% - var(--space-4));
+    max-width: 26rem;
+  }
+
+  .who-photo::before {
+    content: '';
+    position: absolute;
+    inset: var(--space-4) calc(-1 * var(--space-4)) calc(-1 * var(--space-4)) var(--space-4);
+    border: 2px solid var(--color-accent);
+    border-radius: 20px;
+  }
+
+  .who-photo :global(picture),
+  .who-photo :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  .who-photo :global(img) {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: 0 18px 40px rgb(14 42 59 / 18%);
+  }
+
+  .who-text {
+    max-width: var(--measure);
+  }
+
+  .who-text h2 {
+    margin-bottom: var(--space-4);
+  }
+
+  .who-text .who-sub {
+    margin: var(--space-6) 0 var(--space-2);
+    font-size: var(--step-1);
+  }
+
+  @media (min-width: 900px) {
+    .who {
+      grid-template-columns: 26rem minmax(0, 1fr);
+      gap: var(--space-8);
+    }
+  }
+
+  /* Compromisos: tarjetas con icono, como los motivos de la portada. */
+  .promises {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    padding: 0;
+    list-style: none;
+  }
+
+  .promises li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-3);
+    align-items: start;
+    padding: var(--space-4);
+    background: var(--color-bg);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+  }
+
+  .promise-icon {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 10px;
+    background: var(--color-surface);
+    color: var(--color-accent-strong);
+  }
+
+  .promises strong {
+    display: block;
+    margin-bottom: var(--space-1);
+  }
+
+  .promises p {
+    color: var(--color-muted);
+    font-size: var(--step--1);
+    line-height: 1.5;
+  }
+
+  @media (min-width: 768px) {
+    .promises {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Pasos en la banda oscura, con los números perfilados de la portada: en filas en el móvil
+     y la tableta, y en cinco columnas desde 1024 px. */
+  .steps-band {
+    --steps-tint: #9ed8df;
+    --steps-text: #c5d3da;
+    --steps-rule: rgb(255 255 255 / 14%);
+    background: var(--color-ink);
+    color: #fff;
+  }
+
+  .steps {
+    display: grid;
+    margin-top: var(--space-6);
+    padding: 0;
+    list-style: none;
+  }
+
+  /* align-content evita que, en columnas de distinta altura, los títulos queden descolocados. */
+  .steps li {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    gap: var(--space-1) var(--space-3);
+    align-content: start;
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--steps-rule);
+  }
+
+  .step-number {
+    grid-row: span 2;
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--steps-tint);
+  }
+
+  .steps h3 {
+    padding-top: 0.375rem;
+  }
+
+  .steps p {
+    color: var(--steps-text);
+  }
+
+  /* Los enlaces llegan por set:html, fuera del ámbito de estos estilos: hace falta :global. */
+  .steps :global(a) {
+    color: var(--steps-tint);
+  }
+
+  .steps :global(a:hover) {
+    color: #fff;
+  }
+
+  .steps :global(a:focus-visible) {
+    outline-color: #fff;
+  }
+
+  @media (min-width: 1024px) {
+    .steps {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      margin-top: var(--space-7);
+    }
+
+    .steps li {
+      grid-template-columns: minmax(0, 1fr);
+      gap: var(--space-3);
+      padding: 0 var(--space-5);
+      border-top: 0;
+      border-left: 1px solid var(--steps-rule);
+    }
+
+    .steps li:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .step-number {
+      grid-row: auto;
+      margin-bottom: var(--space-2);
+      font-size: 4rem;
+      -webkit-text-stroke-width: 2px;
+    }
+
+    .steps h3 {
+      padding-top: 0;
+      font-size: var(--step-0);
+    }
+
+    .steps p {
+      font-size: var(--step--1);
+      line-height: 1.55;
+    }
+  }
+
+  /* Presupuesto y justicia gratuita: dos tarjetas con el borde superior de color. */
+  .costs {
+    display: grid;
     gap: var(--space-4);
   }
+
+  .cost {
+    padding: var(--space-5);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-top: 4px solid var(--color-accent);
+    border-radius: var(--radius);
+  }
+
+  .cost h2 {
+    margin-bottom: var(--space-3);
+    font-size: var(--step-2);
+  }
+
+  .cost p {
+    color: var(--color-muted);
+  }
+
+  .cost p + p {
+    margin-top: var(--space-3);
+  }
+
+  .cost strong {
+    color: var(--color-ink);
+  }
+
+  .norms {
+    max-width: var(--measure);
+    margin-top: var(--space-6);
+  }
+
+  .norms h2 {
+    margin-bottom: var(--space-2);
+    font-size: var(--step-1);
+  }
+
+  .norms p {
+    color: var(--color-muted);
+  }
+
+  @media (min-width: 768px) {
+    .costs {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cost {
+      padding: var(--space-6);
+    }
+  }
+
 </style>

@@ -1,0 +1,37 @@
+---
+import BlogCard from './BlogCard.astro';
+import type { Post } from '../lib/posts';
+
+interface Props {
+  posts: Post[];
+  headingLevel?: 2 | 3;
+}
+
+const { posts, headingLevel } = Astro.props;
+---
+
+<ul class="grid" data-post-list>
+  {posts.map((post) => <BlogCard post={post} headingLevel={headingLevel} />)}
+</ul>
+
+<style>
+  .grid {
+    display: grid;
+    gap: var(--space-5);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 600px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-6);
+    }
+  }
+</style>
